@@ -1,0 +1,33 @@
+.Header {
+  width: 100%;
+  padding: 29px 40px;
+  position: fixed;
+  display: flex;
+  /* justify-content: space-between; */
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.IconBox {
+  display: flex;
+}
+
+.Icon {
+  font-size: 21px;
+  margin-right: 20px;
+  cursor: pointer;
+}
+
+.NavItems {
+  display: flex;
+  align-items: center;
+  margin-right: auto;
+}
+
+.NavItems > * {
+  margin-right: 50px;
+}
+
+.Logo {
+  margin-right: 60px;
+}
