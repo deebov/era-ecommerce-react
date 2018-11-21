@@ -1,0 +1,29 @@
+.Container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 90px;
+}
+
+.Footer {
+  border-top: 1px solid #eaeaea;
+  color: #777;
+  padding: 20px 0 10px 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+.InnerContainer {
+  display: flex;
+  align-items: center;
+}
+
+.Logo {
+  margin: 0 5px;
+  margin-bottom: -7px;
+}
+
+.Links > *:not(:last-child) {
+  margin-right: 10px;
+}

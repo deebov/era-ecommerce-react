@@ -1,0 +1,14 @@
+.Title {
+  font-size: 14px;
+  font-family: 'Cerebri Sans Bold', sans-serif;
+  margin-bottom: 40px;
+}
+
+.Column {
+  box-sizing: border-box;
+}
+
+.Links > *:not(:last-child) {
+  padding: 3px 0;
+  display: block;
+}

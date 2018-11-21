@@ -1,9 +1,9 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-import style from './LinkItem.module.css';
+import styles from './NavLinkItem.module.css';
 
-const LinkItem = props => {
+const NavLinkItem = props => {
   const { url, exact } = props;
 
   return (
@@ -11,8 +11,8 @@ const LinkItem = props => {
       <NavLink
         to={url}
         exact={exact}
-        activeClassName={style.LinkActive}
-        className={style.Link}
+        activeClassName={styles.NavLinkActive}
+        className={styles.NavLink}
       >
         {props.children}
       </NavLink>
@@ -20,4 +20,4 @@ const LinkItem = props => {
   );
 };
 
-export default LinkItem;
+export default NavLinkItem;
