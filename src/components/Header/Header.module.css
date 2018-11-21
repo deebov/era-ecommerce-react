@@ -24,7 +24,7 @@
   margin-right: auto;
 }
 
-.NavItems > * {
+.NavItems > *:not(:last-child) {
   margin-right: 50px;
 }
 

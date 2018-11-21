@@ -2,7 +2,7 @@ import React from 'react';
 
 import Icon from '../UI/Icon/Icon';
 import style from './Header.module.css';
-import LinkItem from '../LinkItem/LinkItem';
+import NavLinkItem from '../NavLinkItem/NavLinkItem';
 import Logo from '../UI/Logo/Logo';
 const Header = () => {
   return (
@@ -11,12 +11,12 @@ const Header = () => {
         <Logo />
       </div>
       <div className={style.NavItems}>
-        <LinkItem url="/" exact>
+        <NavLinkItem url="/" exact>
           Home
-        </LinkItem>
-        <LinkItem url="/shop">Shop</LinkItem>
-        <LinkItem url="/category">Category</LinkItem>
-        <LinkItem url="/contact">Contact</LinkItem>
+        </NavLinkItem>
+        <NavLinkItem url="/shop">Shop</NavLinkItem>
+        <NavLinkItem url="/category">Category</NavLinkItem>
+        <NavLinkItem url="/contact">Contact</NavLinkItem>
       </div>
       <div className={style.IconBox}>
         <Icon iconClassNames={`lnr lnr-magnifier ${style.Icon}`} />
