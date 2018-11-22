@@ -1,7 +1,7 @@
 import React from 'react';
 import uniqid from 'uniqid';
 
-import LinkItem from '../../../UI/LinkItem/LinkItem';
+import LinkItem from '../../UI/LinkItem/LinkItem';
 import styles from './Column.module.css';
 
 const Column = props => {
