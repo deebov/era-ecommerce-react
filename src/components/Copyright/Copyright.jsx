@@ -5,6 +5,11 @@ import styles from './Copyright.module.css';
 import LinkItem from '../UI/LinkItem/LinkItem';
 import { getClassName } from '../../containers/ResponsiveWrapper/ResponsiveWrapper';
 
+/**
+ * TODO
+ * Add social network icons
+ */
+
 const Copyright = () => {
   return (
     <div className={styles.Footer}>
