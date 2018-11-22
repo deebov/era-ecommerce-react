@@ -2,7 +2,7 @@ import React from 'react';
 
 import Icon from '../UI/Icon/Icon';
 import style from './Header.module.css';
-import NavLinkItem from '../NavLinkItem/NavLinkItem';
+import NavLinkItem from '../UI/NavLinkItem/NavLinkItem';
 import Logo from '../UI/Logo/Logo';
 const Header = () => {
   return (
