@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import uniqid from 'uniqid';
-import { Grid, Row, Col } from 'react-flexbox-grid';
 
 import Product from '../../components/Product/Product';
 import styles from './ProductsList.module.css';
+import Spinner from '../../components/UI/Spinner/Spinner';
 
 class ProductsList extends Component {
   constructor(props) {
@@ -84,16 +84,25 @@ class ProductsList extends Component {
   }
 
   render() {
-    const products = this.state.products.map(p => (
-      <div className={styles.Column} key={p.id}>
-        <Product item={p} />
-      </div>
-    ));
-    return (
-      <section className={styles.Grid}>
-        <div className={styles.Row}>{products}</div>
-      </section>
-    );
+    // render the Spinner initially
+    let productsList = <Spinner />;
+
+    // render the real component if 
+    // products are received and valid
+    if (this.state.products) {
+      const products = this.state.products.map(p => (
+        <div className={styles.Column} key={p.id}>
+          <Product item={p} />
+        </div>
+      ));
+
+      productsList = (
+        <section className={styles.Grid}>
+          <div className={styles.Row}>{products}</div>
+        </section>
+      );
+    }
+    return productsList;
   }
 }
 
