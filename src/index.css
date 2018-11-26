@@ -12,13 +12,23 @@
 
 @font-face {
   font-family: 'Cerebri Sans Bold';
-  ,font-weight: normal;
+  font-weight: normal;
   src: local('Cerebri Sans'),
     url(./assets/fonts/CerebriSans-Bold.eot?#iefix) format('embedded-opentype'),
     url(./assets/fonts/CerebriSans-Bold.woff2) format('woff2'),
     url(./assets/fonts/CerebriSans-Bold.woff) format('woff'),
     url(./assets/fonts/CerebriSans-Bold.ttf) format('true-type'),
     url(./assets/fonts/CerebriSans-Bold.svg) format('svg');
+}
+
+@font-face {
+  font-family: 'Ionic';
+  font-weight: normal;
+  src: local('Ionic'),
+    url(./assets/fonts/ionicons.eot?#iefix) format('embedded-opentype'),
+    url(./assets/fonts/ionicons.woff) format('woff'),
+    url(./assets/fonts/ionicons.ttf) format('true-type'),
+    url(./assets/fonts/ionicons.svg) format('svg');
 }
 
 body {
