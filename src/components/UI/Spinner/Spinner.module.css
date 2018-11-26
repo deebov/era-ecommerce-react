@@ -1,0 +1,45 @@
+.Container,
+.Spinner {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Spinner::after {
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-image: none;
+  z-index: 999;
+  color: transparent !important;
+  font-size: 0;
+  border-width: 1px;
+  border-color: #f68872 #f68872 #f68872 transparent;
+  border-style: solid;
+  animation: sp-spin-fast 1.5s linear infinite;
+  content: '';
+  width: 20px;
+  height: 20px;
+  font-weight: 400;
+}
+
+
+@keyframes sp-spin-fast {
+  0% {
+      transform: rotate(0);
+      animation-timing-function: cubic-bezier(0.55,.055,.675,.19)
+  }
+
+  50% {
+      transform: rotate(900deg);
+      animation-timing-function: cubic-bezier(0.215,.61,.355,1)
+  }
+
+  to {
+      transform: rotate(1800deg)
+  }
+}
+
