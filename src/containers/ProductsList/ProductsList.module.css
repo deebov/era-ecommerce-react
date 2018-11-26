@@ -1,0 +1,56 @@
+.Grid {
+  width: 100%;
+  max-width: 100%;
+}
+
+.Row {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 100%;
+  padding: 0 65px;
+  box-sizing: border-box;
+}
+
+.Column {
+  padding: 0 15px;
+  box-sizing: border-box;
+  margin-bottom: 70px;
+}
+
+@media only screen and (max-width:  1200px) {
+  .Row {
+    padding: 0;
+  }
+}
+
+@media only screen and (max-width: 990px) {
+  .Column {
+    flex-basis: 33.33333%;
+    max-width: 33.33333%;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .Column {
+    flex-basis: 50%;
+    max-width: 50%;
+  }
+}
+
+@media only screen and (max-width: 375px) {
+  .Column {
+    flex-basis: 100%;
+    max-width: 100%;
+    margin-bottom: 40px;
+  }
+}
+
+@media only screen and (min-width: 991px) {
+  .Column {
+    flex-basis: 20%;
+    max-width: 20%;
+  }
+}

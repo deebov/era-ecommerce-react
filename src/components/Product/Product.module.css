@@ -1,0 +1,39 @@
+.Product {
+  /* padding: 0 10px; */
+}
+.ProductInner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+}
+
+.ImageBox {
+  position: relative;
+  display: block; 
+  margin-bottom: 10px;
+}
+
+.ProductInner:hover .ActionsBox {
+  bottom: 0;
+  opacity: 1;
+  transform: scale(1);
+}
+
+.Image {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  display: block;
+  /* position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0; */
+}
+
+.Title {
+  margin: 0 0 5px 0;
+  font-size: 16px;
+  font-weight: 400;
+}
