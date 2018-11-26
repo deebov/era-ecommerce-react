@@ -1,0 +1,24 @@
+.TabList {
+  list-style-type: none;
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: center;
+  box-sizing: border-box;
+  margin-bottom: 85px;
+}
+
+.Tab {
+  font-size: 24px;
+  padding: 0 32px;
+  color: #bbb;
+  transition: all 0.5s;
+  cursor: pointer;
+}
+
+.Tab:hover,
+.Tab:focus,
+.TabActive {
+  color: #222222;
+  outline: none;
+}
