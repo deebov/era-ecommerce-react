@@ -5,11 +5,10 @@
   "dependencies": {
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
-    "react-flexbox-grid": "^2.1.2",
-    "react-grid-layout": "^0.16.6",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "2.1.1"
+    "react-scripts": "2.1.1",
+    "react-tooltip": "^3.9.0"
   },
   "scripts": {
     "start": "react-scripts start",
