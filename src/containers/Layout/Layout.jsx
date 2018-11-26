@@ -7,9 +7,9 @@ class Layout extends Component {
   render() {
     return (
       <div>
-        <Header />
+        {/* <Header /> */}
         <main>{this.props.children}</main>
-        <FooterWithCopyright />
+        {/* <FooterWithCopyright /> */}
       </div>
     );
   }
