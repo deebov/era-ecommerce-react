@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'Cerebri Sans';
-  ,font-weight: normal;
+  font-weight: normal;
   src: local('Cerebri Sans'),
     url(./assets/fonts/CerebriSans-Regular.eot?#iefix)
       format('embedded-opentype'),
@@ -22,10 +22,10 @@
 }
 
 @font-face {
-  font-family: 'Ionic';
+  font-family: 'Ionicons';
   font-weight: normal;
-  src: local('Ionic'),
-    url(./assets/fonts/ionicons.eot?#iefix) format('embedded-opentype'),
+  font-style: normal;
+  src: url(./assets/fonts/ionicons.eot?#iefix) format('embedded-opentype'),
     url(./assets/fonts/ionicons.woff) format('woff'),
     url(./assets/fonts/ionicons.ttf) format('true-type'),
     url(./assets/fonts/ionicons.svg) format('svg');
@@ -46,4 +46,13 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  appearance: none;
+  margin: 0;
+}
+input[type='number'] {
+  appearance: textfield;
 }
