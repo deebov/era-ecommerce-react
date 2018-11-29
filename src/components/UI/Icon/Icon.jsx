@@ -1,15 +1,20 @@
 import React from 'react';
 
-import style from './Icon.module.css'
+import style from './Icon.module.css';
+import './ionicons.min.css';
+import './linearicons.min.css';
 
 const Icon = props => {
-  const {iconClassNames} = props
+  const { icon, className, color = '', type = 'linear' } = props;
+  let { fontSize } = props;
+  fontSize = fontSize ? fontSize + 'px' : '14px';
 
-  return (
-    <div className={style.icon} >
-      <span className={iconClassNames}></span>
-    </div>
-  );
+  // Icons can be in different types. User can choose the type
+  const prefix =
+    type === 'linear' ? 'lnr lnr-' : type === 'ionic' ? 'ion-' : '';
+
+  const classNames = [prefix + icon, className].join(' ');
+  return <i className={classNames} style={{ fontSize, color }} />;
 };
 
 export default Icon;
