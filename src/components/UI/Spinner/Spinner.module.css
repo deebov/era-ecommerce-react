@@ -1,45 +1,57 @@
-.Container,
-.Spinner {
+.Container {
   width: 100%;
+  max-width: 100%;
+  position: relative;
   display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
-.Spinner::after {
-  border-radius: 50%;
+.Spinner {
+  display: block;
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.Spinner::before {
+  content: '';
+  display: block;
   background-image: none;
   z-index: 999;
   color: transparent !important;
-  font-size: 0;
+  border-radius: 50%;
   border-width: 1px;
-  border-color: #f68872 #f68872 #f68872 transparent;
   border-style: solid;
-  animation: sp-spin-fast 1.5s linear infinite;
-  content: '';
-  width: 20px;
-  height: 20px;
   font-weight: 400;
+  font-size: 0;
 }
 
+.Spinner.big::before {
+  animation: spin-fast 1.5s linear infinite;
+  border-color: #f68872 #f68872 #f68872 transparent;
+  width: 20px;
+  height: 20px;
+}
 
-@keyframes sp-spin-fast {
+.Spinner.small::before {
+  animation: spin-fast 1s linear infinite;
+  border-color: #666 #666 #666 transparent;
+  width: 14px;
+  height: 14px;
+}
+
+@keyframes spin-fast {
   0% {
-      transform: rotate(0);
-      animation-timing-function: cubic-bezier(0.55,.055,.675,.19)
+    transform: rotate(0);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
   }
 
   50% {
-      transform: rotate(900deg);
-      animation-timing-function: cubic-bezier(0.215,.61,.355,1)
+    transform: rotate(900deg);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
   }
 
   to {
-      transform: rotate(1800deg)
+    transform: rotate(1800deg);
   }
 }
-
