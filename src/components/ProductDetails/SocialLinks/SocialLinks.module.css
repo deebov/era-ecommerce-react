@@ -1,0 +1,26 @@
+.SocialIconsBox {
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  position: relative;
+  line-height: 1.9;
+  margin: 0 -10px;
+}
+
+.SocialIconsBox > *:not(:last-child) {
+  margin-right: 10px;
+}
+
+.SocialIcon {
+  padding: 5px 10px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.SocialIcon::before {
+  box-sizing: border-box;
+  font-size: 18px;
+  vertical-align: middle;
+  line-height: 1;
+  color: #222222;
+}

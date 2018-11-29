@@ -1,0 +1,32 @@
+.Ribbon {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  right: auto;
+  padding: 0 10px;
+  margin: 0;
+  height: 25px;
+  line-height: 23px;
+  border-radius: 3px;
+  z-index: 1;
+  color: #ffffff;
+  font-size: 13px;
+}
+
+.RibbonHot {
+  background-color: #ff1d5d;
+}
+
+.RibbonSale {
+  background-color: #f68872;
+}
+
+@media only screen and (max-width: 768px) {
+  .Ribbon {
+    left: 10px;
+    top: 10px;
+    height: 20px;
+    line-height: 18px;
+    font-size: 10px;
+  }
+}

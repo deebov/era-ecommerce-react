@@ -1,0 +1,33 @@
+.StarBox {
+  display: block;
+  padding: 0;
+  margin: 0;
+  line-height: 1;
+}
+
+.Star {
+  position: relative;
+  display: inline-block;
+  font-family: 'Ionicons';
+  font-size: 14px;
+  color: #d3ced2;
+}
+
+.Star::before {
+  content: '\f2fc';
+  text-align: center;
+  display: inline-block;
+  letter-spacing: 3px;
+  text-rendering: auto;
+  font-smoothing: antialiased;
+  margin: 0;
+  padding: 0;
+}
+
+.Star.red {
+  color: #f68872;
+}
+
+.Star.yellow {
+  color: #f2b309;
+}

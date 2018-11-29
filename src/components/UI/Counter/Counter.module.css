@@ -1,0 +1,56 @@
+.Container {
+  border: 2px solid #eaeaea;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 43px;
+  position: relative;
+  margin: 0 10px 0 0;
+  box-sizing: border-box;
+}
+
+.Input {
+  width: 60px;
+  padding: 10px 0;
+  font-size: 14px;
+  border: none;
+  text-align: center;
+  font-weight: 700;
+  color: #222;
+  background-color: transparent;
+  /* height: 46px; */
+  /* line-height: 46px; */
+  box-sizing: border-box;
+}
+
+.Input:focus,
+.Input:hover {
+  appearance: none;
+  outline: none;
+}
+
+.ControlIcon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.ControlIcon::before {
+  color: #bbb;
+  font-size: 14px;
+  transition: all 0.5s;
+  font-weight: 100;
+}
+
+.ControlIcon:hover::before {
+  color: #222;
+}
+
+.ControlIcon.right {
+  right: 10px;
+}
+
+.ControlIcon.left {
+  left: 10px;
+}

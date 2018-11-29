@@ -1,0 +1,45 @@
+.Container {
+  border: 2px solid #eaeaea;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 15px;
+  width: 46px;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.Icon::before {
+  font-size: 17px;
+  color: #bbbbbb;
+  width: 34px;
+  height: 34px;
+  text-align: center;
+  transition: all 0.5s;
+  line-height: 34px;
+}
+
+.IconSelected::before {
+  color: #c33;
+}
+
+.Container:hover .IconSelected::before,
+.Container:focus .IconSelected::before {
+  color: #c33 !important;
+}
+
+.Container:hover .Icon::before,
+.Container:focus .Icon::before {
+  color: #222;
+}
+
+.IconLoading {
+  opacity: 0.5;
+}
+
+.Tooltip {
+  padding: 5px;
+  background-color: #000;
+  font-size: 12px;
+  white-space: nowrap;
+}

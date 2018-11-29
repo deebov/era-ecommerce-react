@@ -1,0 +1,16 @@
+.Container {
+  display: flex;
+}
+
+.Title {
+  font-size: 30px;
+  color: #222;
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.Summary {
+  color: #777777;
+  font-size: 16px;
+  line-height: 1.8;
+}
