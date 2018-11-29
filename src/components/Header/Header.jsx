@@ -19,11 +19,11 @@ const Header = () => {
         <NavLinkItem url="/contact">Contact</NavLinkItem>
       </div>
       <div className={style.IconBox}>
-        <Icon iconClassNames={`lnr lnr-magnifier ${style.Icon}`} />
-        <Icon iconClassNames={`lnr lnr-user ${style.Icon}`} />
-        <Icon iconClassNames={`lnr lnr-heart ${style.Icon}`} />
-        <Icon iconClassNames={`lnr lnr-cart ${style.Icon}`} />
-        <Icon iconClassNames={`lnr lnr-menu ${style.Icon}`} />
+        <Icon icon="magnifier" className={style.Icon} />
+        <Icon icon="user" className={style.Icon} />
+        <Icon icon="heart" className={style.Icon} />
+        <Icon icon="cart" className={style.Icon} />
+        <Icon icon="menu" className={style.Icon} />
       </div>
     </header>
   );
