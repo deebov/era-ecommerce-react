@@ -8,8 +8,10 @@
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.1",
+    "react-slick": "^0.23.2",
     "react-tabs": "^2.3.0",
-    "react-tooltip": "^3.9.0"
+    "react-tooltip": "^3.9.0",
+    "slick-carousel": "^1.8.1"
   },
   "scripts": {
     "start": "react-scripts start",
