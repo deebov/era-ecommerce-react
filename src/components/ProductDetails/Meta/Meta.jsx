@@ -24,16 +24,20 @@ const Meta = ({ tags, categories }) => {
 export default Meta;
 
 // This functions generates meta link elements
-export const metaLinkGenerator = (array, path) => {
-  return array.map((e, i, arr) => (
-    <Link
-      to={`${path}${e.id}`}
-      alt={e.title}
-      key={e.id}
-      className={styles.MetaLink}
-    >
-      {e.title}
-      {++i < arr.length ? ', ' : ''}
-    </Link>
-  ));
+export const metaLinkGenerator = (obj, path) => {
+  const array = Object.keys(obj);
+  return array.map((e, i, arr) => {
+    e = obj[e];
+    return (
+      <Link
+        to={`${path}${e.id}`}
+        alt={e.title}
+        key={e.id}
+        className={styles.MetaLink}
+      >
+        {e.title}
+        {++i < arr.length ? ', ' : ''}
+      </Link>
+    );
+  });
 };
