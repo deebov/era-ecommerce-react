@@ -6,7 +6,6 @@ import ProductImages from '../ProductImages/ProductImages';
 import ProductDetails from '../ProductDetails/ProductDetails';
 
 const ProductSummary = props => {
-  const { id } = props.product;
 
   return (
     <ResponsiveWrapper>
