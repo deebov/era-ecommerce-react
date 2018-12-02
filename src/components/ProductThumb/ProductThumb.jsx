@@ -2,7 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import styles from './Product.module.css';
-import { RatingStars, Ribbon } from './components/components';
+import Ribbon from './Ribbon/Ribbon';
+import RatingStars from './RatingStars/RatingStars';
 import ActionsBox from './ActionsBox/ActionsBox';
 import Prices from './Prices/Prices';
 
