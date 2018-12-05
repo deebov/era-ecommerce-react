@@ -7,10 +7,10 @@ import 'slick-carousel/slick/slick-theme.css';
 import styles from './ProductImages.module.css';
 import Icon from '../UI/Icon/Icon';
 
-import img1 from '../../assets/images/3c-1-600x600.jpg';
-import img2 from '../../assets/images/3b-1.jpg';
-import img3 from '../../assets/images/3a-1.jpg';
-
+/**
+ * TODO
+ * improve ALTs
+ */
 
 // This function generates navigation arrow depending on the arrow type
 function NavArrow(props) {
@@ -28,15 +28,12 @@ function NavArrow(props) {
 
   return (
     <span onClick={onClick} className={classNames.join(' ')}>
-      <Icon
-        icon={`ios-arrow-${iconName}`}
-        type="ionic"
-      />
+      <Icon icon={`ios-arrow-${iconName}`} type="ionic" />
     </span>
   );
 }
 
-function Slide({ images }) {
+function Slide(images) {
   const slides = images.map((e, i) => (
     <div className={styles.Slide} key={i}>
       <img src={e} alt="s" />
@@ -46,18 +43,22 @@ function Slide({ images }) {
 }
 
 export default class SimpleSlider extends Component {
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextProps.images !== this.props.images;
+  }
+
   render() {
     const settings = {
       infinite: false,
       speed: 500,
       className: styles.Slider,
       slidesToShow: 2,
-      nextArrow: <NavArrow type="back" />,
-      prevArrow: <NavArrow type="next" />
+      nextArrow: <NavArrow type="next" />,
+      prevArrow: <NavArrow type="back" />
     };
     return (
       <div className={styles.Container}>
-        <Slider {...settings}>{Slide({ images: [img1, img2, img3] })}</Slider>
+        <Slider {...settings}>{Slide(this.props.images)}</Slider>
       </div>
     );
   }
