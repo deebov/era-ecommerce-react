@@ -5,13 +5,12 @@ import ResponsiveWrapper from '../../containers/ResponsiveWrapper/ResponsiveWrap
 import ProductImages from '../ProductImages/ProductImages';
 import ProductDetails from '../ProductDetails/ProductDetails';
 
-const ProductSummary = props => {
-
+const ProductSummary = ({ product }) => {
   return (
     <ResponsiveWrapper>
       <section className={styles.Container}>
-        <ProductDetails item={props.product} />
-        <ProductImages />
+        <ProductDetails item={product} />
+        <ProductImages images={product.images} />
       </section>
     </ResponsiveWrapper>
   );
