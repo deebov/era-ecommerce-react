@@ -4,31 +4,24 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import ProductsList from '../../containers/ProductsList/ProductsList';
 import styles from './ProductsListWithTabs.module.css';
 
-const ProductsListWithTabs = props => {
+const ProductsListWithTabs = ({ lists }) => {
+  const tabs = lists.map((l, i) => (
+    <Tab key={i} className={styles.Tab} selectedClassName={styles.TabActive}>
+      {l.title}
+    </Tab>
+  ));
+  const tabPanels = lists.map((l, i) => (
+    <TabPanel key={i}>
+      <ProductsList id={l.id} />
+    </TabPanel>
+  ));
+
   return (
     <div>
       <Tabs>
-        <TabList className={styles.TabList}>
-          <Tab className={styles.Tab} selectedClassName={styles.TabActive}>
-            Best Seller
-          </Tab>
-          <Tab className={styles.Tab} selectedClassName={styles.TabActive}>
-            New Arrivals
-          </Tab>
-          <Tab className={styles.Tab} selectedClassName={styles.TabActive}>
-            Most Popular
-          </Tab>
-        </TabList>
+        <TabList className={styles.TabList}>{tabs}</TabList>
 
-        <TabPanel>
-          <ProductsList />
-        </TabPanel>
-        <TabPanel>
-          <h1>New Arrivals</h1>
-        </TabPanel>
-        <TabPanel>
-          <h1>Most Popular</h1>
-        </TabPanel>
+        {tabPanels}
       </Tabs>
     </div>
   );
