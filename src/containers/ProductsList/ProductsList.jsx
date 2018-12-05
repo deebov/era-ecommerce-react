@@ -1,98 +1,86 @@
 import React, { Component } from 'react';
-import uniqid from 'uniqid';
 
-import Product from '../../components/ProductThumb/ProductThumb';
+import ProductThumb from '../../components/ProductThumb/ProductThumb';
 import styles from './ProductsList.module.css';
 import Spinner from '../../components/UI/Spinner/Spinner';
+import { withFirebase } from '../../components/Firebase';
+import { LISTS, ALL_PRODUCTS } from '../../constants/firebase';
 
 class ProductsList extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      products: [
-        {
-          id: uniqid(),
-          title: 'Black Woman Jacket',
-          desc: 'New Jacket',
-          image:
-            'http://demo3.drfuri.com/supro/wp-content/uploads/sites/3/2018/05/6b-400x400.jpg',
-          rating: 3,
-          price: 55.99,
-          oldPrice: 100,
-          ribbonType: 'sale'
-        },
-        {
-          id: uniqid(),
-          title: 'Black Woman Jacket',
-          desc: 'New Jacket',
-          image:
-            'http://demo3.drfuri.com/supro/wp-content/uploads/sites/3/2018/05/6b-400x400.jpg',
-          rating: 3,
-          price: 55.99,
-          oldPrice: 100,
-          ribbonType: 'sale'
-        },
-        {
-          id: uniqid(),
-          title: 'Black Woman Jacket',
-          desc: 'New Jacket',
-          image:
-            'http://demo3.drfuri.com/supro/wp-content/uploads/sites/3/2018/05/6b-400x400.jpg',
-          rating: 3,
-          price: 55.99,
-          oldPrice: 100,
-          ribbonType: 'sale'
-        },
-        {
-          id: uniqid(),
-          title: 'Black Woman Jacket',
-          desc: 'New Jacket',
-          image:
-            'http://demo3.drfuri.com/supro/wp-content/uploads/sites/3/2018/05/6b-400x400.jpg',
-          rating: 3,
-          price: 55.99,
-          oldPrice: 100,
-          ribbonType: 'sale'
-        },
-        {
-          id: uniqid(),
-          title: 'Black Woman Jacket Woman Jacket Woman Jacket',
-          desc: 'New Jacket',
-          image:
-            'http://demo3.drfuri.com/supro/wp-content/uploads/sites/3/2018/05/6b-400x400.jpg',
-          rating: 3,
-          price: 55.99,
-          oldPrice: 100,
-          ribbonType: 'hot'
-        },
-        {
-          id: uniqid(),
-          title: 'Black Woman Jacket',
-          desc: 'New Jacket',
-          image:
-            'http://demo3.drfuri.com/supro/wp-content/uploads/sites/3/2018/05/6b-400x400.jpg',
-          rating: 3,
-          price: 55.99,
-          oldPrice: 100,
-          ribbonType: 'hot'
-        }
-      ],
+      products: null,
+      listID: null,
       loading: false,
       error: false
     };
+
+    this.loadData = this.loadData.bind(this);
+  }
+
+  componentDidMount() {
+    this.loadData();
+  }
+
+  loadData() {
+    // Return nothing if the ID is not valid
+    const ID = this.props.id;
+
+    if (!ID) {
+      // Return nothing if product is loaded or
+      // the IDs is same
+      if (
+        this.state.listID ||
+        (this.state.listID && ID === this.state.listID)
+      ) {
+        return;
+      }
+      return;
+    }
+
+    const db = this.props.firebase.db;
+    const listDocRef = db.collection(LISTS).doc(ID);
+    const allProductsRef = db.collection(ALL_PRODUCTS);
+
+    this.setState({ loading: true });
+
+    listDocRef
+      .get()
+      .then(doc => {
+        if (!doc.exists) {
+          this.setState({ error: 'LIST', loading: false });
+        }
+        return doc.data();
+      })
+      .then(list => {
+        const IDs = Object.keys(list);
+        const promises = IDs.map(ID => {
+          return allProductsRef.doc(ID).get();
+        });
+        return Promise.all(promises);
+      })
+      .then(value => {
+        const products = value.map(e => e.data());
+        this.setState({ products, listID: ID, loading: false });
+      })
+      .catch(e => {
+        this.setState({ error: true, loading: false });
+      });
   }
 
   render() {
     // render the Spinner initially
     let productsList = <Spinner />;
 
-    // render the real component if 
+    // render the real component if
     // products are received and valid
     if (this.state.products) {
+      // const listsKeysArray = Object.keys
       const products = this.state.products.map(p => (
         <div className={styles.Column} key={p.id}>
-          <Product item={p} />
+          <ProductThumb item={p} />
         </div>
       ));
 
@@ -106,4 +94,4 @@ class ProductsList extends Component {
   }
 }
 
-export default ProductsList;
+export default withFirebase(ProductsList);
