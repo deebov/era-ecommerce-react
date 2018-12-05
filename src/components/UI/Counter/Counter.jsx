@@ -7,13 +7,15 @@ const Counter = props => {
   const {
     decClicked,
     incClicked,
+    onChange,
+    onBlur,
     value = 1,
     minValue = 1,
     maxValue = 300
   } = props;
   return (
     <div className={styles.Container}>
-      <span onClick={incClicked}>
+      <span onClick={decClicked}>
         <Icon
           icon="minus-round"
           className={[styles.ControlIcon, styles.left].join(' ')}
@@ -23,13 +25,15 @@ const Counter = props => {
       <input
         className={styles.Input}
         type="number"
-        defaultValue={value}
+        value={value}
+        onChange={onChange}
+        onBlur={onBlur}
         min={minValue}
         max={maxValue}
         step="1"
         name="counter"
       />
-      <span onClick={decClicked}>
+      <span onClick={incClicked}>
         <Icon
           icon="plus-round"
           className={[styles.ControlIcon, styles.right].join(' ')}
