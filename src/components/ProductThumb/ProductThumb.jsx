@@ -6,10 +6,11 @@ import Ribbon from './Ribbon/Ribbon';
 import RatingStars from './RatingStars/RatingStars';
 import ActionsBox from './ActionsBox/ActionsBox';
 import Prices from './Prices/Prices';
+import { ITEM } from '../../constants/routes';
 
 const ProductThumb = props => {
   const {
-    item: { image, title, desc, rating, price, ribbonType, oldPrice }
+    item: { thumbnails, title, desc, rating, price, ribbonType, oldPrice, id }
   } = props;
 
   return (
@@ -17,8 +18,8 @@ const ProductThumb = props => {
       <div className={styles.ProductInner}>
         <div className={styles.ImageBox}>
           <Ribbon type={ribbonType} />
-          <Link to="/item?/:id">
-            <img src={image} alt={desc} className={styles.Image} />
+          <Link to={`${ITEM}/${id}`}>
+            <img src={thumbnails[0]} alt={desc} className={styles.Image} />
           </Link>
           <ActionsBox additionalClassName={styles.ActionsBox} />
         </div>
