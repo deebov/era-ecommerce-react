@@ -2,16 +2,11 @@ import React from 'react';
 
 import Counter from '../../UI/Counter/Counter';
 import Button from '../../UI/Button/Button';
-import AddToWishList from '../../AddToWishList/AddToWishList';
+import AddToWishList from '../../UI/AddToWishList/AddToWishList';
 import styles from './Buttons.module.css';
 import { FormHandlersContext } from '../../../containers/ProductFull/ProductFull';
 
-const Buttons = ({
-  addedToCart,
-  addedToWishlist,
-  increasedCounter,
-  decreasedCounter
-}) => {
+const Buttons = ({ addedToWishlist }) => {
   return (
     <form action="">
       <FormHandlersContext.Consumer>
@@ -23,7 +18,8 @@ const Buttons = ({
           onSubmit,
           count,
           max,
-          onSale
+          onSale,
+          fetching
         }) => (
           <div className={styles.Buttons}>
             <Counter
@@ -34,7 +30,12 @@ const Buttons = ({
               value={count}
               max={max}
             />
-            <Button theme="big" clicked={onSubmit} disabled={!onSale}>
+            <Button
+              theme="big"
+              clicked={onSubmit}
+              disabled={!onSale}
+              loading={fetching}
+            >
               add to cart
             </Button>
             <AddToWishList clicked={addedToWishlist} />
