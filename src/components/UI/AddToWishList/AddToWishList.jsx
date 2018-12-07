@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactTooltip from 'react-tooltip';
 
-import Icon from '../UI/Icon/Icon';
+import Icon from '../Icon/Icon';
 import styles from './AddToWishList.module.css';
-import Spinner from '../UI/Spinner/Spinner';
+import Spinner from '../Spinner/Spinner';
 
 const AddToWishList = ({ saved, loading, clicked }) => {
   const loadingClassName = loading ? styles.IconLoading : '';
