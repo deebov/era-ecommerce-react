@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import ProductSummary from '../../components/ProductSummary/ProductSummary';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import { withFirebase } from '../../components/Firebase';
-import { ALL_PRODUCTS } from '../../constants/firebase';
+import { ALL_PRODUCTS, CART } from '../../constants/firebase';
 
 export const FormHandlersContext = React.createContext({});
 
@@ -14,6 +14,7 @@ class ProductFull extends Component {
     this.state = {
       loadedProduct: null,
       counter: 1,
+      addingToCart: false,
       error: null,
       loading: false
     };
@@ -32,10 +33,7 @@ class ProductFull extends Component {
 
   incCounterHandler() {
     // Do not change the state if the counter is invalid
-    if (
-      this.state.counter >= this.state.loadedProduct.amountAvaible
-    ) {
-
+    if (this.state.counter >= this.state.loadedProduct.amountAvaible) {
       return;
     }
     this.setState(state => {
@@ -85,6 +83,26 @@ class ProductFull extends Component {
 
   onSubmitHandler(e) {
     e.preventDefault();
+
+    this.setState({ addingToCart: true });
+
+    const ID = this.props.match.params.id;
+    const db = this.props.firebase.db;
+    const cartRef = db.collection(CART);
+    const cartDocRef = cartRef.doc(ID);
+
+    cartDocRef
+      .set({
+        amount: this.state.counter,
+        product: {
+          title: this.state.loadedProduct.title,
+          id: this.state.loadedProduct.id,
+          thumbnail: this.state.loadedProduct.thumbnails[0],
+          price: this.state.loadedProduct.price
+        }
+      })
+      .then(() => this.setState({ addingToCart: false }))
+      .catch(e => this.setState({ error: true }));
   }
 
   loadData() {
@@ -131,7 +149,8 @@ class ProductFull extends Component {
               onSubmit: this.onSubmitHandler,
               count: this.state.counter,
               max: this.state.loadedProduct.amountAvaible,
-              onSale: this.state.loadedProduct.onSale
+              onSale: this.state.loadedProduct.onSale,
+              fetching: this.state.addingToCart
             }}
           >
             <ProductSummary product={this.state.loadedProduct} />
