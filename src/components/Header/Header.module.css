@@ -14,8 +14,11 @@
 
 .Icon {
   font-size: 21px;
-  margin-right: 20px;
   cursor: pointer;
+}
+
+.IconBox > *:not(:last-child) {
+  margin-right: 20px;
 }
 
 .NavItems {
@@ -30,4 +33,22 @@
 
 .Logo {
   margin-right: 60px;
+}
+
+.Cart {
+  position: relative;
+}
+
+.CartCounter {
+  position: absolute;
+  top: -10px;
+  right: -5px;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 10px;
+  border-radius: 50%;
+  line-height: 1;
+  padding: 2px;
+  background-color: rgb(236, 97, 97);
+  color: #fff;
 }
