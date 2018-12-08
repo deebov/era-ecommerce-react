@@ -7,7 +7,7 @@ class Layout extends Component {
   render() {
     return (
       <div>
-        <Header />
+        <Header cartCount={this.props.cartCount} />
         <main>{this.props.children}</main>
         {/* <FooterWithCopyright /> */}
       </div>

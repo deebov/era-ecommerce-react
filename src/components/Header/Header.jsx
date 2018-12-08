@@ -5,18 +5,18 @@ import Icon from '../UI/Icon/Icon';
 import styles from './Header.module.css';
 import NavLinkItem from '../UI/NavLinkItem/NavLinkItem';
 import Logo from '../UI/Logo/Logo';
-import { LANDING } from '../../constants/routes';
+import * as ROUTES from '../../constants/routes';
 
-const Header = () => {
+const Header = ({ cartCount }) => {
   return (
     <header className={styles.Header}>
       <div className={styles.Logo}>
-        <Link to={LANDING}>
+        <Link to={ROUTES.LANDING}>
           <Logo />
         </Link>
       </div>
       <div className={styles.NavItems}>
-        <NavLinkItem url={LANDING} exact>
+        <NavLinkItem url={ROUTES.LANDING} exact>
           Home
         </NavLinkItem>
         <NavLinkItem url="/shop">Shop</NavLinkItem>
@@ -27,10 +27,12 @@ const Header = () => {
         <Icon icon="magnifier" className={styles.Icon} fontSize={18} />
         <Icon icon="user" className={styles.Icon} fontSize={18} />
         <Icon icon="heart" className={styles.Icon} fontSize={18} />
-        <div className={styles.Cart}>
-          <span className={styles.CartCounter}>12</span>
-          <Icon icon="cart" className={styles.Icon} fontSize={18} />
-        </div>
+        <Link to={ROUTES.CART} className={styles.Link}>
+          <div className={styles.Cart}>
+            {cartCount ? <span className={styles.CartCounter}>{cartCount}</span> : null}
+            <Icon icon="cart" className={styles.Icon} fontSize={18} />
+          </div>
+        </Link>
         <Icon icon="menu" className={styles.Icon} fontSize={18} />
       </div>
     </header>
