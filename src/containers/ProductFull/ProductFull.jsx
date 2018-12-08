@@ -44,34 +44,24 @@ class ProductFull extends Component {
   }
   decCounterHandler() {
     // Do not change the state if the counter is invalid
-    if (this.state.counter <= 1) {
-      return;
+    if (this.state.counter > 1) {
+      this.setState(state => {
+        return {
+          counter: state.counter - 1
+        };
+      });
     }
-    this.setState(state => {
-      return {
-        counter: state.counter - 1
-      };
-    });
   }
 
   onCounterBlurHandler() {
     // Return back the counter value to 1 if the counter is invalid
-    if (this.state.counter <= 1 || isNaN(this.state.counter)) {
+    if (this.state.counter < 1) {
       this.setState({ counter: 1 });
     }
   }
 
   onCounterChangeHandler(e) {
-    const val = parseInt(e.target.value);
-    // Empty the the counter if the val is invalid
-    if (isNaN(val)) {
-      this.setState({ counter: '' });
-      return;
-    }
-
-    if (val < 1) {
-      return;
-    }
+    const val = Math.abs(+e.target.value);
 
     if (val > this.state.loadedProduct.amountAvaible) {
       this.setState({ counter: this.state.loadedProduct.amountAvaible });
