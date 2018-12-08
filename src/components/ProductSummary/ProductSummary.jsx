@@ -1,7 +1,7 @@
 import React from 'react';
 
 import styles from './ProductSummary.module.css';
-import ResponsiveWrapper from '../../containers/ResponsiveWrapper/ResponsiveWrapper';
+import ResponsiveWrapper from '../UI/ResponsiveWrapper/ResponsiveWrapper';
 import ProductImages from '../ProductImages/ProductImages';
 import ProductDetails from '../ProductDetails/ProductDetails';
 
