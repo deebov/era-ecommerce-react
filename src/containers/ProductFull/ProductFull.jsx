@@ -99,7 +99,8 @@ class ProductFull extends Component {
           id: this.state.loadedProduct.id,
           thumbnail: this.state.loadedProduct.thumbnails[0],
           price: this.state.loadedProduct.price
-        }
+        },
+        updated: false
       })
       .then(() => this.setState({ addingToCart: false }))
       .catch(e => this.setState({ error: true }));
