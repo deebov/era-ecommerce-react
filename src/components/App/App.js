@@ -7,7 +7,6 @@ import Layout from '../../containers/Layout/Layout';
 import ProductFull from '../../containers/ProductFull/ProductFull.jsx';
 import ProductsListWithTabs from '../ProductsListWithTabs/ProductsListWithTabs';
 import CartFull from '../../containers/CartFull/CartFull';
-import { CART } from '../../constants/firebase';
 
 class App extends Component {
   state = {
@@ -16,25 +15,7 @@ class App extends Component {
       { id: 'best-seller', title: 'Best Seller' },
       { id: 'most-popular', title: 'Most Popular' }
     ],
-    cartCount: null,
     error: false
-  };
-
-  componentDidMount() {
-    this.fetchCartCount();
-  }
-
-  componentWillUnmount() {
-    this.unsubcribeListener();
-  }
-
-  fetchCartCount = () => {
-    const db = this.props.firebase.db;
-    const cartRef = db.collection(CART);
-
-    this.unsubcribeListener = cartRef.onSnapshot(querySnapshot =>
-      this.setState({ cartCount: querySnapshot.size })
-    );
   };
 
   render() {
