@@ -36,7 +36,33 @@
   font-family: 'Cerebri Sans Bold';
   text-transform: uppercase;
   font-size: 12px;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
   cursor: pointer;
+  padding-right: 25px;
+}
+
+.AddToCart:disabled {
+  cursor: default;
+}
+
+.AddToCart a:link,
+.AddToCart a:visited {
+  text-decoration: none;
+  font-size: inherit;
+  font-family: inherit;
+  color: inherit;
+}
+
+.AddToCart:active,
+.AddToCart:focus {
+  outline: none;
+}
+
+.Spinner {
+  right: -30px;
+  left: auto !important;
 }
 
 .Tooltip {

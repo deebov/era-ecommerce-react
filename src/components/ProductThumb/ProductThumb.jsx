@@ -21,7 +21,12 @@ const ProductThumb = props => {
           <Link to={`${ITEM}/${id}`}>
             <img src={thumbnails[0]} alt={desc} className={styles.Image} />
           </Link>
-          <ActionsBox additionalClassName={styles.ActionsBox} />
+          <ActionsBox
+            additionalClassName={styles.ActionsBox}
+            addedToCart={props.onAddToCart}
+            fetching={props.addingToCart}
+            fetched={props.addedToCart}
+          />
         </div>
         <div className={styles.Details}>
           <h3 className={styles.Title}>{title}</h3>

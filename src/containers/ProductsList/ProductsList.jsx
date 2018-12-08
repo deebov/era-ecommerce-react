@@ -4,7 +4,7 @@ import ProductThumb from '../../components/ProductThumb/ProductThumb';
 import styles from './ProductsList.module.css';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import { withFirebase } from '../../components/Firebase';
-import { LISTS, ALL_PRODUCTS } from '../../constants/firebase';
+import { LISTS, ALL_PRODUCTS, CART } from '../../constants/firebase';
 
 class ProductsList extends Component {
   constructor(props) {
@@ -13,15 +13,55 @@ class ProductsList extends Component {
     this.state = {
       products: null,
       listID: null,
+      cart: {},
       loading: false,
+      addingToCart: false,
       error: false
     };
 
+    this._isMounted = false;
+
     this.loadData = this.loadData.bind(this);
+    this.addToCartHandler = this.addToCartHandler.bind(this);
   }
 
   componentDidMount() {
+    this._isMounted = true;
+
     this.loadData();
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+
+  addToCartHandler(e, item) {
+    e.preventDefault();
+
+    this.setState({ addingToCart: true });
+
+    const db = this.props.firebase.db;
+    const cartRef = db.collection(CART);
+    const cartDocRef = cartRef.doc(item.id);
+
+    cartDocRef
+      .set({
+        amount: 1,
+        product: {
+          title: item.title,
+          id: item.id,
+          thumbnail: item.thumbnails[0],
+          price: item.price
+        },
+        updated: false
+      })
+      .then(() =>
+        this.setState({
+          addingToCart: false,
+          cart: { ...this.state.cart, [item.id]: true }
+        })
+      )
+      .catch(e => this.setState({ error: true }));
   }
 
   loadData() {
@@ -63,7 +103,9 @@ class ProductsList extends Component {
       })
       .then(value => {
         const products = value.map(e => e.data());
-        this.setState({ products, listID: ID, loading: false });
+        if (this._isMounted) {
+          this.setState({ products, listID: ID, loading: false });
+        }
       })
       .catch(e => {
         this.setState({ error: true, loading: false });
@@ -80,7 +122,12 @@ class ProductsList extends Component {
       // const listsKeysArray = Object.keys
       const products = this.state.products.map(p => (
         <div className={styles.Column} key={p.id}>
-          <ProductThumb item={p} />
+          <ProductThumb
+            item={p}
+            onAddToCart={e => this.addToCartHandler(e, p)}
+            addingToCart={this.state.addingToCart}
+            addedToCart={this.state.cart.hasOwnProperty(p.id)}
+          />
         </div>
       ));
 
