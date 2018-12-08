@@ -1,6 +1,5 @@
 import React from 'react';
 
-import style from './Icon.module.css';
 import './ionicons.min.css';
 import './linearicons.min.css';
 
