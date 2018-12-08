@@ -2,18 +2,29 @@ import React from 'react';
 
 import styles from './Button.module.css';
 
-const Button = ({ loading, theme = 'small', clicked, children }) => {
-  const classNames = [styles.Button, styles[theme]];
+const Button = ({
+  loading,
+  theme = 'small',
+  className,
+  clicked,
+  disabled,
+  children
+}) => {
+  const classNames = [styles.Button, styles[theme], className];
 
-  if (loading) {
+  if (loading && !disabled) {
     classNames.push(styles.ButtonLoading);
+  }
+
+  if (disabled) {
+    classNames.push(styles.ButtonDisabled);
   }
 
   return (
     <button
       className={classNames.join(' ')}
       onClick={clicked}
-      disabled={loading}
+      disabled={disabled || loading}
     >
       <span>{children}</span>
     </button>

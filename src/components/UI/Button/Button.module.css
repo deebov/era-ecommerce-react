@@ -67,6 +67,11 @@
   transform: translateY(-50%);
 }
 
+.ButtonDisabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
 @keyframes spin-fast {
   0% {
     transform: rotate(0);
