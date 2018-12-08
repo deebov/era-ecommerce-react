@@ -21,6 +21,47 @@ class CartFull extends Component {
     this.unsubcribeListener();
   }
 
+  counterHandler = (e, id, type) => {
+    const data = [...this.state.cart];
+    const oldItemIndex = data.findIndex(e => e.product.id === id);
+    const oldItem = data[oldItemIndex];
+    const oldCounter = oldItem.amount;
+    let updatedCounter = oldCounter;
+    let updatedTotalPrice = oldItem.total_price;
+
+    if (type === 'inc') {
+      updatedCounter += 1;
+      updatedTotalPrice += oldItem.product.price;
+    }
+
+    if (type === 'dec') {
+      if (updatedCounter > 1) {
+        updatedCounter -= 1;
+        updatedTotalPrice -= oldItem.product.price;
+      }
+    }
+
+    if (type === 'change') {
+      const val = +e.target.value;
+      if (val >= 0) {
+        updatedCounter = Math.abs(val);
+        updatedTotalPrice = val * oldItem.product.price;
+      }
+    }
+
+    const updatedItem = {
+      ...oldItem,
+      amount: updatedCounter,
+      total_price: +updatedTotalPrice.toFixed(2)
+    };
+
+    data[oldItemIndex] = updatedItem;
+    this.setState({
+      cart: data,
+      totalPrice: this.calcTotalPrice(data)
+    });
+  };
+
   listenForCart = () => {
     const db = this.props.firebase.db;
     const cartRef = db.collection(CART);
@@ -71,6 +112,9 @@ class CartFull extends Component {
           data={this.state.cart}
           loading={this.state.loading}
           onDeleteItem={this.deleteItemHandler}
+          incCounterClicked={(e, id) => this.counterHandler(e, id, 'inc')}
+          decCounterClicked={(e, id) => this.counterHandler(e, id, 'dec')}
+          onCounterChange={(e, id) => this.counterHandler(e, id, 'change')}
         />
         <Summary
           totalPrice={this.state.totalPrice}

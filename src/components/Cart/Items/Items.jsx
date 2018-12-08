@@ -11,7 +11,14 @@ import 'react-table/react-table.css';
 import './ReactTableCustom.css';
 import styles from './Items.module.css';
 
-export const Items = ({ data, loading, onDeleteItem }) => {
+export const Items = ({
+  data,
+  loading,
+  onDeleteItem,
+  incCounterClicked,
+  decCounterClicked,
+  onCounterChange
+}) => {
   const columns = [
     {
       Header: 'Product',
@@ -50,10 +57,14 @@ export const Items = ({ data, loading, onDeleteItem }) => {
     },
     {
       Header: 'Quantity',
-      accessor: 'amount',
       Cell: row => (
         <div className={styles.Counter}>
-          <Counter value={row.value} onChange={() => {}} />
+          <Counter
+            value={row.original.amount}
+            incClicked={e => incCounterClicked(e, row.original.product.id)}
+            decClicked={e => decCounterClicked(e, row.original.product.id)}
+            onChange={e => onCounterChange(e, row.original.product.id)}
+          />
         </div>
       ),
       headerClassName: styles.Header,
