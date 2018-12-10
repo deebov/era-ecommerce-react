@@ -15,6 +15,12 @@
   justify-content: space-between;
 }
 
+.ActionsBox:hover {
+  bottom: 0;
+  opacity: 1;
+  transform: scale(1);
+}
+
 .ActionIcons {
   display: flex;
 }
