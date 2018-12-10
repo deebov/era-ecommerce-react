@@ -3,18 +3,21 @@
   max-width: 100%;
   position: relative;
   display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .Spinner {
   display: block;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translateX(-50%) translateY(-50%);
+  position: relative;
+  box-sizing: border-box;
 }
 
 .Spinner::before {
   content: '';
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
   display: block;
   background-image: none;
   z-index: 999;
@@ -36,8 +39,8 @@
 .Spinner.small::before {
   animation: spin-fast 1s linear infinite;
   border-color: #666 #666 #666 transparent;
-  width: 14px;
-  height: 14px;
+  width: 12px;
+  height: 12px;
 }
 
 @keyframes spin-fast {
