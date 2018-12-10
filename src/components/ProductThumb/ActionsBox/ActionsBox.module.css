@@ -60,11 +60,6 @@
   outline: none;
 }
 
-.Spinner {
-  right: -30px;
-  left: auto !important;
-}
-
 .Tooltip {
   padding: 5px;
   background-color: #000;
@@ -74,4 +69,14 @@
 
 .Icon:hover {
   color: #222;
+}
+
+.ToggleWishlistLoading {
+  opacity: 0.5;
+}
+
+.ToggleWishlist {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

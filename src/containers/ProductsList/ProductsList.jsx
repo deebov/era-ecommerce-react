@@ -4,7 +4,7 @@ import ProductThumb from '../../components/ProductThumb/ProductThumb';
 import styles from './ProductsList.module.css';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import { withFirebase } from '../../components/Firebase';
-import { LISTS, ALL_PRODUCTS, CART } from '../../constants/firebase';
+import { LISTS, ALL_PRODUCTS, CART, WISHLIST } from '../../constants/firebase';
 
 class ProductsList extends Component {
   constructor(props) {
@@ -13,9 +13,11 @@ class ProductsList extends Component {
     this.state = {
       products: null,
       listID: null,
-      cart: {},
+      cart: { _status: 'unfetched' },
+      wishlist: { _status: 'unfetched' },
       loading: false,
-      addingToCart: false,
+      addingToCart: {},
+      togglingWishlist: {},
       error: false
     };
 
@@ -23,12 +25,17 @@ class ProductsList extends Component {
 
     this.loadData = this.loadData.bind(this);
     this.addToCartHandler = this.addToCartHandler.bind(this);
+    this.toggleWishlistHandler = this.toggleWishlistHandler.bind(this);
+    this.loadWishlist = this.loadWishlist.bind(this);
+    this.loadCart = this.loadCart.bind(this);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     this._isMounted = true;
 
-    this.loadData();
+    await this.loadData();
+    this.loadWishlist();
+    this.loadCart();
   }
 
   componentWillUnmount() {
@@ -37,31 +44,48 @@ class ProductsList extends Component {
 
   addToCartHandler(e, item) {
     e.preventDefault();
+    if (this.state.cart._status === 'unfetched') {
+      return;
+    }
+    const { id, title, thumbnails, price } = item;
 
-    this.setState({ addingToCart: true });
+    this.setState((state, props) => {
+      return {
+        addingToCart: { ...state.addingToCart, [id]: true }
+      };
+    });
 
     const db = this.props.firebase.db;
     const cartRef = db.collection(CART);
-    const cartDocRef = cartRef.doc(item.id);
+    const cartDocRef = cartRef.doc(id);
 
     cartDocRef
       .set({
         amount: 1,
         product: {
-          title: item.title,
-          id: item.id,
-          thumbnail: item.thumbnails[0],
-          price: item.price
+          id,
+          price,
+          title,
+          thumbnail: thumbnails[0]
         },
         updated: false
       })
       .then(() =>
-        this.setState({
-          addingToCart: false,
-          cart: { ...this.state.cart, [item.id]: true }
+        this.setState((state, props) => {
+          return {
+            addingToCart: { ...state.addingToCart, [id]: false },
+            cart: { ...state.cart, [item.id]: true }
+          };
         })
       )
-      .catch(e => this.setState({ error: true }));
+      .catch(e =>
+        this.setState((state, props) => {
+          return {
+            error: true,
+            addingToCart: { ...state.addingToCart, [id]: false }
+          };
+        })
+      );
   }
 
   loadData() {
@@ -86,7 +110,7 @@ class ProductsList extends Component {
 
     this.setState({ loading: true });
 
-    listDocRef
+    return listDocRef
       .get()
       .then(doc => {
         if (!doc.exists) {
@@ -112,6 +136,85 @@ class ProductsList extends Component {
       });
   }
 
+  loadWishlist() {
+    const db = this.props.firebase.db;
+    const wishlistRef = db.collection(WISHLIST);
+
+    wishlistRef.get().then(querySnapshot => {
+      const items = {};
+      querySnapshot.forEach(doc => {
+        items[doc.data().id] = true;
+      });
+      this.setState({ wishlist: items });
+    });
+  }
+
+  loadCart() {
+    const db = this.props.firebase.db;
+    const wishlistRef = db.collection(CART);
+
+    wishlistRef.get().then(querySnapshot => {
+      const items = {};
+      querySnapshot.forEach(doc => {
+        items[doc.data().product.id] = true;
+      });
+      this.setState({ cart: items });
+    });
+  }
+
+  toggleWishlistHandler(item) {
+    // Stop executing if the wishlist is not loaded from the database
+    if (this.state.wishlist._status === 'unfetched') {
+      return;
+    }
+
+    const { id, title, price, thumbnail } = item;
+
+    const db = this.props.firebase.db;
+    const wishlistRef = db.collection(WISHLIST);
+    const wishlistDocRef = wishlistRef.doc(id);
+
+    // Set this true in order to components can show the Spinner
+    this.setState((state, props) => {
+      return {
+        togglingWishlist: { ...state.togglingWishlist, [id]: true }
+      };
+    });
+
+    let res = null;
+
+    if (this.state.wishlist[id]) {
+      // Delete if it is in wishlist
+      res = wishlistDocRef.delete();
+    } else {
+      // Add if it is not in wishlist
+      res = wishlistDocRef.set({
+        id,
+        title,
+        price,
+        thumbnail
+      });
+    }
+
+    res
+      .then(() => {
+        this.setState((state, props) => {
+          return {
+            wishlist: { ...state.wishlist, [id]: !state.wishlist[id] },
+            togglingWishlist: { ...state.togglingWishlist, [id]: false }
+          };
+        });
+      })
+      .catch(e =>
+        this.setState((state, props) => {
+          return {
+            error: true,
+            togglingWishlist: { ...state.togglingWishlist, [id]: false }
+          };
+        })
+      );
+  }
+
   render() {
     // render the Spinner initially
     let productsList = <Spinner />;
@@ -125,8 +228,18 @@ class ProductsList extends Component {
           <ProductThumb
             item={p}
             onAddToCart={e => this.addToCartHandler(e, p)}
-            addingToCart={this.state.addingToCart}
-            addedToCart={this.state.cart.hasOwnProperty(p.id)}
+            addingToCart={this.state.addingToCart[p.id]}
+            inCart={this.state.cart[p.id]}
+            toggleWishlist={() =>
+              this.toggleWishlistHandler({
+                id: p.id,
+                title: p.title,
+                price: p.price,
+                thumbnail: p.thumbnails[0]
+              })
+            }
+            togglingWishlist={this.state.togglingWishlist[p.id]}
+            inWishlist={this.state.wishlist[p.id]}
           />
         </div>
       ));

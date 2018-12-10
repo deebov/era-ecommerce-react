@@ -8,26 +8,51 @@ import Spinner from '../../UI/Spinner/Spinner';
 import { CART } from '../../../constants/routes';
 
 const ActionsBox = props => {
-  const { additionalClassName, addedToCart, fetching = true, fetched } = props;
+  const {
+    additionalClassName,
+    addedToCart,
+    addingToCart,
+    inCart,
+    inWishlist,
+    toggledWishlist,
+    togglingWishlist
+  } = props;
 
-  const AddToCart = (
+  const addToCart = (
     <button
-      onClick={!fetched ? addedToCart : null}
+      onClick={!inCart ? addedToCart : null}
       className={styles.AddToCart}
-      disabled={fetching}
+      disabled={addingToCart}
     >
-      {!fetched ? <span>Add to cart</span> : <Link to={CART}>View Cart</Link>}
-      {fetching ? <Spinner className={styles.Spinner} type="small" /> : null}
+      {!inCart ? <span>Add to cart</span> : <Link to={CART}>View Cart</Link>}
+      {addingToCart ? (
+        <Spinner className={styles.Spinner} type="small" />
+      ) : null}
     </button>
+  );
+
+  const toggleWishlist = (
+    <span
+      data-tip
+      data-for="bookmark"
+      className={styles.ToggleWishlist}
+      onClick={!togglingWishlist ? toggledWishlist : () => {}}
+    >
+      {togglingWishlist ? (
+        <Spinner className={styles.WishlistSpinner} type="small" />
+      ) : inWishlist ? (
+        <Icon type="ionic" color="#c33" icon={`ios-heart ${styles.Icon}`} fontSize={18} />
+      ) : (
+        <Icon type="ionic" icon={`ios-heart-outline ${styles.Icon}`} fontSize={18} />
+      )}
+    </span>
   );
 
   return (
     <div className={[styles.ActionsBox, additionalClassName].join(' ')}>
-      {AddToCart}
+      {addToCart}
       <div className={styles.ActionIcons}>
-        <span data-tip data-for="bookmark">
-          <Icon icon={`heart ${styles.Icon}`} />
-        </span>
+        {toggleWishlist}
         <span data-tip data-for="quickView">
           <Icon icon="frame-expand" className={styles.Icon} />
         </span>
@@ -45,7 +70,7 @@ const ActionsBox = props => {
           className={styles.Tooltip}
           effect="solid"
         >
-          <span>Save</span>
+          <span>{inWishlist ? 'Remove' : 'Save'}</span>
         </ReactTooltip>
       </div>
     </div>

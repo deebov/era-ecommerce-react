@@ -24,8 +24,11 @@ const ProductThumb = props => {
           <ActionsBox
             additionalClassName={styles.ActionsBox}
             addedToCart={props.onAddToCart}
-            fetching={props.addingToCart}
-            fetched={props.addedToCart}
+            addingToCart={props.addingToCart}
+            inCart={props.inCart}
+            toggledWishlist={props.toggleWishlist}
+            togglingWishlist={props.togglingWishlist}
+            inWishlist={props.inWishlist}
           />
         </div>
         <div className={styles.Details}>
