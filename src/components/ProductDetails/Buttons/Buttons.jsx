@@ -6,7 +6,7 @@ import WishlistButton from '../WishlistButton/WishlistButton';
 import styles from './Buttons.module.css';
 import { FormHandlersContext } from '../../../containers/ProductFull/ProductFull';
 
-const Buttons = ({ addedToWishlist }) => {
+const Buttons = props => {
   return (
     <form action="">
       <FormHandlersContext.Consumer>
