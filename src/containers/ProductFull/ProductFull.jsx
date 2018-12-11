@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import ProductSummary from '../../components/ProductSummary/ProductSummary';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import { withFirebase } from '../../components/Firebase';
-import { ALL_PRODUCTS, CART } from '../../constants/firebase';
+import { ALL_PRODUCTS, CART, WISHLIST } from '../../constants/firebase';
 
 export const FormHandlersContext = React.createContext({});
 
@@ -15,11 +15,15 @@ class ProductFull extends Component {
       loadedProduct: null,
       counter: 1,
       addingToCart: false,
+      inWishlist: false,
+      addingToWishlist: false,
       error: null,
       loading: false
     };
+    this._wishlistStatus = 'unfetched';
 
     this.loadData = this.loadData.bind(this);
+    this.addToWishlistHandler = this.addToWishlistHandler.bind(this);
     this.incCounterHandler = this.incCounterHandler.bind(this);
     this.decCounterHandler = this.decCounterHandler.bind(this);
     this.onCounterBlurHandler = this.onCounterBlurHandler.bind(this);
@@ -27,8 +31,13 @@ class ProductFull extends Component {
     this.onSubmitHandler = this.onSubmitHandler.bind(this);
   }
 
-  componentDidMount() {
-    this.loadData();
+  async componentDidMount() {
+    await this.loadData();
+    this.listenWishlist();
+  }
+
+  componentWillUnmount() {
+    this.unsubcribeListener();
   }
 
   incCounterHandler() {
@@ -71,6 +80,35 @@ class ProductFull extends Component {
     this.setState({ counter: val });
   }
 
+  addToWishlistHandler() {
+    // Stop executing if the wishlist is not loaded from the database
+    if (this._wishlistStatus === 'unfetched') {
+      return;
+    }
+
+    const { id, title, price, thumbnails } = this.state.loadedProduct;
+    const thumbnail = thumbnails[0];
+
+    const db = this.props.firebase.db;
+    const wishlistRef = db.collection(WISHLIST);
+    const wishlistDocRef = wishlistRef.doc(id);
+
+    // Set this true in order to components can show the Spinner
+    this.setState({
+      addingToWishlist: true
+    });
+
+    wishlistDocRef
+      .set({
+        id,
+        title,
+        price,
+        thumbnail
+      })
+      .then(() => this.setState({ inWishlist: true, addingToWishlist: false }))
+      .catch(e => this.setState({ error: true, addingToWishlist: false }));
+  }
+
   onSubmitHandler(e) {
     e.preventDefault();
 
@@ -96,6 +134,17 @@ class ProductFull extends Component {
       .catch(e => this.setState({ error: true }));
   }
 
+  listenWishlist() {
+    const ID = this.props.match.params.id;
+    const db = this.props.firebase.db;
+    const wishlistDocRef = db.collection(WISHLIST).doc(ID);
+
+    this.unsubcribeListener = wishlistDocRef.onSnapshot(querySnapshot => {
+      this.setState({ inWishlist: querySnapshot.exists });
+      this._wishlistStatus = 'fetched';
+    });
+  }
+
   loadData() {
     const ID = this.props.match.params.id;
     // Return nothing if the ID is not valid
@@ -117,7 +166,7 @@ class ProductFull extends Component {
     const db = this.props.firebase.db;
     const productDocRef = db.collection(ALL_PRODUCTS).doc(ID);
 
-    productDocRef.get().then(doc => {
+    return productDocRef.get().then(doc => {
       if (!doc.exists) {
         this.setState({ error: 'NOT FOUND', loading: false });
       }
@@ -141,7 +190,10 @@ class ProductFull extends Component {
               count: this.state.counter,
               max: this.state.loadedProduct.amountAvaible,
               onSale: this.state.loadedProduct.onSale,
-              fetching: this.state.addingToCart
+              fetching: this.state.addingToCart,
+              addToWishlistClicked: this.addToWishlistHandler,
+              inWishlist: this.state.inWishlist,
+              addingToWishlist: this.state.addingToWishlist
             }}
           >
             <ProductSummary product={this.state.loadedProduct} />
