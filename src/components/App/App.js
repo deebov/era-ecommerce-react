@@ -4,9 +4,10 @@ import { Route, Switch } from 'react-router-dom';
 import * as ROUTES from '../../constants/routes';
 import { withFirebase } from '../Firebase/index';
 import Layout from '../../containers/Layout/Layout';
-import ProductFull from '../../containers/ProductFull/ProductFull.jsx';
 import ProductsListWithTabs from '../ProductsListWithTabs/ProductsListWithTabs';
+import ProductFull from '../../containers/ProductFull/ProductFull.jsx';
 import CartFull from '../../containers/CartFull/CartFull';
+import WishlistFull from '../../containers/WishlistFull/WishlistFull';
 
 class App extends Component {
   state = {
@@ -35,6 +36,7 @@ class App extends Component {
             />
             <Route path={`${ROUTES.ITEM}/:id`} component={ProductFull} />
             <Route path={ROUTES.CART} component={CartFull} />
+            <Route path={ROUTES.WISHLIST} component={WishlistFull} />
           </Switch>
         </Layout>
       </div>
