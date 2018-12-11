@@ -1,0 +1,11 @@
+.rt-tr-group {
+  border: none !important;
+}
+
+.rt-thead.-header {
+  box-shadow: none !important;
+}
+
+.rt-td {
+  border: none !important;
+}
