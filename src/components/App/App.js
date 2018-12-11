@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.min.css';
 
 import * as ROUTES from '../../constants/routes';
 import { withFirebase } from '../Firebase/index';
@@ -39,6 +42,7 @@ class App extends Component {
             <Route path={ROUTES.WISHLIST} component={WishlistFull} />
           </Switch>
         </Layout>
+        <ToastContainer />
       </div>
     );
   }
