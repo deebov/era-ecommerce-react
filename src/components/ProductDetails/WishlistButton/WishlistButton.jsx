@@ -1,11 +1,13 @@
 import React from 'react';
 import ReactTooltip from 'react-tooltip';
+import { Link } from 'react-router-dom';
 
-import Icon from '../Icon/Icon';
-import styles from './AddToWishList.module.css';
-import Spinner from '../Spinner/Spinner';
+import Icon from '../../UI/Icon/Icon';
+import styles from './WishlistButton.module.css';
+import Spinner from '../../UI/Spinner/Spinner';
+import { WISHLIST } from '../../../constants/routes';
 
-const AddToWishList = ({ saved, loading, clicked }) => {
+const WishlistButton = ({ saved, loading, clicked }) => {
   const loadingClassName = loading ? styles.IconLoading : '';
   const containerClassNames = [styles.Container, loadingClassName].join(' ');
 
@@ -33,10 +35,16 @@ const AddToWishList = ({ saved, loading, clicked }) => {
     );
   }
   return (
-    <div className={containerClassNames} onClick={clicked}>
-      {button}
+    <div className={containerClassNames} onClick={!saved ? clicked : () => {}}>
+      {saved ? (
+        <Link to={WISHLIST} title="Wishlist">
+          {button}
+        </Link>
+      ) : (
+        button
+      )}
     </div>
   );
 };
 
-export default AddToWishList;
+export default WishlistButton;
