@@ -2,7 +2,7 @@ import React from 'react';
 
 import Counter from '../../UI/Counter/Counter';
 import Button from '../../UI/Button/Button';
-import AddToWishList from '../../UI/AddToWishList/AddToWishList';
+import WishlistButton from '../WishlistButton/WishlistButton';
 import styles from './Buttons.module.css';
 import { FormHandlersContext } from '../../../containers/ProductFull/ProductFull';
 
@@ -19,7 +19,10 @@ const Buttons = ({ addedToWishlist }) => {
           count,
           max,
           onSale,
-          fetching
+          fetching,
+          addToWishlistClicked,
+          addingToWishlist,
+          inWishlist
         }) => (
           <div className={styles.Buttons}>
             <Counter
@@ -38,7 +41,11 @@ const Buttons = ({ addedToWishlist }) => {
             >
               add to cart
             </Button>
-            <AddToWishList clicked={addedToWishlist} />
+            <WishlistButton
+              clicked={addToWishlistClicked}
+              saved={inWishlist}
+              loading={addingToWishlist}
+            />
           </div>
         )}
       </FormHandlersContext.Consumer>
