@@ -23,7 +23,6 @@ export const Items = ({
     {
       Header: 'Product',
       accessor: 'product',
-      resizable: false,
       headerClassName: styles.Header,
       Cell: row => (
         <div className={styles.Cell}>
@@ -31,7 +30,7 @@ export const Items = ({
             <Link to={`${ROUTES.ITEM}/${row.value.id}`}>
               <img
                 className={styles.Thumbnail}
-                src="http://demo3.drfuri.com/supro/wp-content/uploads/sites/3/2018/05/3a.jpg"
+                src={row.value.thumbnail}
                 alt={row.value.title}
               />
             </Link>
@@ -51,7 +50,6 @@ export const Items = ({
           <span>&pound;{row.value}</span>
         </div>
       ),
-      resizable: false,
       headerClassName: styles.Header,
       width: 150
     },
@@ -97,7 +95,7 @@ export const Items = ({
   ];
 
   return (
-    <div>
+    <div className={styles.Container}>
       <ReactTable
         data={data}
         columns={columns}

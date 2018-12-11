@@ -1,6 +1,8 @@
 .Container {
   width: 100%;
-  margin-bottom: 100px;
+  /* margin-bottom: 100px; */
+  padding-top: 90px;
+  padding-bottom: 20px;
 }
 
 .Title {
