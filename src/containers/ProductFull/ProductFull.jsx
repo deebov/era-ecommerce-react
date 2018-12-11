@@ -1,35 +1,27 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 
 import ProductSummary from '../../components/ProductSummary/ProductSummary';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import { withFirebase } from '../../components/Firebase';
 import { ALL_PRODUCTS, CART, WISHLIST } from '../../constants/firebase';
+import Notification from '../../components/UI/Notification/Notification';
+import { NOT_FOUND } from '../../constants/routes';
 
 export const FormHandlersContext = React.createContext({});
 
 class ProductFull extends Component {
-  constructor(props) {
-    super(props);
+  _wishlistStatus = 'unfetched';
 
-    this.state = {
-      loadedProduct: null,
-      counter: 1,
-      addingToCart: false,
-      inWishlist: false,
-      addingToWishlist: false,
-      error: null,
-      loading: false
-    };
-    this._wishlistStatus = 'unfetched';
-
-    this.loadData = this.loadData.bind(this);
-    this.addToWishlistHandler = this.addToWishlistHandler.bind(this);
-    this.incCounterHandler = this.incCounterHandler.bind(this);
-    this.decCounterHandler = this.decCounterHandler.bind(this);
-    this.onCounterBlurHandler = this.onCounterBlurHandler.bind(this);
-    this.onCounterChangeHandler = this.onCounterChangeHandler.bind(this);
-    this.onSubmitHandler = this.onSubmitHandler.bind(this);
-  }
+  state = {
+    loadedProduct: null,
+    counter: 1,
+    addingToCart: false,
+    inWishlist: false,
+    addingToWishlist: false,
+    error: null,
+    loading: false
+  };
 
   async componentDidMount() {
     await this.loadData();
@@ -40,7 +32,7 @@ class ProductFull extends Component {
     this.unsubcribeListener();
   }
 
-  incCounterHandler() {
+  incCounterHandler = () => {
     // Do not change the state if the counter is invalid
     if (this.state.counter >= this.state.loadedProduct.amountAvaible) {
       return;
@@ -50,8 +42,8 @@ class ProductFull extends Component {
         counter: state.counter + 1
       };
     });
-  }
-  decCounterHandler() {
+  };
+  decCounterHandler = () => {
     // Do not change the state if the counter is invalid
     if (this.state.counter > 1) {
       this.setState(state => {
@@ -60,16 +52,16 @@ class ProductFull extends Component {
         };
       });
     }
-  }
+  };
 
-  onCounterBlurHandler() {
+  onCounterBlurHandler = () => {
     // Return back the counter value to 1 if the counter is invalid
     if (this.state.counter < 1) {
       this.setState({ counter: 1 });
     }
-  }
+  };
 
-  onCounterChangeHandler(e) {
+  onCounterChangeHandler = e => {
     const val = Math.abs(+e.target.value);
 
     if (val > this.state.loadedProduct.amountAvaible) {
@@ -78,9 +70,9 @@ class ProductFull extends Component {
     }
 
     this.setState({ counter: val });
-  }
+  };
 
-  addToWishlistHandler() {
+  addToWishlistHandler = () => {
     // Stop executing if the wishlist is not loaded from the database
     if (this._wishlistStatus === 'unfetched') {
       return;
@@ -107,9 +99,9 @@ class ProductFull extends Component {
       })
       .then(() => this.setState({ inWishlist: true, addingToWishlist: false }))
       .catch(e => this.setState({ error: true, addingToWishlist: false }));
-  }
+  };
 
-  onSubmitHandler(e) {
+  onSubmitHandler = e => {
     e.preventDefault();
 
     this.setState({ addingToCart: true });
@@ -132,20 +124,23 @@ class ProductFull extends Component {
       })
       .then(() => this.setState({ addingToCart: false }))
       .catch(e => this.setState({ error: true }));
-  }
+  };
 
-  listenWishlist() {
+  listenWishlist = () => {
     const ID = this.props.match.params.id;
     const db = this.props.firebase.db;
     const wishlistDocRef = db.collection(WISHLIST).doc(ID);
 
-    this.unsubcribeListener = wishlistDocRef.onSnapshot(querySnapshot => {
-      this.setState({ inWishlist: querySnapshot.exists });
-      this._wishlistStatus = 'fetched';
-    });
-  }
+    this.unsubcribeListener = wishlistDocRef.onSnapshot(
+      querySnapshot => {
+        this.setState({ inWishlist: querySnapshot.exists });
+        this._wishlistStatus = 'fetched';
+      },
+      e => this.setState({ error: true })
+    );
+  };
 
-  loadData() {
+  loadData = () => {
     const ID = this.props.match.params.id;
     // Return nothing if the ID is not valid
 
@@ -172,7 +167,11 @@ class ProductFull extends Component {
       }
       this.setState({ loadedProduct: doc.data(), loading: false });
     });
-  }
+  };
+
+  errorConfirmedHandler = () => {
+    this.setState({ error: false });
+  };
 
   render() {
     let summary = <Spinner />;
@@ -180,6 +179,9 @@ class ProductFull extends Component {
     if (this.state.loadedProduct) {
       summary = (
         <div>
+          {this.state.error === 'NOT FOUND' ? (
+            <Redirect to={NOT_FOUND} />
+          ) : null}
           <FormHandlersContext.Provider
             value={{
               incClicked: this.incCounterHandler,
@@ -198,6 +200,10 @@ class ProductFull extends Component {
           >
             <ProductSummary product={this.state.loadedProduct} />
           </FormHandlersContext.Provider>
+          <Notification
+            show={this.state.error}
+            onOpen={this.errorConfirmedHandler}
+          />
         </div>
       );
     }

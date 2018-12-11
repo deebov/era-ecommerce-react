@@ -5,6 +5,7 @@ import styles from './ProductsList.module.css';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import { withFirebase } from '../../components/Firebase';
 import { LISTS, ALL_PRODUCTS, CART, WISHLIST } from '../../constants/firebase';
+import Notification from '../../components/UI/Notification/Notification';
 
 class ProductsList extends Component {
   constructor(props) {
@@ -215,6 +216,10 @@ class ProductsList extends Component {
       );
   }
 
+  errorConfirmedHandler = () => {
+    this.setState({ error: false });
+  };
+
   render() {
     // render the Spinner initially
     let productsList = <Spinner />;
@@ -250,7 +255,16 @@ class ProductsList extends Component {
         </section>
       );
     }
-    return productsList;
+    return (
+      <div>
+        {productsList}
+        <Notification
+          show={this.state.error}
+          onOpen={this.errorConfirmedHandler}
+          options={{ type: 'fail' }}
+        />
+      </div>
+    );
   }
 }
 

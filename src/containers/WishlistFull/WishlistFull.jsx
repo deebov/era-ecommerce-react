@@ -5,6 +5,7 @@ import WishlistItems from '../../components/WishlistItems/WishlistItems';
 import { withFirebase } from '../../components/Firebase';
 import { WISHLIST, CART } from '../../constants/firebase';
 import ResponsiveWrapper from '../../components/UI/ResponsiveWrapper/ResponsiveWrapper';
+import Notification from '../../components/UI/Notification/Notification';
 
 class WishlistFull extends Component {
   state = {
@@ -12,7 +13,8 @@ class WishlistFull extends Component {
     cart: { _status: 'unfetched' },
     addingToCart: {},
     loading: false,
-    error: false
+    error: false,
+    errorConfirmed: false
   };
 
   async componentDidMount() {
@@ -30,15 +32,18 @@ class WishlistFull extends Component {
 
     this.setState({ loading: true });
     return new Promise(resolve => {
-      this.unsubcribeListener = wishlistRef.onSnapshot(querySnapshot => {
-        const items = [];
+      this.unsubcribeListener = wishlistRef.onSnapshot(
+        querySnapshot => {
+          const items = [];
 
-        querySnapshot.forEach(doc => {
-          items.push(doc.data());
-        });
-        this.setState({ wishlist: items, loading: false });
-        resolve();
-      });
+          querySnapshot.forEach(doc => {
+            items.push(doc.data());
+          });
+          this.setState({ wishlist: items, loading: false });
+          resolve();
+        },
+        e => this.setState({ error: true })
+      );
     });
   };
 
@@ -47,7 +52,10 @@ class WishlistFull extends Component {
     const wishlistRef = db.collection(WISHLIST);
     const wishlistDocRef = wishlistRef.doc(id);
 
-    wishlistDocRef.delete();
+    wishlistDocRef
+      .delete()
+      .then()
+      .catch(e => this.setState({ error: true }));
   };
 
   addToCartHandler = id => {
@@ -101,15 +109,22 @@ class WishlistFull extends Component {
     const db = this.props.firebase.db;
     const wishlistRef = db.collection(CART);
 
-    wishlistRef.get().then(querySnapshot => {
-      const items = {};
+    wishlistRef
+      .get()
+      .then(querySnapshot => {
+        const items = {};
 
-      querySnapshot.forEach(doc => {
-        items[doc.data().product.id] = doc.data();
-      });
+        querySnapshot.forEach(doc => {
+          items[doc.data().product.id] = doc.data();
+        });
 
-      this.setState({ cart: { ...items, _status: 'fetched' } });
-    });
+        this.setState({ cart: { ...items, _status: 'fetched' } });
+      })
+      .catch(e => this.setState({ error: true }));
+  };
+
+  errorConfirmedHandler = () => {
+    this.setState({ error: false });
   };
 
   render() {
@@ -123,6 +138,11 @@ class WishlistFull extends Component {
           cart={this.state.cart}
           addingToCart={this.state.addingToCart}
           addToCartClicked={this.addToCartHandler}
+        />
+        <Notification
+          show={this.state.error}
+          options={{ type: 'fail' }}
+          onOpen={this.errorConfirmedHandler}
         />
       </ResponsiveWrapper>
     );

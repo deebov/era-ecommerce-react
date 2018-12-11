@@ -4,6 +4,7 @@ import { Title, Summary, Items } from '../../components/Cart/Cart';
 import ResponsiveWrapper from '../../components/UI/ResponsiveWrapper/ResponsiveWrapper';
 import { withFirebase } from '../../components/Firebase/index';
 import { CART } from '../../constants/routes';
+import Notification from '../../components/UI/Notification/Notification';
 
 class CartFull extends Component {
   state = {
@@ -68,18 +69,21 @@ class CartFull extends Component {
 
     this.setState({ loading: true });
 
-    this.unsubcribeListener = cartRef.onSnapshot(querySnapshot => {
-      const newData = [];
-      querySnapshot.forEach(doc => {
-        newData.push(doc.data());
-      });
+    this.unsubcribeListener = cartRef.onSnapshot(
+      querySnapshot => {
+        const newData = [];
+        querySnapshot.forEach(doc => {
+          newData.push(doc.data());
+        });
 
-      this.setState({
-        cart: newData,
-        loading: false,
-        totalPrice: this.calcTotalPrice(newData)
-      });
-    });
+        this.setState({
+          cart: newData,
+          loading: false,
+          totalPrice: this.calcTotalPrice(newData)
+        });
+      },
+      e => this.setState({ error: false })
+    );
   };
 
   deleteItemHandler = id => {
@@ -88,8 +92,11 @@ class CartFull extends Component {
 
     cartDocRef
       .delete()
-      .then()
-      .catch(e => console.log('something went wrong', e));
+      .then(() => this.props.notify('Item has been deleted'))
+      .catch(e => {
+        this.props.notify(null, { type: 'fail' });
+        console.log('something went wrong', e);
+      });
   };
 
   calcTotalPrice = data => {
@@ -102,6 +109,10 @@ class CartFull extends Component {
     return data.map(e => {
       return { ...e, totalPrice: e.amount * e.product.price };
     });
+  };
+
+  errorConfirmedHandler = () => {
+    this.setState({ error: false });
   };
 
   render() {
@@ -119,6 +130,11 @@ class CartFull extends Component {
         <Summary
           totalPrice={this.state.totalPrice}
           disableCheckout={!this.state.cart.length}
+        />
+        <Notification
+          show={this.state.error}
+          options={{ type: 'fail' }}
+          onOpen={this.errorConfirmedHandler}
         />
       </ResponsiveWrapper>
     );
