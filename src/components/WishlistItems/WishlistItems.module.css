@@ -1,0 +1,95 @@
+.Container {
+  padding-top: 100px;
+}
+
+.Header {
+  font-size: 13px;
+  color: #bbb;
+  border: none !important;
+  border-bottom: 1px solid #eaeaea !important;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding-left: 0;
+  padding: 9px 12px;
+  padding-left: 0;
+  line-height: 1.5em;
+  text-align: left;
+}
+
+.Header:focus {
+  outline: none;
+}
+
+.ReactTable {
+  border: none;
+  border-bottom: 1px solid #eaeaea !important;
+}
+
+.Cell {
+  color: #222 !important;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 20px 0;
+  width: 100%;
+}
+
+.Title {
+  text-decoration: none;
+  color: #222;
+  position: relative;
+}
+
+.Title:hover,
+.Title:focus {
+  outline: none;
+  text-decoration: none;
+  color: #222;
+}
+
+.Title::before {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 1px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  opacity: 0;
+  bottom: -2px;
+  background-color: #bbb;
+  transition: all 0.5s;
+}
+
+.Title:hover::before {
+  opacity: 1;
+  background-color: #222;
+}
+
+.Cross {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.CrossIcon::before {
+  color: #999;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+
+.CrossIcon:hover::before {
+  color: #222;
+}
+
+.ThumbnailBox {
+  width: 80px;
+  height: 80px;
+  overflow: hidden;
+  position: relative;
+}
+
+.Thumbnail {
+  width: 100%;
+  height: 100%;
+}
