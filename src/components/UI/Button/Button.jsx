@@ -4,13 +4,14 @@ import styles from './Button.module.css';
 
 const Button = ({
   loading,
-  theme = 'small',
+  theme = 'white',
+  size = 'small',
   className,
   clicked,
   disabled,
   children
 }) => {
-  const classNames = [styles.Button, styles[theme], className];
+  const classNames = [styles.Button, styles[size], styles[theme], className];
 
   if (loading && !disabled) {
     classNames.push(styles.ButtonLoading);

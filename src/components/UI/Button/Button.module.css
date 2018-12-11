@@ -50,6 +50,19 @@
   opacity: 1;
 }
 
+.Button.white {
+  background-color: #fff;
+  border: 1px solid #000000;
+  color: #000000;
+  transition: all 0.5s;
+}
+
+.Button.white:hover,
+.Button.white:focus {
+  color: #fff;
+  background-color: #000;
+}
+
 .Button.small {
   font-size: 12px;
 }
