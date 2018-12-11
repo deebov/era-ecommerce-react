@@ -29,7 +29,7 @@ const WishlistButton = ({ saved, loading, clicked }) => {
           className={styles.Tooltip}
           effect="solid"
         >
-          <span>{saved ? 'View Wishlist' : 'Quick View'}</span>
+          <span>{saved ? 'View Wishlist' : 'Save'}</span>
         </ReactTooltip>
       </div>
     );
