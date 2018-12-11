@@ -48,9 +48,11 @@ class Header extends Component {
           <NavLinkItem url="/contact">Contact</NavLinkItem>
         </div>
         <div className={styles.IconBox}>
-          <Icon icon="magnifier" className={styles.Icon} fontSize={18} />
-          <Icon icon="user" className={styles.Icon} fontSize={18} />
-          <Icon icon="heart" className={styles.Icon} fontSize={18} />
+          <Icon icon="magnifier" className={styles.Icon} fontSize={19} />
+          <Icon icon="user" className={styles.Icon} fontSize={19} />
+          <Link to={ROUTES.WISHLIST} className={styles.Link}>
+            <Icon icon="heart" className={styles.Icon} fontSize={19} />
+          </Link>
           <Link to={ROUTES.CART} className={styles.Link}>
             <div className={styles.Cart}>
               {this.state.cartCount ? (
@@ -58,7 +60,7 @@ class Header extends Component {
                   {this.state.cartCount}
                 </span>
               ) : null}
-              <Icon icon="cart" className={styles.Icon} fontSize={18} />
+              <Icon icon="cart" className={styles.Icon} fontSize={19} />
             </div>
           </Link>
           <Icon icon="menu" className={styles.Icon} fontSize={18} />

@@ -53,7 +53,9 @@
   color: #fff;
 }
 
-.Link {
+.Link:link,
+.Link:visited {
+  color: #222;
   text-decoration: none;
 }
 
