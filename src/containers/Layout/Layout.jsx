@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import Header from '../../components/Header/Header';
-// import FooterWithCopyright from '../../components/FooterWithCopyright/FooterWithCopyright';
+import FooterWithCopyright from '../../components/FooterWithCopyright/FooterWithCopyright';
 
 class Layout extends Component {
   render() {
@@ -9,7 +9,7 @@ class Layout extends Component {
       <div>
         <Header cartCount={this.props.cartCount} />
         <main>{this.props.children}</main>
-        {/* <FooterWithCopyright /> */}
+        <FooterWithCopyright />
       </div>
     );
   }
