@@ -31,7 +31,7 @@ export const metaLinkGenerator = (obj, path) => {
     return (
       <Link
         to={`${path}${e.id}`}
-        alt={e.title}
+        title={e.title}
         key={e.id}
         className={styles.MetaLink}
       >
