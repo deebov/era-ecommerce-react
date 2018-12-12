@@ -9,6 +9,10 @@ import ResponsiveWrapper from '../../components/UI/ResponsiveWrapper/ResponsiveW
 import Notification from '../../components/UI/Notification/Notification';
 
 class WishlistPage extends Component {
+  // _isMounted is needed for checking the component's status
+  // this prevents calling setState on unMounted component 
+  _isMounted = false;
+
   state = {
     wishlist: [],
     cart: { _status: 'unfetched' },
@@ -19,12 +23,15 @@ class WishlistPage extends Component {
   };
 
   async componentDidMount() {
+    this._isMounted = true;
+
     await this.listenForWishlist();
     this.loadCart();
-    document.title = 'wishlist'
+    document.title = 'wishlist';
   }
 
   componentWillUnmount() {
+    this._isMounted = false;
     this.unsubcribeListener();
   }
 
@@ -41,7 +48,9 @@ class WishlistPage extends Component {
           querySnapshot.forEach(doc => {
             items.push(doc.data());
           });
-          this.setState({ wishlist: items, loading: false });
+          if (this._isMounted) {
+            this.setState({ wishlist: items, loading: false });
+          }
           resolve();
         },
         e => this.setState({ error: true })
@@ -90,12 +99,13 @@ class WishlistPage extends Component {
         updated: false
       })
       .then(() => {
+        if (this._isMounted) {
         this.setState((state, props) => {
           return {
             cart: { ...state.cart, [id]: true },
             addingToCart: { ...state.addingToCart, [id]: false }
           };
-        });
+        });}
       })
       .catch(e => {
         this.setState((state, props) => {
@@ -119,8 +129,9 @@ class WishlistPage extends Component {
         querySnapshot.forEach(doc => {
           items[doc.data().product.id] = doc.data();
         });
-
-        this.setState({ cart: { ...items, _status: 'fetched' } });
+        if (this._isMounted) {
+          this.setState({ cart: { ...items, _status: 'fetched' } });
+        }
       })
       .catch(e => this.setState({ error: true }));
   };

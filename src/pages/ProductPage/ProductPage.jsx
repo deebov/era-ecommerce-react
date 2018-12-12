@@ -13,7 +13,10 @@ export const FormHandlersContext = React.createContext({});
 
 class ProductPage extends Component {
   _wishlistStatus = 'unfetched';
-
+  // _isMounted is needed for checking the component's status
+  // this prevents calling setState on unMounted component
+  _isMounted = false;
+  
   state = {
     loadedProduct: null,
     title: 'Untitled',
@@ -26,11 +29,13 @@ class ProductPage extends Component {
   };
 
   async componentDidMount() {
+    this._isMounted = true;
     await this.loadData();
     this.listenWishlist();
   }
 
   componentWillUnmount() {
+    this._isMounted = false;
     this.unsubcribeListener();
   }
   // This is an initial listener. This is needed
@@ -138,7 +143,9 @@ class ProductPage extends Component {
 
     this.unsubcribeListener = wishlistDocRef.onSnapshot(
       querySnapshot => {
-        this.setState({ inWishlist: querySnapshot.exists });
+        if (this._isMounted) {
+          this.setState({ inWishlist: querySnapshot.exists });
+        }
         this._wishlistStatus = 'fetched';
       },
       e => this.setState({ error: true })
@@ -172,12 +179,13 @@ class ProductPage extends Component {
         if (!doc.exists) {
           this.setState({ error: 'NOT_FOUND', loading: false });
         }
-
-        this.setState({
-          loadedProduct: doc.data(),
-          title: doc.data().title,
-          loading: false
-        });
+        if (this._isMounted) {
+          this.setState({
+            loadedProduct: doc.data(),
+            title: doc.data().title,
+            loading: false
+          });
+        }
       })
       .catch(e => this.setState({ error: true }));
   };

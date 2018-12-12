@@ -8,28 +8,20 @@ import { LISTS, ALL_PRODUCTS, CART, WISHLIST } from '../../constants/firebase';
 import Notification from '../../components/UI/Notification/Notification';
 
 class ProductsList extends Component {
-  constructor(props) {
-    super(props);
+  // _isMounted is needed for checking the component's status
+  // this prevents calling setState on unMounted component
+  _isMounted = false;
 
-    this.state = {
-      products: null,
-      listID: null,
-      cart: { _status: 'unfetched' },
-      wishlist: { _status: 'unfetched' },
-      loading: false,
-      addingToCart: {},
-      togglingWishlist: {},
-      error: false
-    };
-
-    this._isMounted = false;
-
-    this.loadData = this.loadData.bind(this);
-    this.addToCartHandler = this.addToCartHandler.bind(this);
-    this.toggleWishlistHandler = this.toggleWishlistHandler.bind(this);
-    this.loadWishlist = this.loadWishlist.bind(this);
-    this.loadCart = this.loadCart.bind(this);
-  }
+  state = {
+    products: null,
+    listID: null,
+    cart: { _status: 'unfetched' },
+    wishlist: { _status: 'unfetched' },
+    loading: false,
+    addingToCart: {},
+    togglingWishlist: {},
+    error: false
+  };
 
   async componentDidMount() {
     this._isMounted = true;
@@ -43,7 +35,7 @@ class ProductsList extends Component {
     this._isMounted = false;
   }
 
-  addToCartHandler(e, item) {
+  addToCartHandler = (e, item) => {
     e.preventDefault();
     if (this.state.cart._status === 'unfetched') {
       return;
@@ -72,24 +64,30 @@ class ProductsList extends Component {
         updated: false
       })
       .then(() =>
-        this.setState((state, props) => {
-          return {
-            addingToCart: { ...state.addingToCart, [id]: false },
-            cart: { ...state.cart, [item.id]: true }
-          };
-        })
+        // checking components's status
+        this._isMounted
+          ? this.setState((state, props) => {
+              return {
+                addingToCart: { ...state.addingToCart, [id]: false },
+                cart: { ...state.cart, [item.id]: true }
+              };
+            })
+          : null
       )
       .catch(e =>
-        this.setState((state, props) => {
-          return {
-            error: true,
-            addingToCart: { ...state.addingToCart, [id]: false }
-          };
-        })
+        // checking components's status
+        this._isMounted
+          ? this.setState((state, props) => {
+              return {
+                error: true,
+                addingToCart: { ...state.addingToCart, [id]: false }
+              };
+            })
+          : null
       );
-  }
+  };
 
-  loadData() {
+  loadData = () => {
     // Return nothing if the ID is not valid
     const ID = this.props.id;
 
@@ -128,16 +126,18 @@ class ProductsList extends Component {
       })
       .then(value => {
         const products = value.map(e => e.data());
+        // checking components's status
         if (this._isMounted) {
           this.setState({ products, listID: ID, loading: false });
         }
       })
-      .catch(e => {
-        this.setState({ error: true, loading: false });
-      });
-  }
+      .catch(e =>
+        // checking components's status
+        this._isMounted ? this.setState({ error: true, loading: false }) : null
+      );
+  };
 
-  loadWishlist() {
+  loadWishlist = () => {
     const db = this.props.firebase.db;
     const wishlistRef = db.collection(WISHLIST);
 
@@ -146,11 +146,14 @@ class ProductsList extends Component {
       querySnapshot.forEach(doc => {
         items[doc.data().id] = true;
       });
-      this.setState({ wishlist: items });
+      // checking components's status
+      if (this._isMounted) {
+        this.setState({ wishlist: items });
+      }
     });
-  }
+  };
 
-  loadCart() {
+  loadCart = () => {
     const db = this.props.firebase.db;
     const wishlistRef = db.collection(CART);
 
@@ -159,11 +162,14 @@ class ProductsList extends Component {
       querySnapshot.forEach(doc => {
         items[doc.data().product.id] = true;
       });
-      this.setState({ cart: items });
+      // checking components's status
+      if (this._isMounted) {
+        this.setState({ cart: items });
+      }
     });
-  }
+  };
 
-  toggleWishlistHandler(item) {
+  toggleWishlistHandler = item => {
     // Stop executing if the wishlist is not loaded from the database
     if (this.state.wishlist._status === 'unfetched') {
       return;
@@ -198,23 +204,29 @@ class ProductsList extends Component {
     }
 
     res
-      .then(() => {
-        this.setState((state, props) => {
-          return {
-            wishlist: { ...state.wishlist, [id]: !state.wishlist[id] },
-            togglingWishlist: { ...state.togglingWishlist, [id]: false }
-          };
-        });
-      })
+      .then(() =>
+        // checking components's status
+        this._isMounted
+          ? this.setState((state, props) => {
+              return {
+                wishlist: { ...state.wishlist, [id]: !state.wishlist[id] },
+                togglingWishlist: { ...state.togglingWishlist, [id]: false }
+              };
+            })
+          : null
+      )
       .catch(e =>
-        this.setState((state, props) => {
-          return {
-            error: true,
-            togglingWishlist: { ...state.togglingWishlist, [id]: false }
-          };
-        })
+        // checking components's status
+        this._isMounted
+          ? this.setState((state, props) => {
+              return {
+                error: true,
+                togglingWishlist: { ...state.togglingWishlist, [id]: false }
+              };
+            })
+          : null
       );
-  }
+  };
 
   errorConfirmedHandler = () => {
     this.setState({ error: false });

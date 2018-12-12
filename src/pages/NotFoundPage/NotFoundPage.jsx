@@ -3,8 +3,9 @@ import { Redirect, withRouter } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 
 import { NOT_FOUND } from '../../constants/routes';
+import NotFound from '../../components/NotFound/NotFound';
 
-class NotFound extends Component {
+class NotFoundPage extends Component {
   render() {
     const titleText = 'Page Not Found 🤦🏻‍';
     return (
@@ -12,13 +13,15 @@ class NotFound extends Component {
         <Helmet>
           <title>{titleText}</title>
         </Helmet>
+
         {this.props.location.pathname !== NOT_FOUND ? (
           <Redirect to={NOT_FOUND} />
         ) : null}
-        <h1>Not Found</h1>
+
+        <NotFound />
       </div>
     );
   }
 }
 
-export default withRouter(NotFound);
+export default withRouter(NotFoundPage);
