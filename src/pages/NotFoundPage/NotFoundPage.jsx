@@ -6,10 +6,11 @@ import { NOT_FOUND } from '../../constants/routes';
 
 class NotFound extends Component {
   render() {
+    const titleText = 'Page Not Found 🤦🏻‍';
     return (
       <div>
         <Helmet>
-          <title>Page Not Found 🤦🏻‍ </title>
+          <title>{titleText}</title>
         </Helmet>
         {this.props.location.pathname !== NOT_FOUND ? (
           <Redirect to={NOT_FOUND} />

@@ -21,6 +21,7 @@ class WishlistPage extends Component {
   async componentDidMount() {
     await this.listenForWishlist();
     this.loadCart();
+    document.title = 'wishlist'
   }
 
   componentWillUnmount() {
@@ -129,10 +130,11 @@ class WishlistPage extends Component {
   };
 
   render() {
+    const titleText = 'Your Wishlist ❤️';
     return (
       <ResponsiveWrapper loading={this.state.loading}>
         <Helmet>
-          <title> Your Wishlist ❤️</title>
+          <title>{titleText}</title>
         </Helmet>
         <CartTitle>Wishlist</CartTitle>
         <WishlistItems

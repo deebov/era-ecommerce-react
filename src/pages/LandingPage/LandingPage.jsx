@@ -14,10 +14,11 @@ class LandingPage extends Component {
   };
 
   render() {
+    const titleText = `Welcome 🖖`;
     return (
       <div>
         <Helmet>
-          <title>Welcome 🖖</title>
+          <title>{titleText}</title>
         </Helmet>
         <ProductsListWithTabs lists={this.state.productLists} />
       </div>

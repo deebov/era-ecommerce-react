@@ -117,10 +117,11 @@ class CartFull extends Component {
   };
 
   render() {
+    const titleText = 'Your Cart 🛒';
     return (
       <ResponsiveWrapper loading={this.state.loading}>
         <Helmet>
-          <title>Your Cart 🛒</title>
+          <title>{titleText}</title>
         </Helmet>
         <Title>Cart</Title>
         <Items
