@@ -43,10 +43,6 @@ function Slide(images) {
 }
 
 export default class SimpleSlider extends Component {
-  shouldComponentUpdate(nextProps, nextState) {
-    return nextProps.images !== this.props.images;
-  }
-
   render() {
     const settings = {
       infinite: false,
