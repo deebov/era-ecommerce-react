@@ -16,6 +16,14 @@ import WishlistPage from '../../pages/WishlistPage/WishlistPage';
 import ProductPage from '../../pages/ProductPage/ProductPage';
 import NotFoundPage from '../../pages/NotFoundPage/NotFoundPage';
 
+/**
+ * TODO
+ * react-helmet doesn't render the title in the 
+ * new tab till you switch to it. this is a bug 
+ * from react-helmet. if they don't fix the bug 
+ * switch to the react-document-title from Dan Abramov
+ */
+
 class App extends Component {
   render() {
     return (
