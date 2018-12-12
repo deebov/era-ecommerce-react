@@ -4,7 +4,7 @@ import Counter from '../../UI/Counter/Counter';
 import Button from '../../UI/Button/Button';
 import WishlistButton from '../WishlistButton/WishlistButton';
 import styles from './Buttons.module.css';
-import { FormHandlersContext } from '../../../containers/ProductFull/ProductFull';
+import { FormHandlersContext } from '../../../pages/ProductPage/ProductPage';
 
 const Buttons = props => {
   return (
