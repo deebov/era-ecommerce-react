@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Helmet } from 'react-helmet';
 
 import { Title, Summary, Items } from '../../components/Cart/Cart';
 import ResponsiveWrapper from '../../components/UI/ResponsiveWrapper/ResponsiveWrapper';
@@ -118,6 +119,9 @@ class CartFull extends Component {
   render() {
     return (
       <ResponsiveWrapper loading={this.state.loading}>
+        <Helmet>
+          <title>Cart</title>
+        </Helmet>
         <Title>Cart</Title>
         <Items
           data={this.state.cart}

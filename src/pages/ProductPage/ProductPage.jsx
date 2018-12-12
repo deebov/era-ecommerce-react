@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
 import ProductSummary from '../../components/ProductSummary/ProductSummary';
 import Spinner from '../../components/UI/Spinner/Spinner';
@@ -10,11 +11,12 @@ import { NOT_FOUND } from '../../constants/routes';
 
 export const FormHandlersContext = React.createContext({});
 
-class ProductFull extends Component {
+class ProductPage extends Component {
   _wishlistStatus = 'unfetched';
 
   state = {
     loadedProduct: null,
+    title: 'Untitled',
     counter: 1,
     addingToCart: false,
     inWishlist: false,
@@ -31,6 +33,9 @@ class ProductFull extends Component {
   componentWillUnmount() {
     this.unsubcribeListener();
   }
+  // This is an initial listener. This is needed
+  // when Component will be unmounted before listener is called
+  unsubcribeListener = () => {};
 
   incCounterHandler = () => {
     // Do not change the state if the counter is invalid
@@ -161,12 +166,20 @@ class ProductFull extends Component {
     const db = this.props.firebase.db;
     const productDocRef = db.collection(ALL_PRODUCTS).doc(ID);
 
-    return productDocRef.get().then(doc => {
-      if (!doc.exists) {
-        this.setState({ error: 'NOT FOUND', loading: false });
-      }
-      this.setState({ loadedProduct: doc.data(), loading: false });
-    });
+    return productDocRef
+      .get()
+      .then(doc => {
+        if (!doc.exists) {
+          this.setState({ error: 'NOT_FOUND', loading: false });
+        }
+
+        this.setState({
+          loadedProduct: doc.data(),
+          title: doc.data().title,
+          loading: false
+        });
+      })
+      .catch(e => this.setState({ error: true }));
   };
 
   errorConfirmedHandler = () => {
@@ -179,9 +192,6 @@ class ProductFull extends Component {
     if (this.state.loadedProduct) {
       summary = (
         <div>
-          {this.state.error === 'NOT FOUND' ? (
-            <Redirect to={NOT_FOUND} />
-          ) : null}
           <FormHandlersContext.Provider
             value={{
               incClicked: this.incCounterHandler,
@@ -207,8 +217,16 @@ class ProductFull extends Component {
         </div>
       );
     }
-    return summary;
+    return (
+      <div>
+        <Helmet>
+          <title>{this.state.loading ? 'Loading...' : this.state.title}</title>
+        </Helmet>
+        {summary}
+        {this.state.error === 'NOT_FOUND' ? <Redirect to={NOT_FOUND} /> : null}
+      </div>
+    );
   }
 }
 
-export default withFirebase(ProductFull);
+export default withFirebase(ProductPage);

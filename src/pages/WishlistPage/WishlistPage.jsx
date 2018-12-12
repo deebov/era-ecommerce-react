@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Helmet } from 'react-helmet';
 
 import { Title as CartTitle } from '../../components/Cart/Title/Title';
 import WishlistItems from '../../components/WishlistItems/WishlistItems';
@@ -7,7 +8,7 @@ import { WISHLIST, CART } from '../../constants/firebase';
 import ResponsiveWrapper from '../../components/UI/ResponsiveWrapper/ResponsiveWrapper';
 import Notification from '../../components/UI/Notification/Notification';
 
-class WishlistFull extends Component {
+class WishlistPage extends Component {
   state = {
     wishlist: [],
     cart: { _status: 'unfetched' },
@@ -130,6 +131,9 @@ class WishlistFull extends Component {
   render() {
     return (
       <ResponsiveWrapper loading={this.state.loading}>
+        <Helmet>
+          <title>Wishlist</title>
+        </Helmet>
         <CartTitle>Wishlist</CartTitle>
         <WishlistItems
           data={this.state.wishlist}
@@ -149,4 +153,4 @@ class WishlistFull extends Component {
   }
 }
 
-export default withFirebase(WishlistFull);
+export default withFirebase(WishlistPage);
