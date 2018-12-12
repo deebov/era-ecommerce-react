@@ -3,7 +3,7 @@ import React from 'react';
 import Logo from '../UI/Logo/Logo';
 import styles from './Copyright.module.css';
 import LinkItem from '../UI/LinkItem/LinkItem';
-import { getClassName } from '../../containers/ResponsiveWrapper/ResponsiveWrapper';
+import { getClassName } from '../../components/UI/ResponsiveWrapper/ResponsiveWrapper';
 
 /**
  * TODO
@@ -12,7 +12,7 @@ import { getClassName } from '../../containers/ResponsiveWrapper/ResponsiveWrapp
 
 const Copyright = () => {
   return (
-    <div className={styles.Footer}>
+    <div className={styles.Copyright}>
       <div className={styles.Container + ` ${getClassName()}`}>
         <div className={styles.InnerContainer}>
           &copy; 2018
