@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-
-import Icon from '../UI/Icon/Icon';
-import styles from './Header.module.css';
-import NavLinkItem from '../UI/NavLinkItem/NavLinkItem';
-import Logo from '../UI/Logo/Logo';
+// Constants
 import * as ROUTES from '../../constants/routes';
 import { CART } from '../../constants/firebase';
+// Styles
+import styles from './Header.module.css';
+// Components
+import Icon from '../UI/Icon/Icon';
+import NavLinkItem from '../UI/NavLinkItem/NavLinkItem';
+import Logo from '../UI/Logo/Logo';
 import { withFirebase } from '../Firebase';
 
 class Header extends Component {
