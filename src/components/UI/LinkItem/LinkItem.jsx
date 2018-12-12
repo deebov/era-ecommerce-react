@@ -10,6 +10,7 @@ const LinkItem = props => {
         to={url}
         exact={exact}
         className={styles.Link}
+        title={props.title}
       >
         {props.children}
       </Link>
