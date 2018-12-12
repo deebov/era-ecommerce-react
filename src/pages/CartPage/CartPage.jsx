@@ -47,7 +47,11 @@ class CartFull extends Component {
       const val = +e.target.value;
       if (val >= 0) {
         updatedCounter = Math.abs(val);
-        updatedTotalPrice = val * oldItem.product.price;
+        updatedTotalPrice = updatedCounter * oldItem.product.price;
+      }
+      if (val > 600) {
+        updatedCounter = 600;
+        updatedTotalPrice = updatedCounter * oldItem.product.price;
       }
     }
 
@@ -93,10 +97,9 @@ class CartFull extends Component {
 
     cartDocRef
       .delete()
-      .then(() => this.props.notify('Item has been deleted'))
+      .then()
       .catch(e => {
-        this.props.notify(null, { type: 'fail' });
-        console.log('something went wrong', e);
+        this.setState({ error: true });
       });
   };
 
