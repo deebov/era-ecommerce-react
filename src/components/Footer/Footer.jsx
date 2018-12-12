@@ -2,12 +2,12 @@ import React from 'react';
 
 import styles from './Footer.module.css';
 import Column from './Column/Column';
-import Grid from '../UI/Grid/Grid';
+import { getClassName } from '../UI/ResponsiveWrapper/ResponsiveWrapper';
 
-/** 
+/**
  * TODO
  * Implement select elements
-*/
+ */
 
 const Footer = () => {
   const columns = [
@@ -97,9 +97,7 @@ const Footer = () => {
     return <Column title={e.title} links={e.links} key={i} />;
   });
   return (
-    <div className={styles.Footer}>
-      <Grid elements={cols} lg={2} md={2} sm={6} xs={12} />
-    </div>
+    <div className={[styles.Footer, getClassName()].join(' ')}>{cols}</div>
   );
 };
 
