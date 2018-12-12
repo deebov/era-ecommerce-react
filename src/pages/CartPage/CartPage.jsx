@@ -120,7 +120,7 @@ class CartFull extends Component {
     return (
       <ResponsiveWrapper loading={this.state.loading}>
         <Helmet>
-          <title>Cart</title>
+          <title>Your Cart 🛒</title>
         </Helmet>
         <Title>Cart</Title>
         <Items

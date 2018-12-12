@@ -17,7 +17,7 @@ class LandingPage extends Component {
     return (
       <div>
         <Helmet>
-          <title>Welcome</title>
+          <title>Welcome 🖖</title>
         </Helmet>
         <ProductsListWithTabs lists={this.state.productLists} />
       </div>

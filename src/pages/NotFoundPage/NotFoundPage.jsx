@@ -9,7 +9,7 @@ class NotFound extends Component {
     return (
       <div>
         <Helmet>
-          <title>Page Not Found</title>
+          <title>Page Not Found 🤦🏻‍ </title>
         </Helmet>
         {this.props.location.pathname !== NOT_FOUND ? (
           <Redirect to={NOT_FOUND} />

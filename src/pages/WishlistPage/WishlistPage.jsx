@@ -132,7 +132,7 @@ class WishlistPage extends Component {
     return (
       <ResponsiveWrapper loading={this.state.loading}>
         <Helmet>
-          <title>Wishlist</title>
+          <title> Your Wishlist ❤️</title>
         </Helmet>
         <CartTitle>Wishlist</CartTitle>
         <WishlistItems
