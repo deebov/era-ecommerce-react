@@ -9,6 +9,7 @@ import 'react-toastify/dist/ReactToastify.min.css';
 import * as ROUTES from '../../constants/routes';
 import { withFirebase } from '../Firebase/index';
 import Layout from '../../containers/Layout/Layout';
+import Auth from '../../containers/Auth/Auth';
 import * as actions from '../../store/actions/';
 
 // Import Pages
@@ -45,6 +46,7 @@ class App extends Component {
           defaultTitle="ERA by deebov"
           titleTemplate="%s | ERA by deebov"
         />
+      <Auth />
         <Layout>
           <Switch>
             <Route path={ROUTES.LANDING} exact component={LandingPage} />
