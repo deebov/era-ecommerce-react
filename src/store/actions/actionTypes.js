@@ -50,8 +50,15 @@ export const FETCH_LIST_SUCCESS = 'FETCH_LIST_SUCCESS';
 
 /* LIST [END] */
 
+/* AUTH [START] */
+
+export const SWITCH_SHOW_AUTH = 'SWITCH_SHOW_AUTH';
+
+/* AUTH [END] */
+
 /* ERROR [START] */
 
 export const ADD_ERROR = 'ADD_ERROR';
 export const REMOVE_ERROR = 'REMOVE_ERROR';
+
 /* ERROR [END] */
