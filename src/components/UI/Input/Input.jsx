@@ -2,23 +2,68 @@ import React from 'react';
 
 import styles from './Input.module.css';
 
-const Input = ({ onChange, valid, value, touched, placeholder, name }) => {
-  const classNames = [styles.Input];
+const Input = props => {
+  let inputElement = null;
+  const inputClasses = [styles.Input];
 
-  if (!valid && touched) {
-    classNames.push(styles.InputInvalid);
+  if (props.invalid && props.shouldValidate && props.touched) {
+    inputClasses.push(styles.InputInvalid);
+  }
+
+  switch (props.inputType) {
+    case 'input':
+      inputElement = (
+        <input
+          className={inputClasses.join(' ')}
+          {...props.elementConfig}
+          value={props.value}
+          onChange={props.changed}
+        />
+      );
+      break;
+    case 'textarea':
+      inputElement = (
+        <textarea
+          className={inputClasses.join(' ')}
+          {...props.elementConfig}
+          value={props.value}
+          onChange={props.changed}
+        />
+      );
+      break;
+    case 'select':
+      inputElement = (
+        <select
+          className={styles.SelectElement}
+          value={props.value}
+          onChange={props.changed}
+        >
+          {props.elementConfig.options.map((e, idx) => {
+            return (
+              <option key={idx} value={e.value}>
+                {e.displayValue}
+              </option>
+            );
+          })}
+        </select>
+      );
+      break;
+    default:
+      inputElement = (
+        <input
+          className={inputClasses.join(' ')}
+          {...props.elementConfig}
+          value={props.value}
+          onChange={props.changed}
+        />
+      );
+      break;
   }
 
   return (
     <div className={styles.Container}>
-      <input
-        className={classNames.join(' ')}
-        type="text"
-        value={value}
-        onChange={onChange}
-        placeholder={placeholder}
-        name={name}
-      />
+      <label className={styles.Label}>{props.label}</label>
+      {inputElement}
     </div>
   );
 };
