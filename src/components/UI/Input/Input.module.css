@@ -1,0 +1,27 @@
+.Input {
+  width: 100%;
+  padding: 10px 20px;
+  margin: 0;
+  outline: none;
+  box-sizing: border-box;
+  background-color: transparent;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  color: #000;
+  font-size: 16px;
+  height: 48px;
+  line-height: 48px;
+  transition: border 0.5s;
+  font: inherit;
+}
+
+.Input:focus {
+  border-color: #000;
+}
+
+.Input::placeholder {
+  color: #bbb;
+}
+
+.InputInvalid {
+  border-color: rgb(207, 72, 72) !important;
+}
