@@ -1,0 +1,50 @@
+.Container {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  background-color: #fff;
+  z-index: 999;
+  overflow-y: auto;
+  display: flex;
+  justify-content: center;
+}
+
+.ContainerInner {
+  margin-top: 150px;
+  width: 370px;
+}
+
+.TabList {
+  list-style-type: none;
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: center;
+  box-sizing: border-box;
+  margin-bottom: 85px;
+}
+
+.Tab {
+  font-family: 'Cerebri Sans Bold', -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue',
+    sans-serif;
+  font-size: 24px;
+  padding: 0 32px;
+  color: #bbb;
+  transition: all 0.3s ease-out;
+  cursor: pointer;
+}
+
+.TabActive {
+  color: #222222;
+  outline: none;
+}
+
+.Form {
+  display: flex;
+  flex-direction: column;
+}
+
+.FormElements {
+  margin-bottom: 15px;
+}
