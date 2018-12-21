@@ -1,18 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 
 import './index.css';
 import App from './components/App/App';
 import * as serviceWorker from './serviceWorker';
 import Firebase, { FirebaseContext } from './components/Firebase/index';
+import store from './store/store';
 
 const app = (
-  <FirebaseContext.Provider value={new Firebase()}>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </FirebaseContext.Provider>
+  <Provider store={store}>
+    <FirebaseContext.Provider value={Firebase}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </FirebaseContext.Provider>
+  </Provider>
 );
 
 ReactDOM.render(app, document.getElementById('root'));

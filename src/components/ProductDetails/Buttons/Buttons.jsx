@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import Counter from '../../UI/Counter/Counter';
 import Button from '../../UI/Button/Button';
@@ -11,18 +12,15 @@ const Buttons = props => {
     <form action="">
       <FormHandlersContext.Consumer>
         {({
+          id,
           incClicked,
           decClicked,
           onChange,
           onBlur,
           onSubmit,
           count,
-          max,
           onSale,
-          fetching,
-          addToWishlistClicked,
-          addingToWishlist,
-          inWishlist
+          addToWishlistClicked
         }) => (
           <div className={styles.Buttons}>
             <Counter
@@ -31,20 +29,19 @@ const Buttons = props => {
               onChange={onChange}
               onBlur={onBlur}
               value={count}
-              max={max}
             />
             <Button
               theme="big"
               clicked={onSubmit}
               disabled={!onSale}
-              loading={fetching}
+              loading={props.isAddingToCart[id]}
             >
               add to cart
             </Button>
             <WishlistButton
               clicked={addToWishlistClicked}
-              saved={inWishlist}
-              loading={addingToWishlist}
+              saved={props.wishlist.hasOwnProperty(id)}
+              loading={props.isAddingToWishlist[id]}
             />
           </div>
         )}
@@ -53,4 +50,12 @@ const Buttons = props => {
   );
 };
 
-export default Buttons;
+const mapStateToProps = state => {
+  return {
+    wishlist: state.wishlist.wishlist,
+    isAddingToCart: state.cart.isAddingToCart,
+    isAddingToWishlist: state.wishlist.isAddingToWishlist
+  };
+};
+
+export default connect(mapStateToProps)(Buttons);

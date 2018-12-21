@@ -1,265 +1,92 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import ProductThumb from '../../components/ProductThumb/ProductThumb';
 import styles from './ProductsList.module.css';
 import Spinner from '../../components/UI/Spinner/Spinner';
-import { withFirebase } from '../../components/Firebase';
-import { LISTS, ALL_PRODUCTS, CART, WISHLIST } from '../../constants/firebase';
-import Notification from '../../components/UI/Notification/Notification';
+import * as actions from '../../store/actions';
 
 class ProductsList extends Component {
-  // _isMounted is needed for checking the component's status
-  // this prevents calling setState on unMounted component
-  _isMounted = false;
-
   state = {
-    products: null,
-    listID: null,
-    cart: { _status: 'unfetched' },
-    wishlist: { _status: 'unfetched' },
     loading: false,
-    addingToCart: {},
-    togglingWishlist: {},
     error: false
   };
 
-  async componentDidMount() {
-    this._isMounted = true;
-
-    await this.loadData();
-    this.loadWishlist();
-    this.loadCart();
-  }
-
-  componentWillUnmount() {
-    this._isMounted = false;
+  componentDidMount() {
+    this.props.onFetchList(this.props.id);
   }
 
   addToCartHandler = (e, item) => {
     e.preventDefault();
-    if (this.state.cart._status === 'unfetched') {
-      return;
-    }
     const { id, title, thumbnails, price } = item;
 
-    this.setState((state, props) => {
-      return {
-        addingToCart: { ...state.addingToCart, [id]: true }
-      };
-    });
-
-    const db = this.props.firebase.db;
-    const cartRef = db.collection(CART);
-    const cartDocRef = cartRef.doc(id);
-
-    cartDocRef
-      .set({
-        amount: 1,
-        product: {
-          id,
-          price,
-          title,
-          thumbnail: thumbnails[0]
-        },
-        updated: false
-      })
-      .then(() =>
-        // checking components's status
-        this._isMounted
-          ? this.setState((state, props) => {
-              return {
-                addingToCart: { ...state.addingToCart, [id]: false },
-                cart: { ...state.cart, [item.id]: true }
-              };
-            })
-          : null
-      )
-      .catch(e =>
-        // checking components's status
-        this._isMounted
-          ? this.setState((state, props) => {
-              return {
-                error: true,
-                addingToCart: { ...state.addingToCart, [id]: false }
-              };
-            })
-          : null
-      );
-  };
-
-  loadData = () => {
-    // Return nothing if the ID is not valid
-    const ID = this.props.id;
-
-    if (!ID) {
-      // Return nothing if product is loaded or
-      // the IDs is same
-      if (
-        this.state.listID ||
-        (this.state.listID && ID === this.state.listID)
-      ) {
-        return;
-      }
-      return;
-    }
-
-    const db = this.props.firebase.db;
-    const listDocRef = db.collection(LISTS).doc(ID);
-    const allProductsRef = db.collection(ALL_PRODUCTS);
-
-    this.setState({ loading: true });
-
-    return listDocRef
-      .get()
-      .then(doc => {
-        if (!doc.exists) {
-          this.setState({ error: 'LIST', loading: false });
-        }
-        return doc.data();
-      })
-      .then(list => {
-        const IDs = Object.keys(list);
-        const promises = IDs.map(ID => {
-          return allProductsRef.doc(ID).get();
-        });
-        return Promise.all(promises);
-      })
-      .then(value => {
-        const products = value.map(e => e.data());
-        // checking components's status
-        if (this._isMounted) {
-          this.setState({ products, listID: ID, loading: false });
-        }
-      })
-      .catch(e =>
-        // checking components's status
-        this._isMounted ? this.setState({ error: true, loading: false }) : null
-      );
-  };
-
-  loadWishlist = () => {
-    const db = this.props.firebase.db;
-    const wishlistRef = db.collection(WISHLIST);
-
-    wishlistRef.get().then(querySnapshot => {
-      const items = {};
-      querySnapshot.forEach(doc => {
-        items[doc.data().id] = true;
-      });
-      // checking components's status
-      if (this._isMounted) {
-        this.setState({ wishlist: items });
-      }
-    });
-  };
-
-  loadCart = () => {
-    const db = this.props.firebase.db;
-    const wishlistRef = db.collection(CART);
-
-    wishlistRef.get().then(querySnapshot => {
-      const items = {};
-      querySnapshot.forEach(doc => {
-        items[doc.data().product.id] = true;
-      });
-      // checking components's status
-      if (this._isMounted) {
-        this.setState({ cart: items });
-      }
+    this.props.onAddToCart({
+      amount: 1,
+      product: {
+        id,
+        price,
+        title,
+        thumbnail: thumbnails[0]
+      },
+      updated: false
     });
   };
 
   toggleWishlistHandler = item => {
-    // Stop executing if the wishlist is not loaded from the database
-    if (this.state.wishlist._status === 'unfetched') {
-      return;
-    }
-
     const { id, title, price, thumbnail } = item;
 
-    const db = this.props.firebase.db;
-    const wishlistRef = db.collection(WISHLIST);
-    const wishlistDocRef = wishlistRef.doc(id);
+    if (this.props.wishlist.hasOwnProperty(id)) {
+      console.log('dele');
 
-    // Set this true in order to components can show the Spinner
-    this.setState((state, props) => {
-      return {
-        togglingWishlist: { ...state.togglingWishlist, [id]: true }
-      };
-    });
-
-    let res = null;
-
-    if (this.state.wishlist[id]) {
       // Delete if it is in wishlist
-      res = wishlistDocRef.delete();
+      this.props.onRemoveFromWishlist(id);
     } else {
+      console.log('add');
       // Add if it is not in wishlist
-      res = wishlistDocRef.set({
+      this.props.onAddToWishlist({
         id,
         title,
         price,
         thumbnail
       });
     }
-
-    res
-      .then(() =>
-        // checking components's status
-        this._isMounted
-          ? this.setState((state, props) => {
-              return {
-                wishlist: { ...state.wishlist, [id]: !state.wishlist[id] },
-                togglingWishlist: { ...state.togglingWishlist, [id]: false }
-              };
-            })
-          : null
-      )
-      .catch(e =>
-        // checking components's status
-        this._isMounted
-          ? this.setState((state, props) => {
-              return {
-                error: true,
-                togglingWishlist: { ...state.togglingWishlist, [id]: false }
-              };
-            })
-          : null
-      );
-  };
-
-  errorConfirmedHandler = () => {
-    this.setState({ error: false });
   };
 
   render() {
+    const ID = this.props.id;
     // render the Spinner initially
     let productsList = <Spinner />;
-
     // render the real component if
     // products are received and valid
-    if (this.state.products) {
-      // const listsKeysArray = Object.keys
-      const products = this.state.products.map(p => (
-        <div className={styles.Column} key={p.id}>
-          <ProductThumb
-            item={p}
-            onAddToCart={e => this.addToCartHandler(e, p)}
-            addingToCart={this.state.addingToCart[p.id]}
-            inCart={this.state.cart[p.id]}
-            toggleWishlist={() =>
-              this.toggleWishlistHandler({
-                id: p.id,
-                title: p.title,
-                price: p.price,
-                thumbnail: p.thumbnails[0]
-              })
-            }
-            togglingWishlist={this.state.togglingWishlist[p.id]}
-            inWishlist={this.state.wishlist[p.id]}
-          />
-        </div>
-      ));
+    if (this.props.lists[ID]) {
+      const products = this.props.lists[ID].map(p => {
+        const id = p.id;
+        // Sorry for so long name )
+        const isTogglingWishlist =
+          this.props.isAddingToWishlist[id] ||
+          this.props.isRemovingFromWishlist[id];
+
+        return (
+          <div className={styles.Column} key={id}>
+            <ProductThumb
+              item={p}
+              onAddToCart={e => this.addToCartHandler(e, p)}
+              addingToCart={this.props.isAddingToCart[id]}
+              inCart={this.props.cart.hasOwnProperty(id)}
+              toggleWishlist={() =>
+                this.toggleWishlistHandler({
+                  id: id,
+                  title: p.title,
+                  price: p.price,
+                  thumbnail: p.thumbnails[0]
+                })
+              }
+              togglingWishlist={isTogglingWishlist}
+              inWishlist={this.props.wishlist.hasOwnProperty(id)}
+            />
+          </div>
+        );
+      });
 
       productsList = (
         <section className={styles.Grid}>
@@ -267,17 +94,33 @@ class ProductsList extends Component {
         </section>
       );
     }
-    return (
-      <div>
-        {productsList}
-        <Notification
-          show={this.state.error}
-          onOpen={this.errorConfirmedHandler}
-          options={{ type: 'fail' }}
-        />
-      </div>
-    );
+    return <div>{productsList}</div>;
   }
 }
 
-export default withFirebase(ProductsList);
+const mapStateToProps = state => {
+  return {
+    lists: state.lists.lists,
+    wishlist: state.wishlist.wishlist,
+    isAddingToWishlist: state.wishlist.isAddingToWishlist,
+    isRemovingFromWishlist: state.wishlist.isRemovingFromWishlist,
+    cart: state.cart.cart,
+    isLoading: state.lists.isLoading,
+    isAddingToCart: state.cart.isAddingToCart,
+    error: state.lists.error
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onFetchList: id => dispatch(actions.fetchList(id)),
+    onAddToCart: item => dispatch(actions.addToCart(item)),
+    onRemoveFromWishlist: id => dispatch(actions.removeFromWishlist(id)),
+    onAddToWishlist: item => dispatch(actions.addToWishlist(item))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ProductsList);

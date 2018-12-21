@@ -16,6 +16,10 @@ export const Items = ({
   decCounterClicked,
   onCounterChange
 }) => {
+  const dataArray = Object.keys(data).map(e => {
+    return data[e];
+  });
+
   const columns = [
     TableConfigs.Product,
     TableConfigs.Price,
@@ -31,7 +35,7 @@ export const Items = ({
   return (
     <div className={styles.Container}>
       <ReactTable
-        data={data}
+        data={dataArray}
         columns={columns}
         className={styles.ReactTable}
         showPagination={false}

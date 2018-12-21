@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { Route, Switch, withRouter } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { Helmet } from 'react-helmet';
 
@@ -8,6 +9,7 @@ import 'react-toastify/dist/ReactToastify.min.css';
 import * as ROUTES from '../../constants/routes';
 import { withFirebase } from '../Firebase/index';
 import Layout from '../../containers/Layout/Layout';
+import * as actions from '../../store/actions/';
 
 // Import Pages
 import LandingPage from '../../pages/LandingPage/LandingPage';
@@ -15,16 +17,27 @@ import CartPage from '../../pages/CartPage/CartPage';
 import WishlistPage from '../../pages/WishlistPage/WishlistPage';
 import ProductPage from '../../pages/ProductPage/ProductPage';
 import NotFoundPage from '../../pages/NotFoundPage/NotFoundPage';
+import Notification from '../UI/Notification/Notification';
 
 /**
  * TODO
- * react-helmet doesn't render the title in the 
- * new tab till you switch to it. this is a bug 
- * from react-helmet. if they don't fix the bug 
+ * react-helmet doesn't render the title in the
+ * new tab till you switch to it. this is a bug
+ * from react-helmet. if they don't fix the bug
  * switch to the react-document-title from Dan Abramov
  */
 
 class App extends Component {
+  componentDidMount() {
+    this.props.onSubscribeWishlist();
+    this.props.onSubscribeCart();
+  }
+
+  componentWillUnmount() {
+    this.props.onUnsubscribeWishlist();
+    this.props.onUnsubscribeCart();
+  }
+
   render() {
     return (
       <div>
@@ -42,9 +55,35 @@ class App extends Component {
           </Switch>
         </Layout>
         <ToastContainer />
+        <Notification
+          show={this.props.error}
+          onOpen={this.props.onRemoveError}
+          options={{ type: 'fail' }}
+        />
       </div>
     );
   }
 }
 
-export default withFirebase(App);
+const mapStateToProps = state => {
+  return {
+    error: state.errors.error
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onSubscribeWishlist: () => dispatch(actions.subscribeWishlist()),
+    onUnsubscribeWishlist: () => dispatch(actions.unsubscribeWishlist()),
+    onSubscribeCart: () => dispatch(actions.subscribeCart()),
+    onUnsubscribeCart: () => dispatch(actions.unsubscribeCart()),
+    onRemoveError: () => dispatch(actions.removeError())
+  };
+};
+
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(withFirebase(App))
+);

@@ -1,32 +1,41 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
+import _ from 'lodash';
 
 import { Title, Summary, Items } from '../../components/Cart/Cart';
 import ResponsiveWrapper from '../../components/UI/ResponsiveWrapper/ResponsiveWrapper';
-import { withFirebase } from '../../components/Firebase/index';
-import { CART } from '../../constants/routes';
-import Notification from '../../components/UI/Notification/Notification';
+import * as actions from '../../store/actions';
+import { CART as cartTitle } from '../../constants/titles';
 
-class CartFull extends Component {
+/**
+ * TODO
+ * Move the calculations
+ * to server
+ */
+
+class CartPage extends Component {
   state = {
-    cart: [],
+    cart: this.props.cart,
+    oldCart: this.props.cart,
     totalPrice: 0,
     loading: false,
     error: false
   };
 
-  componentDidMount() {
-    this.listenForCart();
-  }
-
-  componentWillUnmount() {
-    this.unsubcribeListener();
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (!_.isEqual(nextProps.cart, prevState.oldCart)) {
+      return {
+        cart: nextProps.cart,
+        oldCart: nextProps.cart,
+        totalPrice: CartPage.calcTotalPrice(nextProps.cart)
+      };
+    } else return null;
   }
 
   counterHandler = (e, id, type) => {
-    const data = [...this.state.cart];
-    const oldItemIndex = data.findIndex(e => e.product.id === id);
-    const oldItem = data[oldItemIndex];
+    const data = { ...this.state.cart };
+    const oldItem = data[id];
     const oldCounter = oldItem.amount;
     let updatedCounter = oldCounter;
     let updatedTotalPrice = oldItem.total_price;
@@ -61,92 +70,59 @@ class CartFull extends Component {
       total_price: +updatedTotalPrice.toFixed(2)
     };
 
-    data[oldItemIndex] = updatedItem;
+    data[id] = updatedItem;
+
     this.setState({
       cart: data,
-      totalPrice: this.calcTotalPrice(data)
+      totalPrice: CartPage.calcTotalPrice(data)
     });
   };
 
-  listenForCart = () => {
-    const db = this.props.firebase.db;
-    const cartRef = db.collection(CART);
-
-    this.setState({ loading: true });
-
-    this.unsubcribeListener = cartRef.onSnapshot(
-      querySnapshot => {
-        const newData = [];
-        querySnapshot.forEach(doc => {
-          newData.push(doc.data());
-        });
-
-        this.setState({
-          cart: newData,
-          loading: false,
-          totalPrice: this.calcTotalPrice(newData)
-        });
-      },
-      e => this.setState({ error: false })
-    );
-  };
-
-  deleteItemHandler = id => {
-    const db = this.props.firebase.db;
-    const cartDocRef = db.collection(CART).doc(id);
-
-    cartDocRef
-      .delete()
-      .then()
-      .catch(e => {
-        this.setState({ error: true });
-      });
-  };
-
-  calcTotalPrice = data => {
-    return data.reduce((prev, curr) => {
-      return +(prev + curr.total_price).toFixed(2);
-    }, 0);
-  };
-
-  calcItemsTotalPrice = data => {
-    return data.map(e => {
-      return { ...e, totalPrice: e.amount * e.product.price };
-    });
-  };
-
-  errorConfirmedHandler = () => {
-    this.setState({ error: false });
+  static calcTotalPrice = data => {
+    // data is object. so I need to convert
+    // it to array be calculation
+    return _.sumBy(_.values(data), 'total_price').toFixed(2);
   };
 
   render() {
-    const titleText = 'Your Cart 🛒';
     return (
-      <ResponsiveWrapper loading={this.state.loading}>
+      <ResponsiveWrapper loading={this.props.isLoading}>
         <Helmet>
-          <title>{titleText}</title>
+          <title>{cartTitle}</title>
         </Helmet>
         <Title>Cart</Title>
         <Items
           data={this.state.cart}
-          loading={this.state.loading}
-          onDeleteItem={this.deleteItemHandler}
+          loading={this.props.isLoading}
+          onDeleteItem={this.props.onRemoveFromCart}
           incCounterClicked={(e, id) => this.counterHandler(e, id, 'inc')}
           decCounterClicked={(e, id) => this.counterHandler(e, id, 'dec')}
           onCounterChange={(e, id) => this.counterHandler(e, id, 'change')}
         />
         <Summary
           totalPrice={this.state.totalPrice}
-          disableCheckout={!this.state.cart.length}
-        />
-        <Notification
-          show={this.state.error}
-          options={{ type: 'fail' }}
-          onOpen={this.errorConfirmedHandler}
+          disableCheckout={!Object.keys(this.state.cart).length}
         />
       </ResponsiveWrapper>
     );
   }
 }
 
-export default withFirebase(CartFull);
+const mapStateToProps = state => {
+  return {
+    cart: state.cart.cart,
+    isLoading: state.cart.loading
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onAddToCart: item => dispatch(actions.addToCart(item)),
+    onRemoveFromCart: id => dispatch(actions.removeFromCart(id))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CartPage);

@@ -1,50 +1,31 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import { connect } from 'react-redux';
 
 import ProductSummary from '../../components/ProductSummary/ProductSummary';
 import Spinner from '../../components/UI/Spinner/Spinner';
-import { withFirebase } from '../../components/Firebase';
-import { ALL_PRODUCTS, CART, WISHLIST } from '../../constants/firebase';
-import Notification from '../../components/UI/Notification/Notification';
 import { NOT_FOUND } from '../../constants/routes';
+import * as actions from '../../store/actions/index';
 
 export const FormHandlersContext = React.createContext({});
 
 class ProductPage extends Component {
-  _wishlistStatus = 'unfetched';
-  // _isMounted is needed for checking the component's status
-  // this prevents calling setState on unMounted component
-  _isMounted = false;
-  
   state = {
-    loadedProduct: null,
     title: 'Untitled',
     counter: 1,
-    addingToCart: false,
-    inWishlist: false,
-    addingToWishlist: false,
-    error: null,
+    error: false,
     loading: false
   };
 
-  async componentDidMount() {
-    this._isMounted = true;
-    await this.loadData();
-    this.listenWishlist();
+  componentDidMount() {
+    const ID = this.props.match.params.id;
+    this.props.onFetchProduct(ID);
   }
-
-  componentWillUnmount() {
-    this._isMounted = false;
-    this.unsubcribeListener();
-  }
-  // This is an initial listener. This is needed
-  // when Component will be unmounted before listener is called
-  unsubcribeListener = () => {};
 
   incCounterHandler = () => {
     // Do not change the state if the counter is invalid
-    if (this.state.counter >= this.state.loadedProduct.amountAvaible) {
+    if (this.state.counter >= this.props.product.amountAvaible) {
       return;
     }
     this.setState(state => {
@@ -53,6 +34,7 @@ class ProductPage extends Component {
       };
     });
   };
+
   decCounterHandler = () => {
     // Do not change the state if the counter is invalid
     if (this.state.counter > 1) {
@@ -74,8 +56,8 @@ class ProductPage extends Component {
   onCounterChangeHandler = e => {
     const val = Math.abs(+e.target.value);
 
-    if (val > this.state.loadedProduct.amountAvaible) {
-      this.setState({ counter: this.state.loadedProduct.amountAvaible });
+    if (val > this.props.product.amountAvaible) {
+      this.setState({ counter: this.props.product.amountAvaible });
       return;
     }
 
@@ -83,158 +65,90 @@ class ProductPage extends Component {
   };
 
   addToWishlistHandler = () => {
-    // Stop executing if the wishlist is not loaded from the database
-    if (this._wishlistStatus === 'unfetched') {
-      return;
-    }
-
-    const { id, title, price, thumbnails } = this.state.loadedProduct;
+    const { id, title, price, thumbnails } = this.props.product;
     const thumbnail = thumbnails[0];
-
-    const db = this.props.firebase.db;
-    const wishlistRef = db.collection(WISHLIST);
-    const wishlistDocRef = wishlistRef.doc(id);
-
-    // Set this true in order to components can show the Spinner
-    this.setState({
-      addingToWishlist: true
+    this.props.onAddToWishlist({
+      id,
+      title,
+      price,
+      thumbnail
     });
-
-    wishlistDocRef
-      .set({
-        id,
-        title,
-        price,
-        thumbnail
-      })
-      .then(() => this.setState({ inWishlist: true, addingToWishlist: false }))
-      .catch(e => this.setState({ error: true, addingToWishlist: false }));
   };
 
   onSubmitHandler = e => {
     e.preventDefault();
 
-    this.setState({ addingToCart: true });
+    const { product } = this.props;
 
-    const ID = this.props.match.params.id;
-    const db = this.props.firebase.db;
-    const cartRef = db.collection(CART);
-    const cartDocRef = cartRef.doc(ID);
-
-    cartDocRef
-      .set({
-        amount: this.state.counter,
-        product: {
-          title: this.state.loadedProduct.title,
-          id: this.state.loadedProduct.id,
-          thumbnail: this.state.loadedProduct.thumbnails[0],
-          price: this.state.loadedProduct.price
-        },
-        updated: false
-      })
-      .then(() => this.setState({ addingToCart: false }))
-      .catch(e => this.setState({ error: true }));
-  };
-
-  listenWishlist = () => {
-    const ID = this.props.match.params.id;
-    const db = this.props.firebase.db;
-    const wishlistDocRef = db.collection(WISHLIST).doc(ID);
-
-    this.unsubcribeListener = wishlistDocRef.onSnapshot(
-      querySnapshot => {
-        if (this._isMounted) {
-          this.setState({ inWishlist: querySnapshot.exists });
-        }
-        this._wishlistStatus = 'fetched';
-      },
-      e => this.setState({ error: true })
-    );
-  };
-
-  loadData = () => {
-    const ID = this.props.match.params.id;
-    // Return nothing if the ID is not valid
-
-    if (!ID) {
-      // Return nothing if product is loaded or
-      // the IDs is same
-      if (
-        this.state.loadedProduct ||
-        (this.state.loadedProduct && ID === this.state.loadedProduct.id)
-      ) {
-        return;
+    this.props.onAddToCart({
+      amount: this.state.counter,
+      product: {
+        title: product.title,
+        id: product.id,
+        thumbnail: product.thumbnails[0],
+        price: product.price
       }
-      return;
-    }
-
-    this.setState({ loading: true });
-
-    const db = this.props.firebase.db;
-    const productDocRef = db.collection(ALL_PRODUCTS).doc(ID);
-
-    return productDocRef
-      .get()
-      .then(doc => {
-        if (!doc.exists) {
-          this.setState({ error: 'NOT_FOUND', loading: false });
-        }
-        if (this._isMounted) {
-          this.setState({
-            loadedProduct: doc.data(),
-            title: doc.data().title,
-            loading: false
-          });
-        }
-      })
-      .catch(e => this.setState({ error: true }));
-  };
-
-  errorConfirmedHandler = () => {
-    this.setState({ error: false });
+    });
   };
 
   render() {
     let summary = <Spinner />;
 
-    if (this.state.loadedProduct) {
+    if (this.props.product) {
+      const id = this.props.product.id;
+
       summary = (
         <div>
           <FormHandlersContext.Provider
             value={{
+              id,
               incClicked: this.incCounterHandler,
               decClicked: this.decCounterHandler,
               onChange: this.onCounterChangeHandler,
               onBlur: this.onCounterBlurHandler,
               onSubmit: this.onSubmitHandler,
               count: this.state.counter,
-              max: this.state.loadedProduct.amountAvaible,
-              onSale: this.state.loadedProduct.onSale,
-              fetching: this.state.addingToCart,
-              addToWishlistClicked: this.addToWishlistHandler,
-              inWishlist: this.state.inWishlist,
-              addingToWishlist: this.state.addingToWishlist
+              onSale: this.props.product.onSale,
+              addToWishlistClicked: this.addToWishlistHandler
             }}
           >
-            <ProductSummary product={this.state.loadedProduct} />
+            <ProductSummary product={this.props.product} />
           </FormHandlersContext.Provider>
-          <Notification
-            show={this.state.error}
-            onOpen={this.errorConfirmedHandler}
-          />
         </div>
       );
     }
+
     return (
       <div>
         <Helmet>
-          <title>{this.state.loading ? 'Loading...' : this.state.title}</title>
+          <title>{this.props.loading ? 'Loading...' : this.state.title}</title>
         </Helmet>
         {summary}
-        {this.state.error === 'NOT_FOUND' ? <Redirect to={NOT_FOUND} /> : null}
+        {this.props.error.message === 'NOT_FOUND' ? (
+          <Redirect to={NOT_FOUND} />
+        ) : null}
       </div>
     );
   }
 }
 
-export default withFirebase(ProductPage);
+const mapStateToProps = state => {
+  return {
+    product: state.product.product,
+    loading: state.product.loading,
+    error: state.product.error
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onFetchProduct: id => dispatch(actions.fetchProduct(id)),
+    onAddToCart: item => dispatch(actions.addToCart(item)),
+    onAddToWishlist: item => dispatch(actions.addToWishlist(item))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ProductPage);

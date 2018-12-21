@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Helmet } from 'react-helmet';
 
 import ProductsListWithTabs from '../../components/ProductsListWithTabs/ProductsListWithTabs';
+import { LANDING as landingTitle } from '../../constants/titles';
 
 class LandingPage extends Component {
   state = {
@@ -14,11 +15,10 @@ class LandingPage extends Component {
   };
 
   render() {
-    const titleText = `Welcome 🖖`;
     return (
       <div>
         <Helmet>
-          <title>{titleText}</title>
+          <title>{landingTitle}</title>
         </Helmet>
         <ProductsListWithTabs lists={this.state.productLists} />
       </div>

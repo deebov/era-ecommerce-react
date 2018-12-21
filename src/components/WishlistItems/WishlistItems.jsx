@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import ReactTable from 'react-table';
+import _ from 'lodash/fp/object';
 
 import 'react-table/react-table.css';
 import './ReactTableCustom.css';
@@ -18,6 +19,7 @@ const WishlistItems = props => {
     addingToCart,
     addToCartClicked
   } = props;
+  const dataArray = _.values(data);
 
   const columns = [
     TableConfigs.Remove(onDeleteItem),
@@ -35,7 +37,7 @@ const WishlistItems = props => {
   return (
     <div className={styles.Container}>
       <ReactTable
-        data={data}
+        data={dataArray}
         columns={columns}
         className={styles.ReactTable}
         showPagination={false}
@@ -46,7 +48,7 @@ const WishlistItems = props => {
         resizable={false}
         multiSort={false}
         sortable={false}
-        defaultPageSize={data.length || 0}
+        defaultPageSize={dataArray.length || 0}
         manual
         LoadingComponent={loading ? Spinner : () => <span />}
         NoDataComponent={() => (

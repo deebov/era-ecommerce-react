@@ -1,169 +1,66 @@
 import React, { Component } from 'react';
 import { Helmet } from 'react-helmet';
+import { connect } from 'react-redux';
 
 import { Title as CartTitle } from '../../components/Cart/Title/Title';
 import WishlistItems from '../../components/WishlistItems/WishlistItems';
-import { withFirebase } from '../../components/Firebase';
-import { WISHLIST, CART } from '../../constants/firebase';
 import ResponsiveWrapper from '../../components/UI/ResponsiveWrapper/ResponsiveWrapper';
-import Notification from '../../components/UI/Notification/Notification';
+import * as actions from '../../store/actions';
+import { WISHLIST as wishlistTitle } from '../../constants/titles';
 
 class WishlistPage extends Component {
-  // _isMounted is needed for checking the component's status
-  // this prevents calling setState on unMounted component 
-  _isMounted = false;
-
-  state = {
-    wishlist: [],
-    cart: { _status: 'unfetched' },
-    addingToCart: {},
-    loading: false,
-    error: false,
-    errorConfirmed: false
-  };
-
-  async componentDidMount() {
-    this._isMounted = true;
-
-    await this.listenForWishlist();
-    this.loadCart();
-    document.title = 'wishlist';
-  }
-
-  componentWillUnmount() {
-    this._isMounted = false;
-    this.unsubcribeListener();
-  }
-
-  listenForWishlist = () => {
-    const db = this.props.firebase.db;
-    const wishlistRef = db.collection(WISHLIST);
-
-    this.setState({ loading: true });
-    return new Promise(resolve => {
-      this.unsubcribeListener = wishlistRef.onSnapshot(
-        querySnapshot => {
-          const items = [];
-
-          querySnapshot.forEach(doc => {
-            items.push(doc.data());
-          });
-          if (this._isMounted) {
-            this.setState({ wishlist: items, loading: false });
-          }
-          resolve();
-        },
-        e => this.setState({ error: true })
-      );
-    });
-  };
-
-  deleteItemHandler = id => {
-    const db = this.props.firebase.db;
-    const wishlistRef = db.collection(WISHLIST);
-    const wishlistDocRef = wishlistRef.doc(id);
-
-    wishlistDocRef
-      .delete()
-      .then()
-      .catch(e => this.setState({ error: true }));
-  };
-
   addToCartHandler = id => {
-    // Stop executing if the cart is not fetched yet
-    if (this.state.cart._status === 'unfetched') {
-      return;
-    }
+    const { title, price, thumbnail } = this.props.wishlist[id];
 
-    this.setState((state, props) => {
-      return { addingToCart: { ...state.addingToCart, [id]: true } };
+    this.props.onAddToCart({
+      amount: 1,
+      product: {
+        title,
+        id,
+        thumbnail,
+        price
+      },
+      updated: false
     });
-
-    const { title, price, thumbnail } = this.state.wishlist.filter(
-      e => e.id === id
-    )[0];
-
-    const db = this.props.firebase.db;
-    const cartRef = db.collection(CART);
-    const cartDocRef = cartRef.doc(id);
-
-    cartDocRef
-      .set({
-        amount: 1,
-        product: {
-          title,
-          id,
-          thumbnail,
-          price
-        },
-        updated: false
-      })
-      .then(() => {
-        if (this._isMounted) {
-        this.setState((state, props) => {
-          return {
-            cart: { ...state.cart, [id]: true },
-            addingToCart: { ...state.addingToCart, [id]: false }
-          };
-        });}
-      })
-      .catch(e => {
-        this.setState((state, props) => {
-          return {
-            error: true,
-            addingToCart: { ...state.addingToCart, [id]: false }
-          };
-        });
-      });
-  };
-
-  loadCart = () => {
-    const db = this.props.firebase.db;
-    const wishlistRef = db.collection(CART);
-
-    wishlistRef
-      .get()
-      .then(querySnapshot => {
-        const items = {};
-
-        querySnapshot.forEach(doc => {
-          items[doc.data().product.id] = doc.data();
-        });
-        if (this._isMounted) {
-          this.setState({ cart: { ...items, _status: 'fetched' } });
-        }
-      })
-      .catch(e => this.setState({ error: true }));
-  };
-
-  errorConfirmedHandler = () => {
-    this.setState({ error: false });
   };
 
   render() {
-    const titleText = 'Your Wishlist ❤️';
     return (
-      <ResponsiveWrapper loading={this.state.loading}>
+      <ResponsiveWrapper loading={this.props.loading}>
         <Helmet>
-          <title>{titleText}</title>
+          <title>{wishlistTitle}</title>
         </Helmet>
         <CartTitle>Wishlist</CartTitle>
         <WishlistItems
-          data={this.state.wishlist}
-          loading={this.state.loading}
-          onDeleteItem={this.deleteItemHandler}
-          cart={this.state.cart}
-          addingToCart={this.state.addingToCart}
+          data={this.props.wishlist}
+          loading={this.props.loading}
+          onDeleteItem={this.props.onRemoveFromWishlist}
+          cart={this.props.cart}
+          addingToCart={this.props.isAddingToCart}
           addToCartClicked={this.addToCartHandler}
-        />
-        <Notification
-          show={this.state.error}
-          options={{ type: 'fail' }}
-          onOpen={this.errorConfirmedHandler}
         />
       </ResponsiveWrapper>
     );
   }
 }
 
-export default withFirebase(WishlistPage);
+const mapStateToProps = state => {
+  return {
+    wishlist: state.wishlist.wishlist,
+    isAddingToCart: state.cart.isAddingToCart,
+    cart: state.cart.cart,
+    loading: state.wishlist.loading
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onRemoveFromWishlist: id => dispatch(actions.removeFromWishlist(id)),
+    onAddToCart: item => dispatch(actions.addToCart(item))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(WishlistPage);
