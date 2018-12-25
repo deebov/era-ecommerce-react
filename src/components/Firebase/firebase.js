@@ -1,5 +1,7 @@
 import app from 'firebase/app';
+import 'firebase/auth';
 import 'firebase/firestore';
+import { ALL_PRODUCTS, CART, WISHLIST, LISTS } from '../../constants/firebase';
 
 const config = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -15,10 +17,32 @@ class Firebase {
     app.initializeApp(config);
 
     this.db = app.firestore();
-
+    this.auth = app.auth();
     const settings = { timestampsInSnapshots: true };
     this.db.settings(settings);
   }
+
+  // *** Auth API ***
+
+  doCreateUserWithEmailAndPassword = (email, password) =>
+    this.auth.createUserWithEmailAndPassword(email, password);
+
+  doSignInWithEmailAndPassword = (email, password) =>
+    this.auth.signInWithEmailAndPassword(email, password);
+
+  doSignOut = () => this.auth.signOut();
+
+  doPasswordReset = email => this.auth.sendPasswordResetEmail(email);
+
+  doPasswordUpdate = password => this.auth.currentUser.updatePassword(password);
 }
 
-export default Firebase;
+const firebase = new Firebase();
+const db = firebase.db;
+
+export const allProductsRef = db.collection(ALL_PRODUCTS);
+export const cartRef = db.collection(CART);
+export const wishlistRef = db.collection(WISHLIST);
+export const listsRef = db.collection(LISTS);
+
+export default firebase;
