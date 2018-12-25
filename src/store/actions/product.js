@@ -20,7 +20,11 @@ export const fetchProductSuccess = product => {
   };
 };
 
-export const fetchProduct = id => async (dispatch, getState, firestoreRefs) => {
+export const fetchProduct = id => async (
+  dispatch,
+  getState,
+  { firestoreRefs }
+) => {
   dispatch(fetchProductStart());
 
   try {

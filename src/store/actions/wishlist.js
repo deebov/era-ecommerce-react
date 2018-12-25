@@ -29,7 +29,7 @@ export const addToWishlistSuccess = id => {
 export const addToWishlist = item => async (
   dispatch,
   getState,
-  firestoreRefs
+  { firestoreRefs }
 ) => {
   const id = item.id;
   dispatch(addToWishlistStart(id));
@@ -71,7 +71,7 @@ export const removeFromWishlistSuccess = id => {
 export const removeFromWishlist = id => async (
   dispatch,
   getState,
-  firestoreRefs
+  { firestoreRefs }
 ) => {
   dispatch(removeFromWishlistStart(id));
   try {
@@ -107,7 +107,11 @@ export const subscribeWishlistSuccess = (wishlist, unsubscribe) => {
   };
 };
 
-export const subscribeWishlist = () => (dispatch, getState, firestoreRefs) => {
+export const subscribeWishlist = () => (
+  dispatch,
+  getState,
+  { firestoreRefs }
+) => {
   dispatch(subscribeWishlistStart());
 
   if (unsubscribeListener) {

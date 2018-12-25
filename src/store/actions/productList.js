@@ -23,7 +23,11 @@ export const fetchListSuccess = (products, listID) => {
   };
 };
 
-export const fetchList = id => async (dispatch, getState, firestoreRefs) => {
+export const fetchList = id => async (
+  dispatch,
+  getState,
+  { firestoreRefs }
+) => {
   dispatch(fetchListStart(id));
 
   try {
