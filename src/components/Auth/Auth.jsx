@@ -1,37 +1,51 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 import styles from './Auth.module.css';
 import SignInForm from '../SignInForm/SignInForm';
 import SignUpForm from '../SignUpForm/SignUpForm';
 
-const AuthPresentational = props => {
-  return (
-    <div className={styles.Container}>
-      <div className={styles.ContainerInner}>
-        <Tabs>
-          <TabList className={styles.TabList}>
-            <Tab className={styles.Tab} selectedClassName={styles.TabActive}>
-              Login
-            </Tab>
-            <Tab className={styles.Tab} selectedClassName={styles.TabActive}>
-              Register
-            </Tab>
-          </TabList>
+class AuthPresentational extends Component {
+  componentWillMount() {
+    document.body.style.overflow = 'hidden';
+  }
 
-          {/* LOGIN */}
-          <TabPanel>
-            <SignInForm signInClicked={props.signinUser} />
-          </TabPanel>
+  componentWillUnmount() {
+    document.body.style.overflow = 'auto';
+  }
+  
+  render() {
+    return (
+      <div className={styles.Container}>
+        <div className={styles.ContainerInner}>
+          <Tabs>
+            <TabList className={styles.TabList}>
+              <Tab className={styles.Tab} selectedClassName={styles.TabActive}>
+                Login
+              </Tab>
+              <Tab className={styles.Tab} selectedClassName={styles.TabActive}>
+                Register
+              </Tab>
+            </TabList>
 
-          {/* REGISTER */}
-          <TabPanel>
-            <SignUpForm signUpClicked={props.signupUser} />
-          </TabPanel>
-        </Tabs>
+            {/* LOGIN */}
+            <TabPanel>
+              <SignInForm signInClicked={this.props.signinUser} />
+            </TabPanel>
+
+            {/* REGISTER */}
+            <TabPanel>
+              <SignUpForm signUpClicked={this.props.signupUser} />
+            </TabPanel>
+          </Tabs>
+
+          <p className={styles.Close} onClick={this.props.onSwitchVisible}>
+            Close
+          </p>
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 export default AuthPresentational;
