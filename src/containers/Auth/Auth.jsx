@@ -5,16 +5,18 @@ import AuthPresentational from '../../components/Auth/Auth';
 import * as actions from '../../store/actions';
 
 class Auth extends Component {
-  onSignupUserHandler = (e, email, password) => {
+  onSignupUserHandler = (e, registerData) => {
     e.preventDefault();
 
-    this.props.onSignupUser(email, password);
+    this.props.onSignupUser(registerData);
   };
-  onSigninUserHandler = (e, email, password) => {
+
+  onSigninUserHandler = (e, loginData) => {
     e.preventDefault();
 
-    this.props.onSigninUser(email, password);
+    this.props.onSigninUser(loginData);
   };
+
   render() {
     return (
       <div>
@@ -38,9 +40,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onSwitchShowAuth: () => dispatch(actions.switchShowAuth()),
-    onSignupUser: (email, password) => dispatch(actions.auth(email, password)),
-    onSigninUser: (email, password) =>
-      dispatch(actions.auth(email, password, 'login'))
+    onSignupUser: registerData => dispatch(actions.auth(registerData)),
+    onSigninUser: loginData => dispatch(actions.auth(loginData, 'login'))
   };
 };
 

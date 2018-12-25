@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import _ from 'lodash/object';
 
 import Input from '../UI/Input/Input';
@@ -66,7 +67,8 @@ class SignInForm extends Component {
   render() {
     const loginEmail = this.state.loginForm['email'].value;
     const loginPassword = this.state.loginForm['password'].value;
-
+    const loginData = { email: loginEmail, password: loginPassword };
+    
     return (
       <div>
         <form className={styles.Form}>
@@ -87,7 +89,8 @@ class SignInForm extends Component {
             size="big"
             theme=""
             disabled={!this.state.formIsValid}
-            clicked={e => this.props.signInClicked(e, loginEmail, loginPassword)}
+            loading={this.props.isSigningIn}
+            clicked={e => this.props.signInClicked(e, loginData)}
           >
             login
           </Button>
@@ -97,4 +100,10 @@ class SignInForm extends Component {
   }
 }
 
-export default SignInForm;
+const mapStateToProps = state => {
+  return {
+    isSigningIn: state.auth.loading
+  };
+};
+
+export default connect(mapStateToProps)(SignInForm);

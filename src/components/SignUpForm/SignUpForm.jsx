@@ -67,7 +67,7 @@ class SignUpForm extends Component {
   };
 
   inputChangedHandler = (event, inputID) => {
-    const updatedForm = {...this.state.registerForm};
+    const updatedForm = { ...this.state.registerForm };
     const updatedFormElement = updatedForm[inputID];
 
     updatedFormElement.value = event.target.value;
@@ -81,8 +81,7 @@ class SignUpForm extends Component {
     // Checking passwords are identical
     if (inputID.includes('password')) {
       updatedForm['passwordTwo'].valid =
-        updatedForm['passwordOne'].value === updatedForm['passwordTwo'].value &&
-        updatedForm['passwordTwo'].valid;
+        updatedForm['passwordOne'].value === updatedForm['passwordTwo'].value 
     }
 
     let formIsValid = true;
@@ -100,6 +99,12 @@ class SignUpForm extends Component {
   render() {
     const registerEmail = this.state.registerForm['email'].value;
     const registerPassword = this.state.registerForm['passwordOne'].value;
+    const registerUserName = this.state.registerForm['username'].value;
+    const registerData = {
+      email: registerEmail,
+      password: registerPassword,
+      username: registerUserName
+    };
 
     return (
       <div>
@@ -121,9 +126,7 @@ class SignUpForm extends Component {
             size="big"
             theme=""
             disabled={!this.state.formIsValid}
-            clicked={e =>
-              this.props.signUpClicked(e, registerEmail, registerPassword)
-            }
+            clicked={e => this.props.signUpClicked(e, registerData)}
           >
             register
           </Button>
