@@ -1,4 +1,7 @@
 import * as actionTypes from './actionTypes';
+import { addError } from './errors';
+
+export let unsubscribeAuthState = () => {};
 
 export const switchShowAuth = () => {
   return {
@@ -19,13 +22,14 @@ export const authFail = error => {
   };
 };
 
-export const authSuccess = (token, userID) => {
+export const authSuccess = uid => {
   return {
-    type: actionTypes.AUTH_SUCCESS
+    type: actionTypes.AUTH_SUCCESS,
+    uid
   };
 };
 
-export const auth = (email, password, method) => async (
+export const auth = ({ email, password, username }, method) => async (
   dispatch,
   getState,
   { firebase }
@@ -33,25 +37,34 @@ export const auth = (email, password, method) => async (
   dispatch(authStart());
 
   try {
-    let authData = {};
-    let token = null
     if (method === 'login') {
-      authData = await firebase.doSignInWithEmailAndPassword(email, password);
-      token = await firebase.auth.currentUser.getIdToken()
-      console.log(token);
-      
+      await firebase.doSignInWithEmailAndPassword(email, password);
     } else {
-      authData = await firebase.doCreateUserWithEmailAndPassword(
-        email,
-        password
-      );
+      await firebase.doCreateUserWithEmailAndPassword(email, password);
+      await firebase.auth.currentUser.updateProfile({ displayName: username });
     }
-    
-    
-    dispatch(authSuccess(authData.idToken, authData.localId));
-  } catch (error) {
-    console.log(error);
 
+    // I am not calling dispatch(authSuccess()) here
+    // because firebase I have subscribed to the auth state
+    // and I call it there
+  } catch (error) {
     dispatch(authFail(error));
+    dispatch(addError(error.message));
   }
+};
+
+export const logout = () => {
+  return {
+    type: actionTypes.AUTH_LOGOUT
+  };
+};
+
+export const subscribeAuthState = () => (dispatch, getState, { firebase }) => {
+  unsubscribeAuthState = firebase.auth.onAuthStateChanged(function(user) {
+    if (user) {
+      dispatch(authSuccess(user.uid));
+    } else {
+      dispatch(logout());
+    }
+  });
 };
