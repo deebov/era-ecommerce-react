@@ -19,6 +19,7 @@ import WishlistPage from '../../pages/WishlistPage/WishlistPage';
 import ProductPage from '../../pages/ProductPage/ProductPage';
 import NotFoundPage from '../../pages/NotFoundPage/NotFoundPage';
 import Notification from '../UI/Notification/Notification';
+import PrivateRoute from '../PrivateRoute/PrivateRoute';
 
 /**
  * TODO
@@ -29,15 +30,28 @@ import Notification from '../UI/Notification/Notification';
  */
 
 class App extends Component {
+  state = {
+    isSubscribed: false
+  };
+
   componentDidMount() {
-    this.props.onSubscribeWishlist();
-    this.props.onSubscribeCart();
     this.props.onSubscribeAuthState();
   }
 
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.isAuthenticated && !prevState.isSubscribed) {
+      nextProps.onSubscribeWishlist();
+      nextProps.onSubscribeCart();
+      return { isSubscribed: true };
+    } else if (!nextProps.isAuthenticated && prevState.isSubscribed) {
+      nextProps.onUnsubscribeWishlist();
+      nextProps.onUnsubscribeCart();
+      return { isSubscribed: false };
+    }
+    return null;
+  }
+
   componentWillUnmount() {
-    this.props.onUnsubscribeWishlist();
-    this.props.onUnsubscribeCart();
     this.props.onUnsubscribeAuthState();
   }
 
@@ -53,8 +67,8 @@ class App extends Component {
           <Switch>
             <Route path={ROUTES.LANDING} exact component={LandingPage} />
             <Route path={`${ROUTES.ITEM}/:id`} component={ProductPage} />
-            <Route path={ROUTES.CART} component={CartPage} />
-            <Route path={ROUTES.WISHLIST} component={WishlistPage} />
+            <PrivateRoute path={ROUTES.CART} component={CartPage} />
+            <PrivateRoute path={ROUTES.WISHLIST} component={WishlistPage} />
             <Route component={NotFoundPage} />
           </Switch>
         </Layout>
@@ -73,7 +87,8 @@ class App extends Component {
 const mapStateToProps = state => {
   return {
     error: state.errors.error,
-    errorText: state.errors.text
+    errorText: state.errors.text,
+    isAuthenticated: state.auth.isAuth
   };
 };
 
