@@ -1,0 +1,8 @@
+.Form {
+  display: flex;
+  flex-direction: column;
+}
+
+.FormElements {
+  margin-bottom: 15px;
+}
