@@ -1,38 +1,18 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 // Constants
 import * as ROUTES from '../../constants/routes';
-import { CART } from '../../constants/firebase';
 // Styles
 import styles from './Header.module.css';
 // Components
 import Icon from '../UI/Icon/Icon';
 import NavLinkItem from '../UI/NavLinkItem/NavLinkItem';
 import Logo from '../UI/Logo/Logo';
-import { withFirebase } from '../Firebase';
+
+import * as actions from '../../store/actions';
 
 class Header extends Component {
-  state = {
-    cartCount: null
-  };
-
-  componentDidMount() {
-    this.fetchCartCount();
-  }
-
-  componentWillUnmount() {
-    this.unsubcribeListener();
-  }
-
-  fetchCartCount = () => {
-    const db = this.props.firebase.db;
-    const cartRef = db.collection(CART);
-
-    this.unsubcribeListener = cartRef.onSnapshot(querySnapshot =>
-      this.setState({ cartCount: querySnapshot.size })
-    );
-  };
-
   render() {
     return (
       <header className={styles.Header}>
@@ -51,15 +31,17 @@ class Header extends Component {
         </div>
         <div className={styles.IconBox}>
           <Icon icon="magnifier" className={styles.Icon} fontSize={19} />
-          <Icon icon="user" className={styles.Icon} fontSize={19} />
+          <div onClick={this.props.onShowAuthModal}>
+            <Icon icon="user" className={styles.Icon} fontSize={19} />
+          </div>
           <Link to={ROUTES.WISHLIST} className={styles.Link}>
             <Icon icon="heart" className={styles.Icon} fontSize={19} />
           </Link>
           <Link to={ROUTES.CART} className={styles.Link}>
             <div className={styles.Cart}>
-              {this.state.cartCount ? (
+              {this.props.cartCount ? (
                 <span className={styles.CartCounter}>
-                  {this.state.cartCount}
+                  {this.props.cartCount}
                 </span>
               ) : null}
               <Icon icon="cart" className={styles.Icon} fontSize={19} />
@@ -72,4 +54,19 @@ class Header extends Component {
   }
 }
 
-export default withFirebase(Header);
+const mapStateToProps = state => {
+  return {
+    cartCount: Object.keys(state.cart.cart).length
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onShowAuthModal: () => dispatch(actions.switchShowAuth())
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Header);
