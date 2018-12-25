@@ -18,12 +18,13 @@ class Auth extends Component {
   render() {
     return (
       <div>
-        <AuthPresentational
-          visible={this.props.showAuth}
-          onSwitchVisible={this.props.onSwitchShowAuth}
-          signupUser={this.onSignupUserHandler}
-          signinUser={this.onSigninUserHandler}
-        />
+        {this.props.showAuth && (
+          <AuthPresentational
+            onSwitchVisible={this.props.onSwitchShowAuth}
+            signupUser={this.onSignupUserHandler}
+            signinUser={this.onSigninUserHandler}
+          />
+        )}
       </div>
     );
   }
