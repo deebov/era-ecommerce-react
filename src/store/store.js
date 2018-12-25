@@ -9,6 +9,7 @@ import {
   wishlistRef,
   listsRef
 } from '../components/Firebase';
+import firebase from '../components/Firebase/';
 
 const composeEnhancers = composeWithDevTools({});
 
@@ -21,7 +22,9 @@ const firestoreRefs = {
 
 const store = createStore(
   rootReducer,
-  composeEnhancers(applyMiddleware(thunk.withExtraArgument(firestoreRefs)))
+  composeEnhancers(
+    applyMiddleware(thunk.withExtraArgument({ firestoreRefs, firebase }))
+  )
 );
 
 export default store;
