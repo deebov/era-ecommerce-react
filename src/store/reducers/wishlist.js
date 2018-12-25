@@ -66,7 +66,7 @@ const reducer = (state = initialState, action) => {
         wishlist: action.wishlist
       });
     case actionTypes.UNSUBSCRIBE_WISHLIST:
-      return state;
+      return initialState;
 
     default:
       return state;

@@ -47,6 +47,8 @@ const reducer = (state = initialState, action) => {
       return updateObject(state, { error: { _status: true } });
     case actionTypes.SUBSCRIBE_CART_SUCCESS:
       return updateObject(state, { cart: action.cart, loading: false });
+    case actionTypes.UNSUBSCRIBE_CART:
+      return initialState;
     default:
       return state;
   }
