@@ -1,8 +1,9 @@
 import * as actionsTypes from './actionTypes';
 
-export const addError = () => {
+export const addError = text => {
   return {
-    type: actionsTypes.ADD_ERROR
+    type: actionsTypes.ADD_ERROR,
+    text
   };
 };
 
