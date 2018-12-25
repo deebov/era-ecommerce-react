@@ -18,4 +18,10 @@ export { addError, removeError } from './errors';
 
 export { fetchList } from './productList';
 
-export { switchShowAuth, auth, subscribeAuthState, unsubscribeAuthState } from './auth';
+export {
+  switchShowAuth,
+  auth,
+  subscribeAuthState,
+  unsubscribeAuthState,
+  logout
+} from './auth';

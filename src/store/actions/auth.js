@@ -53,10 +53,19 @@ export const auth = ({ email, password, username }, method) => async (
   }
 };
 
-export const logout = () => {
+export const logoutSuccess = () => {
   return {
     type: actionTypes.AUTH_LOGOUT
   };
+};
+
+export const logout = () => async (dispatch, getState, { firebase }) => {
+  try {
+    await firebase.auth.signOut();
+    dispatch(logoutSuccess());
+  } catch (error) {
+    dispatch(addError(error.message));
+  }
 };
 
 export const subscribeAuthState = () => (dispatch, getState, { firebase }) => {
@@ -64,7 +73,6 @@ export const subscribeAuthState = () => (dispatch, getState, { firebase }) => {
     if (user) {
       dispatch(authSuccess(user.uid));
     } else {
-      dispatch(logout());
     }
   });
 };
