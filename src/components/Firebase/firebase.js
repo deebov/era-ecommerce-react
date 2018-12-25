@@ -20,6 +20,7 @@ class Firebase {
     this.auth = app.auth();
     const settings = { timestampsInSnapshots: true };
     this.db.settings(settings);
+    this.auth.setPersistence(app.auth.Auth.Persistence.SESSION);
   }
 
   // *** Auth API ***
