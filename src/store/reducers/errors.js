@@ -7,19 +7,22 @@ import * as actionTypes from '../actions/actionTypes';
  */
 
 const initialState = {
-  error: false
+  error: false,
+  text: null
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.ADD_ERROR:
       return {
-        error: true
+        error: true,
+        text: action.text
       };
 
     case actionTypes.REMOVE_ERROR:
       return {
-        error: false
+        error: false,
+        text: null
       };
 
     default:
