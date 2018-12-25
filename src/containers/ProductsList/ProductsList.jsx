@@ -5,6 +5,7 @@ import ProductThumb from '../../components/ProductThumb/ProductThumb';
 import styles from './ProductsList.module.css';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import * as actions from '../../store/actions';
+import withNotification from '../../hoc/withNotification/withNotification';
 
 class ProductsList extends Component {
   state = {
@@ -18,6 +19,11 @@ class ProductsList extends Component {
 
   addToCartHandler = (e, item) => {
     e.preventDefault();
+    if (!this.props.isAuthenticated) {
+      this.props.onShowAuthModal();
+      this.props.notify('Please, log in to continue', { type: 'success' });
+      return;
+    }
     const { id, title, thumbnails, price } = item;
 
     this.props.onAddToCart({
@@ -33,6 +39,11 @@ class ProductsList extends Component {
   };
 
   toggleWishlistHandler = item => {
+    if (!this.props.isAuthenticated) {
+      this.props.onShowAuthModal();
+      this.props.notify('Please, log in to continue', { type: 'success' });
+      return;
+    }
     const { id, title, price, thumbnail } = item;
 
     if (this.props.wishlist.hasOwnProperty(id)) {
@@ -107,6 +118,7 @@ const mapStateToProps = state => {
     cart: state.cart.cart,
     isLoading: state.lists.isLoading,
     isAddingToCart: state.cart.isAddingToCart,
+    isAuthenticated: state.auth.isAuth,
     error: state.lists.error
   };
 };
@@ -116,11 +128,12 @@ const mapDispatchToProps = dispatch => {
     onFetchList: id => dispatch(actions.fetchList(id)),
     onAddToCart: item => dispatch(actions.addToCart(item)),
     onRemoveFromWishlist: id => dispatch(actions.removeFromWishlist(id)),
-    onAddToWishlist: item => dispatch(actions.addToWishlist(item))
+    onAddToWishlist: item => dispatch(actions.addToWishlist(item)),
+    onShowAuthModal: () => dispatch(actions.switchShowAuth())
   };
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ProductsList);
+)(withNotification(ProductsList));

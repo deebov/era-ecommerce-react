@@ -7,6 +7,7 @@ import ProductSummary from '../../components/ProductSummary/ProductSummary';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import { NOT_FOUND } from '../../constants/routes';
 import * as actions from '../../store/actions/index';
+import withNotification from '../../hoc/withNotification/withNotification';
 
 export const FormHandlersContext = React.createContext({});
 
@@ -65,6 +66,11 @@ class ProductPage extends Component {
   };
 
   addToWishlistHandler = () => {
+    if (!this.props.isAuthentaicated) {
+      this.props.onShowAuthModal();
+      this.props.notify('Please, log in to continue', { type: 'success' });
+      return;
+    }
     const { id, title, price, thumbnails } = this.props.product;
     const thumbnail = thumbnails[0];
     this.props.onAddToWishlist({
@@ -77,6 +83,11 @@ class ProductPage extends Component {
 
   onSubmitHandler = e => {
     e.preventDefault();
+    if (!this.props.isAuthenticated) {
+      this.props.onShowAuthModal();
+      this.props.notify('Please, log in to continue', { type: 'success' });
+      return;
+    }
 
     const { product } = this.props;
 
@@ -136,7 +147,8 @@ const mapStateToProps = state => {
   return {
     product: state.product.product,
     loading: state.product.loading,
-    error: state.product.error
+    error: state.product.error,
+    isAuthenticated: state.auth.isAuth
   };
 };
 
@@ -144,11 +156,12 @@ const mapDispatchToProps = dispatch => {
   return {
     onFetchProduct: id => dispatch(actions.fetchProduct(id)),
     onAddToCart: item => dispatch(actions.addToCart(item)),
-    onAddToWishlist: item => dispatch(actions.addToWishlist(item))
+    onAddToWishlist: item => dispatch(actions.addToWishlist(item)),
+    onShowAuthModal: () => dispatch(actions.switchShowAuth())
   };
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ProductPage);
+)(withNotification(ProductPage));

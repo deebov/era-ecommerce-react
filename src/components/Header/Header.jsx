@@ -14,6 +14,36 @@ import * as actions from '../../store/actions';
 
 class Header extends Component {
   render() {
+    let iconBox = (
+      <div className={styles.IconBox}>
+        <div onClick={this.props.onShowAuthModal}>
+          <Icon icon="user" className={styles.Icon} fontSize={19} />
+        </div>
+      </div>
+    );
+
+    if (this.props.isAuthenticated) {
+      iconBox = (
+        <div className={styles.IconBox}>
+          <Link to={ROUTES.WISHLIST} className={styles.Link}>
+            <Icon icon="heart" className={styles.Icon} fontSize={19} />
+          </Link>
+          <Link to={ROUTES.CART} className={styles.Link}>
+            <div className={styles.Cart}>
+              {this.props.cartCount ? (
+                <span className={styles.CartCounter}>
+                  {this.props.cartCount}
+                </span>
+              ) : null}
+              <Icon icon="cart" className={styles.Icon} fontSize={19} />
+            </div>
+          </Link>
+          <div onClick={this.props.onLogout}>
+            <Icon icon="exit" className={styles.Icon} fontSize={19} />
+          </div>
+        </div>
+      );
+    }
     return (
       <header className={styles.Header}>
         <div className={styles.Logo}>
@@ -29,26 +59,7 @@ class Header extends Component {
           <NavLinkItem url="/category">Category</NavLinkItem>
           <NavLinkItem url="/contact">Contact</NavLinkItem>
         </div>
-        <div className={styles.IconBox}>
-          <Icon icon="magnifier" className={styles.Icon} fontSize={19} />
-          <div onClick={this.props.onShowAuthModal}>
-            <Icon icon="user" className={styles.Icon} fontSize={19} />
-          </div>
-          <Link to={ROUTES.WISHLIST} className={styles.Link}>
-            <Icon icon="heart" className={styles.Icon} fontSize={19} />
-          </Link>
-          <Link to={ROUTES.CART} className={styles.Link}>
-            <div className={styles.Cart}>
-              {this.props.cartCount ? (
-                <span className={styles.CartCounter}>
-                  {this.props.cartCount}
-                </span>
-              ) : null}
-              <Icon icon="cart" className={styles.Icon} fontSize={19} />
-            </div>
-          </Link>
-          <Icon icon="menu" className={styles.Icon} fontSize={18} />
-        </div>
+        {iconBox}
       </header>
     );
   }
@@ -56,13 +67,15 @@ class Header extends Component {
 
 const mapStateToProps = state => {
   return {
-    cartCount: Object.keys(state.cart.cart).length
+    cartCount: Object.keys(state.cart.cart).length,
+    isAuthenticated: state.auth.isAuth
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onShowAuthModal: () => dispatch(actions.switchShowAuth())
+    onShowAuthModal: () => dispatch(actions.switchShowAuth()),
+    onLogout: () => dispatch(actions.logout())
   };
 };
 
