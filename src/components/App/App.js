@@ -32,11 +32,13 @@ class App extends Component {
   componentDidMount() {
     this.props.onSubscribeWishlist();
     this.props.onSubscribeCart();
+    this.props.onSubscribeAuthState();
   }
 
   componentWillUnmount() {
     this.props.onUnsubscribeWishlist();
     this.props.onUnsubscribeCart();
+    this.props.onUnsubscribeAuthState();
   }
 
   render() {
@@ -46,7 +48,7 @@ class App extends Component {
           defaultTitle="ERA by deebov"
           titleTemplate="%s | ERA by deebov"
         />
-      <Auth />
+        <Auth />
         <Layout>
           <Switch>
             <Route path={ROUTES.LANDING} exact component={LandingPage} />
@@ -58,6 +60,7 @@ class App extends Component {
         </Layout>
         <ToastContainer />
         <Notification
+          text={this.props.errorText}
           show={this.props.error}
           onOpen={this.props.onRemoveError}
           options={{ type: 'fail' }}
@@ -69,7 +72,8 @@ class App extends Component {
 
 const mapStateToProps = state => {
   return {
-    error: state.errors.error
+    error: state.errors.error,
+    errorText: state.errors.text
   };
 };
 
@@ -79,7 +83,9 @@ const mapDispatchToProps = dispatch => {
     onUnsubscribeWishlist: () => dispatch(actions.unsubscribeWishlist()),
     onSubscribeCart: () => dispatch(actions.subscribeCart()),
     onUnsubscribeCart: () => dispatch(actions.unsubscribeCart()),
-    onRemoveError: () => dispatch(actions.removeError())
+    onRemoveError: () => dispatch(actions.removeError()),
+    onSubscribeAuthState: () => dispatch(actions.subscribeAuthState()),
+    onUnsubscribeAuthState: () => dispatch(actions.unsubscribeAuthState())
   };
 };
 
