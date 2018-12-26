@@ -34,14 +34,14 @@ class Auth extends Component {
 
 const mapStateToProps = state => {
   return {
-    showAuth: state.auth.showAuth
+    showAuth: state.auth.showAuth,
   };
 };
 const mapDispatchToProps = dispatch => {
   return {
     onSwitchShowAuth: () => dispatch(actions.switchShowAuth()),
     onSignupUser: registerData => dispatch(actions.auth(registerData)),
-    onSigninUser: loginData => dispatch(actions.auth(loginData, 'login'))
+    onSigninUser: loginData => dispatch(actions.auth(loginData, 'login')),
   };
 };
 

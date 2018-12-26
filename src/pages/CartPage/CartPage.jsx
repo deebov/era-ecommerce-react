@@ -20,7 +20,7 @@ class CartPage extends Component {
     oldCart: this.props.cart,
     totalPrice: 0,
     loading: false,
-    error: false
+    error: false,
   };
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -28,7 +28,7 @@ class CartPage extends Component {
       return {
         cart: nextProps.cart,
         oldCart: nextProps.cart,
-        totalPrice: CartPage.calcTotalPrice(nextProps.cart)
+        totalPrice: CartPage.calcTotalPrice(nextProps.cart),
       };
     } else return null;
   }
@@ -67,14 +67,14 @@ class CartPage extends Component {
     const updatedItem = {
       ...oldItem,
       amount: updatedCounter,
-      total_price: +updatedTotalPrice.toFixed(2)
+      total_price: +updatedTotalPrice.toFixed(2),
     };
 
     data[id] = updatedItem;
 
     this.setState({
       cart: data,
-      totalPrice: CartPage.calcTotalPrice(data)
+      totalPrice: CartPage.calcTotalPrice(data),
     });
   };
 
@@ -111,13 +111,13 @@ class CartPage extends Component {
 const mapStateToProps = state => {
   return {
     cart: state.cart.cart,
-    isLoading: state.cart.loading
+    isLoading: state.cart.loading,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onRemoveFromCart: id => dispatch(actions.removeFromCart(id))
+    onRemoveFromCart: id => dispatch(actions.removeFromCart(id)),
   };
 };
 

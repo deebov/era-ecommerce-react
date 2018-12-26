@@ -6,12 +6,7 @@ const LinkItem = props => {
   const { url, exact } = props;
   return (
     <div>
-      <Link
-        to={url}
-        exact={exact}
-        className={styles.Link}
-        title={props.title}
-      >
+      <Link to={url} exact={exact} className={styles.Link} title={props.title}>
         {props.children}
       </Link>
     </div>

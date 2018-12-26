@@ -18,7 +18,7 @@ export const Product = {
       </Link>
     </div>
   ),
-  width: 600
+  width: 600,
 };
 
 export const Price = {
@@ -30,7 +30,7 @@ export const Price = {
     </div>
   ),
   headerClassName: styles.Header,
-  width: 170
+  width: 170,
 };
 
 export const AddToCart = (cart, addingToCart, addToCartClicked, redirect) => {
@@ -52,7 +52,7 @@ export const AddToCart = (cart, addingToCart, addToCartClicked, redirect) => {
         </Button>
       </div>
     ),
-    headerClassName: styles.Header
+    headerClassName: styles.Header,
   };
 };
 
@@ -72,7 +72,7 @@ export const Thumbnail = {
     </div>
   ),
   width: 125,
-  headerClassName: styles.Header
+  headerClassName: styles.Header,
 };
 
 export const Remove = onDeleteItem => {
@@ -87,6 +87,6 @@ export const Remove = onDeleteItem => {
       </div>
     ),
     headerClassName: styles.Header,
-    width: 90
+    width: 90,
   };
 };

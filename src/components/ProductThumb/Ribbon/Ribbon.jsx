@@ -5,7 +5,7 @@ import styles from './Ribbon.module.css';
 const Ribbon = ({ type }) => {
   // Return nothing if type is not valid
   if (!type) {
-    return <div></div>;
+    return <div />;
   }
   type = type.toLowerCase();
 

@@ -50,7 +50,7 @@ export default class SimpleSlider extends Component {
       className: styles.Slider,
       slidesToShow: 2,
       nextArrow: <NavArrow type="next" />,
-      prevArrow: <NavArrow type="back" />
+      prevArrow: <NavArrow type="back" />,
     };
     return (
       <div className={styles.Container}>

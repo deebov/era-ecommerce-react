@@ -12,7 +12,7 @@ const withNotification = Component => {
       hideProgressBar: true,
       pauseOnHover: false,
       className: styles.Default,
-      bodyClassName: styles.Body
+      bodyClassName: styles.Body,
     };
 
     const funnyEmojis = [
@@ -29,7 +29,7 @@ const withNotification = Component => {
       '⚡',
       '💥',
       '🔥',
-      '🤙'
+      '🤙',
     ];
     const sadEmojis = [
       '😰',
@@ -43,7 +43,7 @@ const withNotification = Component => {
       '🤕',
       '😿',
       '🙀',
-      '😭'
+      '😭',
     ];
 
     // Math.floor(Math.random()*items.length)

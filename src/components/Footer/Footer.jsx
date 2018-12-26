@@ -17,24 +17,24 @@ const Footer = () => {
         {
           title: 'Track Order',
           desc: 'Track Order',
-          url: '/'
+          url: '/',
         },
         {
           title: 'Delivery & Returns',
           desc: 'Delivery & Returns',
-          url: '/'
+          url: '/',
         },
         {
           title: 'Premier Delivery',
           desc: 'Premier Delivery',
-          url: '/'
+          url: '/',
         },
         {
           title: 'FAQs',
           desc: 'FAQs',
-          url: '/'
-        }
-      ]
+          url: '/',
+        },
+      ],
     },
     {
       title: 'ABOUT SUPRO',
@@ -42,24 +42,24 @@ const Footer = () => {
         {
           title: 'About Us',
           desc: 'About Us',
-          url: '/'
+          url: '/',
         },
         {
           title: 'Careers',
           desc: 'Careers',
-          url: '/'
+          url: '/',
         },
         {
           title: 'Coporate',
           desc: 'Coporate',
-          url: '/'
+          url: '/',
         },
         {
           title: 'Investors',
           desc: 'Investors',
-          url: '/'
-        }
-      ]
+          url: '/',
+        },
+      ],
     },
     {
       title: 'ONLINE SHOP',
@@ -67,31 +67,31 @@ const Footer = () => {
         {
           title: 'Shoes',
           desc: 'Shoes',
-          url: '/'
+          url: '/',
         },
         {
           title: 'Bags',
           desc: 'Bags',
-          url: '/'
+          url: '/',
         },
         {
           title: 'Wallets',
           desc: 'Wallets',
-          url: '/'
+          url: '/',
         },
         {
           title: 'Belts',
           desc: 'Belts',
-          url: '/'
-        }
-      ]
+          url: '/',
+        },
+      ],
     },
     {
-      title: 'LANGUAGE'
+      title: 'LANGUAGE',
     },
     {
-      title: 'CURRENCY'
-    }
+      title: 'CURRENCY',
+    },
   ];
   const cols = columns.map((e, i) => {
     return <Column title={e.title} links={e.links} key={i} />;

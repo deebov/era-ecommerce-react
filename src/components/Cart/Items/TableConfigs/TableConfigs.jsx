@@ -26,7 +26,7 @@ export const Product = {
       </Link>
     </div>
   ),
-  width: 600
+  width: 600,
 };
 
 export const Price = {
@@ -38,7 +38,7 @@ export const Price = {
     </div>
   ),
   headerClassName: styles.Header,
-  width: 150
+  width: 150,
 };
 
 export const Quantity = (
@@ -59,7 +59,7 @@ export const Quantity = (
       </div>
     ),
     headerClassName: styles.Header,
-    width: 150
+    width: 150,
   };
 };
 
@@ -72,7 +72,7 @@ export const Total = {
     </div>
   ),
   headerClassName: styles.Header,
-  width: 150
+  width: 150,
 };
 
 export const Remove = onDeleteItem => {
@@ -87,6 +87,6 @@ export const Remove = onDeleteItem => {
       </div>
     ),
     headerClassName: styles.Header,
-    width: 70
+    width: 70,
   };
 };

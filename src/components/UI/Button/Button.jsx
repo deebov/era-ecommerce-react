@@ -9,7 +9,7 @@ const Button = ({
   className,
   clicked,
   disabled,
-  children
+  children,
 }) => {
   const classNames = [styles.Button, styles[size], styles[theme], className];
 

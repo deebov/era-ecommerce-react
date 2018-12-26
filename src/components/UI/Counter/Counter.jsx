@@ -11,7 +11,7 @@ const Counter = props => {
     onBlur,
     value = 1,
     minValue = 1,
-    maxValue = 300
+    maxValue = 300,
   } = props;
   return (
     <div className={styles.Container}>

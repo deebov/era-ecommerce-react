@@ -19,9 +19,9 @@ class WishlistPage extends Component {
         title,
         id,
         thumbnail,
-        price
+        price,
       },
-      updated: false
+      updated: false,
     });
   };
 
@@ -50,14 +50,14 @@ const mapStateToProps = state => {
     wishlist: state.wishlist.wishlist,
     isAddingToCart: state.cart.isAddingToCart,
     cart: state.cart.cart,
-    loading: state.wishlist.loading
+    loading: state.wishlist.loading,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     onRemoveFromWishlist: id => dispatch(actions.removeFromWishlist(id)),
-    onAddToCart: item => dispatch(actions.addToCart(item))
+    onAddToCart: item => dispatch(actions.addToCart(item)),
   };
 };
 

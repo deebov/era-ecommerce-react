@@ -14,58 +14,58 @@ class SignUpForm extends Component {
         elementType: 'input',
         elementConfig: {
           type: 'text',
-          placeholder: 'Username'
+          placeholder: 'Username',
         },
         value: '',
         validation: {
-          required: true
+          required: true,
         },
         valid: false,
-        touched: false
+        touched: false,
       },
       email: {
         elementType: 'input',
         elementConfig: {
           type: 'email',
-          placeholder: 'Email address'
+          placeholder: 'Email address',
         },
         value: '',
         validation: {
-          required: true
+          required: true,
         },
         valid: false,
-        touched: false
+        touched: false,
       },
       passwordOne: {
         elementType: 'input',
         elementConfig: {
           type: 'password',
-          placeholder: 'Password'
+          placeholder: 'Password',
         },
         value: '',
         validation: {
           required: true,
-          minLength: 6
+          minLength: 6,
         },
         valid: false,
-        touched: false
+        touched: false,
       },
       passwordTwo: {
         elementType: 'input',
         elementConfig: {
           type: 'password',
-          placeholder: 'Confirm your password'
+          placeholder: 'Confirm your password',
         },
         value: '',
         validation: {
           required: true,
-          minLength: 6
+          minLength: 6,
         },
         valid: false,
-        touched: false
-      }
+        touched: false,
+      },
     },
-    formIsValid: false
+    formIsValid: false,
   };
 
   inputChangedHandler = (event, inputID) => {
@@ -94,7 +94,7 @@ class SignUpForm extends Component {
 
     this.setState({
       registerForm: updatedForm,
-      formIsValid: formIsValid
+      formIsValid: formIsValid,
     });
   };
 
@@ -105,7 +105,7 @@ class SignUpForm extends Component {
     const registerData = {
       email: registerEmail,
       password: registerPassword,
-      username: registerUserName
+      username: registerUserName,
     };
 
     return (
@@ -141,7 +141,7 @@ class SignUpForm extends Component {
 
 const mapStateToProps = state => {
   return {
-    isSigningUp: state.auth.loading
+    isSigningUp: state.auth.loading,
   };
 };
 

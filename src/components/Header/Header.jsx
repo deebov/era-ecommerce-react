@@ -68,14 +68,14 @@ class Header extends Component {
 const mapStateToProps = state => {
   return {
     cartCount: Object.keys(state.cart.cart).length,
-    isAuthenticated: state.auth.isAuth
+    isAuthenticated: state.auth.isAuth,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     onShowAuthModal: () => dispatch(actions.switchShowAuth()),
-    onLogout: () => dispatch(actions.logout())
+    onLogout: () => dispatch(actions.logout()),
   };
 };
 

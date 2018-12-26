@@ -7,7 +7,7 @@ import {
   allProductsRef,
   cartRef,
   wishlistRef,
-  listsRef
+  listsRef,
 } from '../components/Firebase';
 import firebase from '../components/Firebase/';
 
@@ -17,7 +17,7 @@ const firestoreRefs = {
   allProducts: allProductsRef,
   cart: cartRef,
   wishlist: wishlistRef,
-  lists: listsRef
+  lists: listsRef,
 };
 
 const store = createStore(

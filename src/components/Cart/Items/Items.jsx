@@ -14,7 +14,7 @@ export const Items = ({
   onDeleteItem,
   incCounterClicked,
   decCounterClicked,
-  onCounterChange
+  onCounterChange,
 }) => {
   const dataArray = Object.keys(data).map(e => {
     return data[e];
@@ -29,7 +29,7 @@ export const Items = ({
       onCounterChange
     ),
     TableConfigs.Total,
-    TableConfigs.Remove(onDeleteItem)
+    TableConfigs.Remove(onDeleteItem),
   ];
 
   return (

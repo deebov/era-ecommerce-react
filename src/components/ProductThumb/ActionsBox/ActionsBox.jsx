@@ -15,7 +15,7 @@ const ActionsBox = props => {
     inCart,
     inWishlist,
     toggledWishlist,
-    togglingWishlist
+    togglingWishlist,
   } = props;
 
   const addToCart = (

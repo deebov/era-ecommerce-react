@@ -17,7 +17,7 @@ const WishlistItems = props => {
     onDeleteItem,
     cart,
     addingToCart,
-    addToCartClicked
+    addToCartClicked,
   } = props;
   const dataArray = _.values(data);
 
@@ -31,7 +31,7 @@ const WishlistItems = props => {
       addingToCart,
       addToCartClicked,
       props.history.push
-    )
+    ),
   ];
 
   return (

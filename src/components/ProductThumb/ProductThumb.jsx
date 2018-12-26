@@ -10,7 +10,7 @@ import { ITEM } from '../../constants/routes';
 
 const ProductThumb = props => {
   const {
-    item: { thumbnails, title, desc, rating, price, ribbonType, oldPrice, id }
+    item: { thumbnails, title, desc, rating, price, ribbonType, oldPrice, id },
   } = props;
 
   return (

@@ -14,30 +14,30 @@ class SignInForm extends Component {
         elementType: 'input',
         elementConfig: {
           type: 'email',
-          placeholder: 'Email address'
+          placeholder: 'Email address',
         },
         value: '',
         validation: {
-          required: true
+          required: true,
         },
         valid: false,
-        touched: false
+        touched: false,
       },
       password: {
         elementType: 'input',
         elementConfig: {
           type: 'password',
-          placeholder: 'Password'
+          placeholder: 'Password',
         },
         value: '',
         validation: {
           required: true,
-          minLength: 6
+          minLength: 6,
         },
         valid: false,
-        touched: false
-      }
-    }
+        touched: false,
+      },
+    },
   };
 
   inputChangedHandler = (event, inputID) => {
@@ -60,7 +60,7 @@ class SignInForm extends Component {
 
     this.setState({
       loginForm: updatedForm,
-      formIsValid
+      formIsValid,
     });
   };
 
@@ -68,7 +68,7 @@ class SignInForm extends Component {
     const loginEmail = this.state.loginForm['email'].value;
     const loginPassword = this.state.loginForm['password'].value;
     const loginData = { email: loginEmail, password: loginPassword };
-    
+
     return (
       <div>
         <form className={styles.Form}>
@@ -102,7 +102,7 @@ class SignInForm extends Component {
 
 const mapStateToProps = state => {
   return {
-    isSigningIn: state.auth.loading
+    isSigningIn: state.auth.loading,
   };
 };
 
