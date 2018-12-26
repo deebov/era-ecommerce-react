@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import _ from 'lodash/object';
+import { connect } from 'react-redux';
+
 import Button from '../UI/Button/Button';
 import Input from '../UI/Input/Input';
 import styles from './SignUpForm.module.css';
@@ -81,7 +83,7 @@ class SignUpForm extends Component {
     // Checking passwords are identical
     if (inputID.includes('password')) {
       updatedForm['passwordTwo'].valid =
-        updatedForm['passwordOne'].value === updatedForm['passwordTwo'].value 
+        updatedForm['passwordOne'].value === updatedForm['passwordTwo'].value;
     }
 
     let formIsValid = true;
@@ -125,6 +127,7 @@ class SignUpForm extends Component {
           <Button
             size="big"
             theme=""
+            loading={this.props.isSigningUp}
             disabled={!this.state.formIsValid}
             clicked={e => this.props.signUpClicked(e, registerData)}
           >
@@ -136,4 +139,10 @@ class SignUpForm extends Component {
   }
 }
 
-export default SignUpForm;
+const mapStateToProps = state => {
+  return {
+    isSigningUp: state.auth.loading
+  };
+};
+
+export default connect(mapStateToProps)(SignUpForm);
