@@ -117,7 +117,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onAddToCart: item => dispatch(actions.addToCart(item)),
     onRemoveFromCart: id => dispatch(actions.removeFromCart(id))
   };
 };
