@@ -8,18 +8,32 @@ import 'react-toastify/dist/ReactToastify.min.css';
 
 import * as ROUTES from '../../constants/routes';
 import { withFirebase } from '../Firebase/index';
+import lazyComponent from '../../hoc/lazyComponent/lazyComponent';
 import Layout from '../../containers/Layout/Layout';
 import Auth from '../../containers/Auth/Auth';
 import * as actions from '../../store/actions/';
 
 // Import Pages
 import LandingPage from '../../pages/LandingPage/LandingPage';
-import CartPage from '../../pages/CartPage/CartPage';
-import WishlistPage from '../../pages/WishlistPage/WishlistPage';
-import ProductPage from '../../pages/ProductPage/ProductPage';
-import NotFoundPage from '../../pages/NotFoundPage/NotFoundPage';
+// import CartPage from '../../pages/CartPage/CartPage';
+// import WishlistPage from '../../pages/WishlistPage/WishlistPage';
+// import ProductPage from '../../pages/ProductPage/ProductPage';
+// import NotFoundPage from '../../pages/NotFoundPage/NotFoundPage';
 import Notification from '../UI/Notification/Notification';
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
+
+const LazyProductPage = lazyComponent(() => {
+  return import('../../pages/ProductPage/ProductPage');
+});
+const LazyWishlistPage = lazyComponent(() => {
+  return import('../../pages/WishlistPage/WishlistPage');
+});
+const LazyCartPage = lazyComponent(() => {
+  return import('../../pages/CartPage/CartPage');
+});
+const LazyNotFoundPage = lazyComponent(() => {
+  return import('../../pages/NotFoundPage/NotFoundPage');
+});
 
 /**
  * TODO
@@ -31,7 +45,7 @@ import PrivateRoute from '../PrivateRoute/PrivateRoute';
 
 class App extends Component {
   state = {
-    isSubscribed: false
+    isSubscribed: false,
   };
 
   componentDidMount() {
@@ -66,10 +80,10 @@ class App extends Component {
         <Layout>
           <Switch>
             <Route path={ROUTES.LANDING} exact component={LandingPage} />
-            <Route path={`${ROUTES.ITEM}/:id`} component={ProductPage} />
-            <PrivateRoute path={ROUTES.CART} component={CartPage} />
-            <PrivateRoute path={ROUTES.WISHLIST} component={WishlistPage} />
-            <Route component={NotFoundPage} />
+            <Route path={`${ROUTES.ITEM}/:id`} component={LazyProductPage} />
+            <PrivateRoute path={ROUTES.CART} component={LazyCartPage} />
+            <PrivateRoute path={ROUTES.WISHLIST} component={LazyWishlistPage} />
+            <Route component={LazyNotFoundPage} />
           </Switch>
         </Layout>
         <ToastContainer />
@@ -88,7 +102,7 @@ const mapStateToProps = state => {
   return {
     error: state.errors.error,
     errorText: state.errors.text,
-    isAuthenticated: state.auth.isAuth
+    isAuthenticated: state.auth.isAuth,
   };
 };
 
@@ -100,7 +114,7 @@ const mapDispatchToProps = dispatch => {
     onUnsubscribeCart: () => dispatch(actions.unsubscribeCart()),
     onRemoveError: () => dispatch(actions.removeError()),
     onSubscribeAuthState: () => dispatch(actions.subscribeAuthState()),
-    onUnsubscribeAuthState: () => dispatch(actions.unsubscribeAuthState())
+    onUnsubscribeAuthState: () => dispatch(actions.unsubscribeAuthState()),
   };
 };
 
