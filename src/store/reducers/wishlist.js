@@ -6,7 +6,7 @@ const initialState = {
   isAddingToWishlist: {},
   isRemovingFromWishlist: {},
   loading: false,
-  error: false
+  error: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -15,25 +15,25 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.ADD_TO_WISHLIST_START:
       return updateObject(state, {
-        isAddingToWishlist: { ...isAddingToWishlist, [action.id]: true }
+        isAddingToWishlist: { ...isAddingToWishlist, [action.id]: true },
       });
 
     case actionTypes.ADD_TO_WISHLIST_FAIL:
       return updateObject(state, {
         error: { _status: true },
-        isAddingToWishlist: { ...isAddingToWishlist, [action.id]: false }
+        isAddingToWishlist: { ...isAddingToWishlist, [action.id]: false },
       });
     case actionTypes.ADD_TO_WISHLIST_SUCCESS:
       return updateObject(state, {
-        isAddingToWishlist: { ...isAddingToWishlist, [action.id]: false }
+        isAddingToWishlist: { ...isAddingToWishlist, [action.id]: false },
       });
 
     case actionTypes.REMOVE_FROM_WISHLIST_START:
       return updateObject(state, {
         isRemovingFromWishlist: {
           ...state.isRemovingFromWishlist,
-          [action.id]: true
-        }
+          [action.id]: true,
+        },
       });
 
     case actionTypes.REMOVE_FROM_WISHLIST_FAIL:
@@ -41,29 +41,19 @@ const reducer = (state = initialState, action) => {
         error: { _status: true },
         isRemovingFromWishlist: {
           ...state.isRemovingFromWishlist,
-          [action.id]: false
-        }
+          [action.id]: false,
+        },
       });
     case actionTypes.REMOVE_FROM_WISHLIST_SUCCESS:
       return updateObject(state, {
         isRemovingFromWishlist: {
           ...state.isRemovingFromWishlist,
-          [action.id]: false
-        }
-      });
-
-    case actionTypes.SUBSCRIBE_WISHLIST_START:
-      return updateObject(state, {
-        listener: { _status: true, unsubscribe: action.unsubscribe }
-      });
-    case actionTypes.SUBSCRIBE_WISHLIST_FAIL:
-      state.listener.unsubscribe();
-      return updateObject(state, {
-        listener: { _status: false, unsubscribe: null }
+          [action.id]: false,
+        },
       });
     case actionTypes.SUBSCRIBE_WISHLIST_SUCCESS:
       return updateObject(state, {
-        wishlist: action.wishlist
+        wishlist: action.wishlist,
       });
     case actionTypes.UNSUBSCRIBE_WISHLIST:
       return initialState;
