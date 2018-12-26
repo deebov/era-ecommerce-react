@@ -1,6 +1,6 @@
 import React from 'react';
 
-import styles from './ProductSummary.module.css';
+import styles from './Product.module.css';
 import ResponsiveWrapper from '../UI/ResponsiveWrapper/ResponsiveWrapper';
 import Images from './Images/Images';
 import Details from './Details/Details';

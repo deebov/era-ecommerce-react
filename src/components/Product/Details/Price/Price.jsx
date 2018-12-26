@@ -1,7 +1,7 @@
 import React from 'react';
 
 import styles from './Price.module.css';
-import ProductThumbPrices from '../../ProductThumb/Prices/Prices';
+import ProductThumbPrices from '../../../ProductThumb/Prices/Prices';
 
 const Price = ({ price, oldPrice }) => {
   return (

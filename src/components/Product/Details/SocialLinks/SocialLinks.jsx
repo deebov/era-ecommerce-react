@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import styles from './SocialLinks.module.css';
-import Icon from '../../UI/Icon/Icon';
+import Icon from '../../../UI/Icon/Icon';
 
 const SocialLinks = ({ socialData }) => {
   // Generate social network icons inside the Link component

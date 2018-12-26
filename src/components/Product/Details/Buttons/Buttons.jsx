@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import Counter from '../../UI/Counter/Counter';
-import Button from '../../UI/Button/Button';
+import Counter from '../../../UI/Counter/Counter';
+import Button from '../../../UI/Button/Button';
 import WishlistButton from '../WishlistButton/WishlistButton';
 import styles from './Buttons.module.css';
-import { FormHandlersContext } from '../../../pages/ProductPage/ProductPage';
+import { FormHandlersContext } from '../../../../pages/ProductPage/ProductPage';
 
 const Buttons = props => {
   return (
@@ -20,7 +20,7 @@ const Buttons = props => {
           onSubmit,
           count,
           onSale,
-          addToWishlistClicked
+          addToWishlistClicked,
         }) => (
           <div className={styles.Buttons}>
             <Counter
@@ -54,7 +54,7 @@ const mapStateToProps = state => {
   return {
     wishlist: state.wishlist.wishlist,
     isAddingToCart: state.cart.isAddingToCart,
-    isAddingToWishlist: state.wishlist.isAddingToWishlist
+    isAddingToWishlist: state.wishlist.isAddingToWishlist,
   };
 };
 

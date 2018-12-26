@@ -1,7 +1,7 @@
 import React from 'react';
 
 import styles from './Rating.module.css';
-import RatingStars from '../../ProductThumb/RatingStars/RatingStars';
+import RatingStars from '../../../ProductThumb/RatingStars/RatingStars';
 
 const Rating = ({ rating }) => {
   // const reviewsLen = reviews.length;

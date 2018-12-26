@@ -1,6 +1,6 @@
 import React from 'react';
 
-import styles from './ProductDetails.module.css';
+import styles from './Details.module.css';
 import SocialLinks from './SocialLinks/SocialLinks';
 import Rating from './Rating/Rating';
 import Buttons from './Buttons/Buttons';

@@ -2,10 +2,10 @@ import React from 'react';
 import ReactTooltip from 'react-tooltip';
 import { Link } from 'react-router-dom';
 
-import Icon from '../../UI/Icon/Icon';
+import Icon from '../../../UI/Icon/Icon';
 import styles from './WishlistButton.module.css';
-import Spinner from '../../UI/Spinner/Spinner';
-import { WISHLIST } from '../../../constants/routes';
+import Spinner from '../../../UI/Spinner/Spinner';
+import { WISHLIST } from '../../../../constants/routes';
 
 const WishlistButton = ({ saved, loading, clicked }) => {
   const loadingClassName = loading ? styles.IconLoading : '';

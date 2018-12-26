@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash/object';
 
-import Input from '../UI/Input/Input';
-import Button from '../UI/Button/Button';
+import Input from '../../UI/Input/Input';
+import Button from '../../UI/Button/Button';
 import styles from './SignInForm.module.css';
-import { checkValidation } from '../../utils';
+import { checkValidation } from '../../../utils';
 
 class SignInForm extends Component {
   state = {
