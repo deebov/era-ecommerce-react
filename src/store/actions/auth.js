@@ -78,8 +78,6 @@ export const subscribeAuthState = () => (dispatch, getState, { firebase }) => {
     if (user) {
       dispatch(authSuccess(user.uid));
     } else {
-      console.log(getState().auth.isPending);
-      
       if (getState().auth.isPending) {
         dispatch(logoutSuccess());
       }
