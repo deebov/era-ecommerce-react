@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import styles from './ProductThumb.module.css';
 import Ribbon from './Ribbon/Ribbon';
@@ -13,6 +14,15 @@ const ProductThumb = props => {
     item: { thumbnails, title, desc, rating, price, ribbonType, oldPrice, id },
   } = props;
 
+  const {
+    inWishlist,
+    onAddToCart,
+    addingToCart,
+    inCart,
+    toggleWishlist,
+    togglingWishlist,
+  } = props;
+
   return (
     <div className={styles.Product}>
       <div className={styles.ProductInner}>
@@ -23,12 +33,12 @@ const ProductThumb = props => {
           </Link>
           <ActionsBox
             additionalClassName={styles.ActionsBox}
-            addedToCart={props.onAddToCart}
-            addingToCart={props.addingToCart}
-            inCart={props.inCart}
-            toggledWishlist={props.toggleWishlist}
-            togglingWishlist={props.togglingWishlist}
-            inWishlist={props.inWishlist}
+            addedToCart={onAddToCart}
+            addingToCart={addingToCart}
+            inCart={inCart}
+            toggledWishlist={toggleWishlist}
+            togglingWishlist={togglingWishlist}
+            inWishlist={inWishlist}
           />
         </div>
         <div className={styles.Details}>
@@ -39,6 +49,16 @@ const ProductThumb = props => {
       </div>
     </div>
   );
+};
+
+ProductThumb.propTypes = {
+  inWishlist: PropTypes.bool,
+  onAddToCart: PropTypes.func,
+  addingToCart: PropTypes.bool,
+  inCart: PropTypes.bool,
+  toggleWishlist: PropTypes.func,
+  togglingWishlist: PropTypes.bool,
+  item: PropTypes.object,
 };
 
 export default ProductThumb;

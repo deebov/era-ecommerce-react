@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import { Title as CartTitle } from '../../components/Cart/Title/Title';
 import WishlistItems from '../../components/WishlistItems/WishlistItems';
@@ -44,6 +45,15 @@ class WishlistPage extends Component {
     );
   }
 }
+
+WishlistPage.propTypes = {
+  wishlist: PropTypes.objectOf(PropTypes.object),
+  isAddingToCart: PropTypes.bool,
+  cart: PropTypes.object,
+  loading: PropTypes.bool,
+  onRemoveFromWishlist: PropTypes.func,
+  onAddToCart: PropTypes.func,
+};
 
 const mapStateToProps = state => {
   return {

@@ -3,8 +3,13 @@ import { updateObject } from '../../utils';
 
 const initialState = {
   lists: {},
+  listsConfigs: [
+    { id: 'new-arrivals', title: 'New Arrivals' },
+    { id: 'best-seller', title: 'Best Seller' },
+    { id: 'most-popular', title: 'Most Popular' },
+  ],
   isLoading: {},
-  error: false
+  error: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -12,17 +17,17 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.FETCH_LIST_START:
       return updateObject(state, {
-        isLoading: { ...state.isLoading, [id]: true }
+        isLoading: { ...state.isLoading, [id]: true },
       });
     case actionTypes.FETCH_LIST_FAIL:
       return updateObject(state, {
         error: { _status: true },
-        isLoading: { ...state.isLoading, [id]: false }
+        isLoading: { ...state.isLoading, [id]: false },
       });
     case actionTypes.FETCH_LIST_SUCCESS:
       return updateObject(state, {
         lists: { ...state.lists, [id]: action.products },
-        isLoading: { ...state.isLoading, [id]: false }
+        isLoading: { ...state.isLoading, [id]: false },
       });
     default:
       return state;

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import _ from 'lodash';
+import PropTypes from 'prop-types';
 
 import { Title, Summary, Items } from '../../components/Cart/Cart';
 import ResponsiveWrapper from '../../components/UI/ResponsiveWrapper/ResponsiveWrapper';
@@ -107,6 +108,12 @@ class CartPage extends Component {
     );
   }
 }
+
+CartPage.propTypes = {
+  cart: PropTypes.object,
+  isLoading: PropTypes.bool,
+  onRemoveFromCart: PropTypes.func,
+};
 
 const mapStateToProps = state => {
   return {

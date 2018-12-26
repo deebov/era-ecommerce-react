@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import styles from './SocialLinks.module.css';
 import Icon from '../../../UI/Icon/Icon';
@@ -17,6 +18,10 @@ const SocialLinks = ({ socialData }) => {
   ));
 
   return <div className={styles.SocialIconsBox}>{socialIcons}</div>;
+};
+
+SocialLinks.propTypes = {
+  socialData: PropTypes.array,
 };
 
 export default SocialLinks;

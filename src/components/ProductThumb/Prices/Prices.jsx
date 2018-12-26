@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import styles from './Prices.module.css';
 
@@ -38,6 +39,12 @@ const Prices = props => {
   }
 
   return priceEl;
+};
+
+Prices.propTypes = {
+  price: PropTypes.number,
+  oldPrice: PropTypes.number,
+  className: PropTypes.string,
 };
 
 export default Prices;

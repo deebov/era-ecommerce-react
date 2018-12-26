@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+
 import styles from './LinkItem.module.css';
 
 const LinkItem = props => {
@@ -11,6 +13,11 @@ const LinkItem = props => {
       </Link>
     </div>
   );
+};
+
+LinkItem.propTypes = {
+  url: PropTypes.string,
+  exact: PropTypes.bool,
 };
 
 export default LinkItem;

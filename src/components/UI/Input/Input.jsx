@@ -1,12 +1,21 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import styles from './Input.module.css';
 
 const Input = props => {
   let inputElement = null;
+  const {
+    elementConfig,
+    value,
+    changed,
+    touched,
+    invalid,
+    shouldValidate,
+  } = props;
   const inputClasses = [styles.Input];
 
-  if (props.invalid && props.shouldValidate && props.touched) {
+  if (invalid && shouldValidate && touched) {
     inputClasses.push(styles.InputInvalid);
   }
 
@@ -15,9 +24,9 @@ const Input = props => {
       inputElement = (
         <input
           className={inputClasses.join(' ')}
-          {...props.elementConfig}
-          value={props.value}
-          onChange={props.changed}
+          {...elementConfig}
+          value={value}
+          onChange={changed}
         />
       );
       break;
@@ -25,9 +34,9 @@ const Input = props => {
       inputElement = (
         <textarea
           className={inputClasses.join(' ')}
-          {...props.elementConfig}
-          value={props.value}
-          onChange={props.changed}
+          {...elementConfig}
+          value={value}
+          onChange={changed}
         />
       );
       break;
@@ -35,10 +44,10 @@ const Input = props => {
       inputElement = (
         <select
           className={styles.SelectElement}
-          value={props.value}
-          onChange={props.changed}
+          value={value}
+          onChange={changed}
         >
-          {props.elementConfig.options.map((e, idx) => {
+          {elementConfig.options.map((e, idx) => {
             return (
               <option key={idx} value={e.value}>
                 {e.displayValue}
@@ -52,9 +61,9 @@ const Input = props => {
       inputElement = (
         <input
           className={inputClasses.join(' ')}
-          {...props.elementConfig}
-          value={props.value}
-          onChange={props.changed}
+          {...elementConfig}
+          value={value}
+          onChange={changed}
         />
       );
       break;
@@ -66,6 +75,14 @@ const Input = props => {
       {inputElement}
     </div>
   );
+};
+
+Input.propTypes = {
+  elementConfig: PropTypes.object,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  changed: PropTypes.func,
+  touched: PropTypes.bool,
+  invalid: PropTypes.bool,
 };
 
 export default Input;

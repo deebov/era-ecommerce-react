@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import styles from './Details.module.css';
 import SocialLinks from './SocialLinks/SocialLinks';
@@ -49,6 +50,17 @@ const Details = props => {
       <SocialLinks socialData={socialData} />
     </div>
   );
+};
+
+Details.propTypes = {
+  title: PropTypes.string,
+  price: PropTypes.number,
+  oldPrice: PropTypes.number,
+  summary: PropTypes.string,
+  reviews: PropTypes.array,
+  categories: PropTypes.array,
+  tags: PropTypes.array,
+  rating: PropTypes.number,
 };
 
 export default Details;

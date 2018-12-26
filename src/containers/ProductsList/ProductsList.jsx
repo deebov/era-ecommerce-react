@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import ProductThumb from '../../components/ProductThumb/ProductThumb';
 import styles from './ProductsList.module.css';
@@ -8,11 +9,6 @@ import * as actions from '../../store/actions';
 import withNotification from '../../hoc/withNotification/withNotification';
 
 class ProductsList extends Component {
-  state = {
-    loading: false,
-    error: false,
-  };
-
   componentDidMount() {
     this.props.onFetchList(this.props.id);
   }
@@ -107,6 +103,23 @@ class ProductsList extends Component {
   }
 }
 
+ProductsList.propTypes = {
+  lists: PropTypes.object,
+  id: PropTypes.string,
+  wishlist: PropTypes.object,
+  isAddingToWishlist: PropTypes.objectOf(PropTypes.bool),
+  isRemovingFromWishlist: PropTypes.objectOf(PropTypes.bool),
+  cart: PropTypes.object,
+  isLoading: PropTypes.objectOf(PropTypes.bool),
+  isAddingToCart: PropTypes.objectOf(PropTypes.bool),
+  isAuthenticated: PropTypes.bool,
+  onFetchList: PropTypes.func,
+  onAddToCart: PropTypes.func,
+  onAddToWishlist: PropTypes.func,
+  onShowAuthModal: PropTypes.func,
+  onRemoveFromWishlist: PropTypes.func,
+};
+
 const mapStateToProps = state => {
   return {
     lists: state.lists.lists,
@@ -117,7 +130,6 @@ const mapStateToProps = state => {
     isLoading: state.lists.isLoading,
     isAddingToCart: state.cart.isAddingToCart,
     isAuthenticated: state.auth.isAuth,
-    error: state.lists.error,
   };
 };
 

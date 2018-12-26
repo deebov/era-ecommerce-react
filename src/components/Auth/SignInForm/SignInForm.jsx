@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash/object';
+import PropTypes from 'prop-types';
 
 import Input from '../../UI/Input/Input';
 import Button from '../../UI/Button/Button';
@@ -99,6 +100,11 @@ class SignInForm extends Component {
     );
   }
 }
+
+SignInForm.propTypes = {
+  isSigningIn: PropTypes.bool,
+  signInClicked: PropTypes.func,
+};
 
 const mapStateToProps = state => {
   return {

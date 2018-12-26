@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import Counter from '../../../UI/Counter/Counter';
 import Button from '../../../UI/Button/Button';
@@ -48,6 +49,12 @@ const Buttons = props => {
       </FormHandlersContext.Consumer>
     </form>
   );
+};
+
+Buttons.propTypes = {
+  wishlist: PropTypes.object,
+  isAddingToCart: PropTypes.object,
+  isAddingToWishlist: PropTypes.object,
 };
 
 const mapStateToProps = state => {

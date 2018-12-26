@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import AuthPresentational from '../../components/Auth/Auth';
 import * as actions from '../../store/actions';
@@ -31,6 +32,13 @@ class Auth extends Component {
     );
   }
 }
+
+Auth.propTypes = {
+  showAuth: PropTypes.bool,
+  onSwitchShowAuth: PropTypes.func,
+  onSignupUser: PropTypes.func,
+  onSigninUser: PropTypes.func,
+};
 
 const mapStateToProps = state => {
   return {

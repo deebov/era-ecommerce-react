@@ -1,18 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import styles from './Counter.module.css';
 import Icon from '../Icon/Icon';
 
 const Counter = props => {
-  const {
-    decClicked,
-    incClicked,
-    onChange,
-    onBlur,
-    value = 1,
-    minValue = 1,
-    maxValue = 300,
-  } = props;
+  const { decClicked, incClicked, onChange, onBlur, value } = props;
   return (
     <div className={styles.Container}>
       <span onClick={decClicked}>
@@ -28,8 +21,6 @@ const Counter = props => {
         value={value}
         onChange={onChange}
         onBlur={onBlur}
-        min={minValue}
-        max={maxValue}
         step="1"
         name="counter"
       />
@@ -42,6 +33,18 @@ const Counter = props => {
       </span>
     </div>
   );
+};
+
+Counter.propTypes = {
+  decClicked: PropTypes.func,
+  incClicked: PropTypes.func,
+  onChange: PropTypes.func,
+  onBlur: PropTypes.func,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+};
+
+Counter.defaultProps = {
+  value: 1,
 };
 
 export default Counter;

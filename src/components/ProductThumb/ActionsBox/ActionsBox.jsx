@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactTooltip from 'react-tooltip';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import styles from './ActionsBox.module.css';
 import Icon from '../../UI/Icon/Icon';
@@ -74,6 +75,16 @@ const ActionsBox = props => {
       </div>
     </div>
   );
+};
+
+ActionsBox.propTypes = {
+  additionalClassName: PropTypes.string,
+  addedToCart: PropTypes.func,
+  addingToCart: PropTypes.bool,
+  inCart: PropTypes.bool,
+  inWishlist: PropTypes.bool,
+  toggledWishlist: PropTypes.func,
+  togglingWishlist: PropTypes.bool,
 };
 
 export default ActionsBox;

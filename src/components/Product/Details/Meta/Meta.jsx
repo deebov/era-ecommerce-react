@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import styles from './Meta.module.css';
 
@@ -19,6 +20,11 @@ const Meta = ({ tags, categories }) => {
       </div>
     </div>
   );
+};
+
+Meta.propTypes = {
+  tags: PropTypes.array,
+  categories: PropTypes.array,
 };
 
 export default Meta;

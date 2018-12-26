@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import PropTypes from 'prop-types';
 
 import styles from './Auth.module.css';
 import SignInForm from './SignInForm/SignInForm';
@@ -47,5 +48,11 @@ class AuthPresentational extends Component {
     );
   }
 }
+
+AuthPresentational.propTypes = {
+  onSwitchVisible: PropTypes.func,
+  signinUser: PropTypes.func,
+  signupUser: PropTypes.func,
+};
 
 export default AuthPresentational;

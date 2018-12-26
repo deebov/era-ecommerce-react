@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import Icon from '../UI/Icon/Icon';
 import { LANDING } from '../../constants/routes';
 import styles from './NotFound.module.css';
+
 const NotFound = () => {
   return (
     <div className={styles.Container}>

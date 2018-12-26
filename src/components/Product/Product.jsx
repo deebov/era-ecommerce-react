@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import styles from './Product.module.css';
 import ResponsiveWrapper from '../UI/ResponsiveWrapper/ResponsiveWrapper';
@@ -14,6 +15,10 @@ const Product = ({ product }) => {
       </section>
     </ResponsiveWrapper>
   );
+};
+
+Product.propTypes = {
+  product: PropTypes.object,
 };
 
 export default Product;

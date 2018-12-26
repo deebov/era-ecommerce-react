@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import ReactTable from 'react-table';
 import Spinner from '../../UI/Spinner/Spinner';
@@ -53,4 +54,13 @@ export const Items = ({
       />
     </div>
   );
+};
+
+Items.propTypes = {
+  data: PropTypes.object,
+  loading: PropTypes.bool,
+  onDeleteItem: PropTypes.func,
+  incCounterClicked: PropTypes.func,
+  decCounterClicked: PropTypes.func,
+  onCounterChange: PropTypes.func,
 };

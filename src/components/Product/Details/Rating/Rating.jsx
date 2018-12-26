@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import styles from './Rating.module.css';
 import RatingStars from '../../../ProductThumb/RatingStars/RatingStars';
@@ -14,6 +15,10 @@ const Rating = ({ rating }) => {
       </span>
     </div>
   );
+};
+
+Rating.propTypes = {
+  rating: PropTypes.number,
 };
 
 export default Rating;

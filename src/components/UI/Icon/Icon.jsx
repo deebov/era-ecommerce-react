@@ -1,10 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import './ionicons.min.css';
 import './linearicons.min.css';
 
 const Icon = props => {
-  const { icon, className, color = '', type = 'linear' } = props;
+  const { icon, className, color, type } = props;
   let { fontSize } = props;
   fontSize = fontSize ? fontSize + 'px' : '14px';
 
@@ -14,6 +15,18 @@ const Icon = props => {
 
   const classNames = [prefix + icon, className].join(' ');
   return <i className={classNames} style={{ fontSize, color }} />;
+};
+
+Icon.propTypes = {
+  icon: PropTypes.string,
+  className: PropTypes.string,
+  color: PropTypes.string,
+  type: PropTypes.string,
+};
+
+Icon.defaultProps = {
+  color: '',
+  type: 'linear',
 };
 
 export default Icon;

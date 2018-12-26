@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Slider from 'react-slick';
+import PropTypes from 'prop-types';
 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -33,6 +34,11 @@ function NavArrow(props) {
   );
 }
 
+NavArrow.propTypes = {
+  type: PropTypes.string,
+  onClick: PropTypes.func,
+};
+
 function Slide(images) {
   const slides = images.map((e, i) => (
     <div className={styles.Slide} key={i}>
@@ -42,7 +48,11 @@ function Slide(images) {
   return slides;
 }
 
-export default class SimpleSlider extends Component {
+Slide.propTypes = {
+  images: PropTypes.arrayOf(PropTypes.string),
+};
+
+export default class Images extends Component {
   render() {
     const settings = {
       infinite: false,
@@ -59,3 +69,7 @@ export default class SimpleSlider extends Component {
     );
   }
 }
+
+Images.propTypes = {
+  images: PropTypes.arrayOf(PropTypes.string),
+};

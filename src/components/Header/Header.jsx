@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+
 // Constants
 import * as ROUTES from '../../constants/routes';
 // Styles
@@ -64,6 +66,13 @@ class Header extends Component {
     );
   }
 }
+
+Header.propTypes = {
+  onLogout: PropTypes.func,
+  cartCount: PropTypes.number,
+  isAuthenticated: PropTypes.bool,
+  onShowAuthModal: PropTypes.func,
+};
 
 const mapStateToProps = state => {
   return {

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Button from '../../UI/Button/Button';
 import styles from './Summary.module.css';
@@ -20,4 +21,10 @@ export const Summary = ({ totalPrice, checkoutClicked, disableCheckout }) => {
       </Button>
     </div>
   );
+};
+
+Summary.propTypes = {
+  totalPrice: PropTypes.number,
+  disableCheckout: PropTypes.bool,
+  checkoutClicked: PropTypes.func,
 };

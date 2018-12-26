@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import logo from '../../../assets/images/logo.svg';
 
@@ -10,6 +11,11 @@ const Logo = props => {
       style={{ width: props.width, height: props.height }}
     />
   );
+};
+
+Logo.propTypes = {
+  width: PropTypes.string,
+  height: PropTypes.string,
 };
 
 export default Logo;

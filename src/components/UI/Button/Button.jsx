@@ -1,11 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import styles from './Button.module.css';
 
 const Button = ({
   loading,
-  theme = 'white',
-  size = 'small',
+  theme,
+  size,
   className,
   clicked,
   disabled,
@@ -30,6 +31,20 @@ const Button = ({
       <span>{children}</span>
     </button>
   );
+};
+
+Button.propTypes = {
+  loading: PropTypes.bool,
+  theme: PropTypes.string,
+  size: PropTypes.string,
+  className: PropTypes.string,
+  clicked: PropTypes.func,
+  disabled: PropTypes.bool,
+};
+
+Button.defaultProps = {
+  theme: 'white',
+  size: 'small',
 };
 
 export default Button;

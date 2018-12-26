@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import styles from './Ribbon.module.css';
 
@@ -30,6 +31,10 @@ const Ribbon = ({ type }) => {
   }
 
   return <span className={classNames.join(' ')}>{ribbonText}</span>;
+};
+
+Ribbon.propTypes = {
+  type: PropTypes.string,
 };
 
 export default Ribbon;

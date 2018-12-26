@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import Product from '../../components/Product/Product';
 import Spinner from '../../components/UI/Spinner/Spinner';
@@ -143,6 +144,17 @@ class ProductPage extends Component {
     );
   }
 }
+
+ProductPage.propTypes = {
+  product: PropTypes.object,
+  loading: PropTypes.bool,
+  error: PropTypes.bool,
+  isAuthenticated: PropTypes.bool,
+  onAddToCart: PropTypes.func,
+  onFetchProduct: PropTypes.func,
+  onAddToWishlist: PropTypes.func,
+  onShowAuthModal: PropTypes.func,
+};
 
 const mapStateToProps = state => {
   return {

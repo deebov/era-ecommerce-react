@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactTooltip from 'react-tooltip';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import Icon from '../../../UI/Icon/Icon';
 import styles from './WishlistButton.module.css';
@@ -45,6 +46,12 @@ const WishlistButton = ({ saved, loading, clicked }) => {
       )}
     </div>
   );
+};
+
+WishlistButton.propTypes = {
+  saved: PropTypes.bool,
+  clicked: PropTypes.func,
+  loading: PropTypes.bool,
 };
 
 export default WishlistButton;

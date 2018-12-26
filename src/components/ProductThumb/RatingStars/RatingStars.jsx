@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import styles from './RatingStars.module.css';
 import Icon from '../../UI/Icon/Icon';
@@ -6,7 +7,7 @@ import Icon from '../../UI/Icon/Icon';
  * This component generates the rating
  * stars by item's rate
  */
-const RatingStars = ({ rating, ratingLimit = 5, theme = 'red' }) => {
+const RatingStars = ({ rating, ratingLimit, theme }) => {
   const stars = [];
   // the initial className is only applied for unfilled stars
   const initialClass = [styles.Star];
@@ -33,6 +34,17 @@ const RatingStars = ({ rating, ratingLimit = 5, theme = 'red' }) => {
   }
 
   return stars;
+};
+
+RatingStars.propTypes = {
+  rating: PropTypes.number,
+  ratingLimit: PropTypes.number,
+  theme: PropTypes.string,
+};
+
+RatingStars.defaultProps = {
+  theme: 'red',
+  ratingLimit: 5,
 };
 
 export default RatingStars;

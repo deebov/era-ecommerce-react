@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { Helmet } from 'react-helmet';
+import PropTypes from 'prop-types';
 
 import 'react-toastify/dist/ReactToastify.min.css';
 
@@ -93,6 +94,12 @@ class App extends Component {
     );
   }
 }
+
+App.propTypes = {
+  error: PropTypes.bool,
+  errorText: PropTypes.string,
+  isAuthenticated: PropTypes.bool,
+};
 
 const mapStateToProps = state => {
   return {

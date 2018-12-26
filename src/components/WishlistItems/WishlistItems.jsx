@@ -2,6 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import ReactTable from 'react-table';
 import _ from 'lodash/fp/object';
+import PropTypes from 'prop-types';
 
 import 'react-table/react-table.css';
 import './ReactTableCustom.css';
@@ -57,6 +58,15 @@ const WishlistItems = props => {
       />
     </div>
   );
+};
+
+WishlistItems.propTypes = {
+  data: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  loading: PropTypes.bool,
+  onDeleteItem: PropTypes.func,
+  cart: PropTypes.object,
+  addingToCart: PropTypes.object,
+  addToCartClicked: PropTypes.func,
 };
 
 export default withRouter(WishlistItems);
