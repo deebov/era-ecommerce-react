@@ -3,7 +3,7 @@ import { updateObject } from '../../utils/index';
 
 const initialState = {
   isAuth: false,
-  userId: null,
+  uid: null,
   showAuth: false,
   loading: false,
   error: null
@@ -19,7 +19,7 @@ const reducer = (state = initialState, action) => {
       return updateObject(state, { error: action.error, loading: false });
     case actionTypes.AUTH_SUCCESS:
       return updateObject(state, {
-        userId: action.uid ? action.uid : state.userId,
+        uid: action.uid ? action.uid : state.userId,
         isAuth: true,
         loading: false,
         showAuth: false
@@ -27,7 +27,7 @@ const reducer = (state = initialState, action) => {
     case actionTypes.AUTH_LOGOUT:
       return updateObject(state, {
         isAuth: false,
-        userId: null,
+        uid: null,
         loading: null
       });
     default:
