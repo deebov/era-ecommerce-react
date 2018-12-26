@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Helmet } from 'react-helmet';
 
-import ProductsListWithTabs from '../../components/ProductsListWithTabs/ProductsListWithTabs';
+import ProductsListWithTabs from '../../compositions/ProductsListWithTabs/ProductsListWithTabs';
 import { LANDING as landingTitle } from '../../constants/titles';
 
 class LandingPage extends Component {
@@ -9,9 +9,9 @@ class LandingPage extends Component {
     productLists: [
       { id: 'new-arrivals', title: 'New Arrivals' },
       { id: 'best-seller', title: 'Best Seller' },
-      { id: 'most-popular', title: 'Most Popular' }
+      { id: 'most-popular', title: 'Most Popular' },
     ],
-    error: false
+    error: false,
   };
 
   render() {

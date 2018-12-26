@@ -7,24 +7,24 @@ import Buttons from './Buttons/Buttons';
 import Meta from './Meta/Meta';
 import Price from './Price/Price';
 
-const ProductDetails = props => {
+const Details = props => {
   // This object shall be replaced by the real data
   const socialData = [
     {
       url: 'https://twitter.com/deebov',
       name: 'Twitter',
-      icon: 'twitter'
+      icon: 'twitter',
     },
     {
       url: 'https://facebook.com/deebov',
       name: 'Facebook',
-      icon: 'facebook'
+      icon: 'facebook',
     },
     {
       url: 'https://pinterest.com/deebov',
       name: 'Pinterst',
-      icon: 'pinterest'
-    }
+      icon: 'pinterest',
+    },
   ];
 
   const {
@@ -35,7 +35,7 @@ const ProductDetails = props => {
     reviews,
     categories,
     tags,
-    rating
+    rating,
   } = props.item;
 
   return (
@@ -51,4 +51,4 @@ const ProductDetails = props => {
   );
 };
 
-export default ProductDetails;
+export default Details;

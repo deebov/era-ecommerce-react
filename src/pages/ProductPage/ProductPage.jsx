@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 
-import ProductSummary from '../../components/ProductSummary/ProductSummary';
+import Product from '../../components/Product/Product';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import { NOT_FOUND } from '../../constants/routes';
 import * as actions from '../../store/actions/index';
@@ -16,7 +16,7 @@ class ProductPage extends Component {
     title: 'Untitled',
     counter: 1,
     error: false,
-    loading: false
+    loading: false,
   };
 
   componentDidMount() {
@@ -31,7 +31,7 @@ class ProductPage extends Component {
     }
     this.setState(state => {
       return {
-        counter: state.counter + 1
+        counter: state.counter + 1,
       };
     });
   };
@@ -41,7 +41,7 @@ class ProductPage extends Component {
     if (this.state.counter > 1) {
       this.setState(state => {
         return {
-          counter: state.counter - 1
+          counter: state.counter - 1,
         };
       });
     }
@@ -77,7 +77,7 @@ class ProductPage extends Component {
       id,
       title,
       price,
-      thumbnail
+      thumbnail,
     });
   };
 
@@ -98,8 +98,8 @@ class ProductPage extends Component {
         title: product.title,
         id: product.id,
         thumbnail: product.thumbnails[0],
-        price: product.price
-      }
+        price: product.price,
+      },
     });
   };
 
@@ -121,10 +121,10 @@ class ProductPage extends Component {
               onSubmit: this.onSubmitHandler,
               count: this.state.counter,
               onSale: this.props.product.onSale,
-              addToWishlistClicked: this.addToWishlistHandler
+              addToWishlistClicked: this.addToWishlistHandler,
             }}
           >
-            <ProductSummary product={this.props.product} />
+            <Product product={this.props.product} />
           </FormHandlersContext.Provider>
         </div>
       );
@@ -149,7 +149,7 @@ const mapStateToProps = state => {
     product: state.product.product,
     loading: state.product.loading,
     error: state.product.error,
-    isAuthenticated: state.auth.isAuth
+    isAuthenticated: state.auth.isAuth,
   };
 };
 
@@ -158,7 +158,7 @@ const mapDispatchToProps = dispatch => {
     onFetchProduct: id => dispatch(actions.fetchProduct(id)),
     onAddToCart: item => dispatch(actions.addToCart(item)),
     onAddToWishlist: item => dispatch(actions.addToWishlist(item)),
-    onShowAuthModal: () => dispatch(actions.switchShowAuth())
+    onShowAuthModal: () => dispatch(actions.switchShowAuth()),
   };
 };
 

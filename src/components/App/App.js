@@ -13,15 +13,11 @@ import Layout from '../../containers/Layout/Layout';
 import Auth from '../../containers/Auth/Auth';
 import * as actions from '../../store/actions/';
 
-// Import Pages
 import LandingPage from '../../pages/LandingPage/LandingPage';
-// import CartPage from '../../pages/CartPage/CartPage';
-// import WishlistPage from '../../pages/WishlistPage/WishlistPage';
-// import ProductPage from '../../pages/ProductPage/ProductPage';
-// import NotFoundPage from '../../pages/NotFoundPage/NotFoundPage';
 import Notification from '../UI/Notification/Notification';
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
 
+// Import lazyloading components
 const LazyProductPage = lazyComponent(() => {
   return import('../../pages/ProductPage/ProductPage');
 });

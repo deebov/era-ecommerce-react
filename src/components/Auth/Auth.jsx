@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 import styles from './Auth.module.css';
-import SignInForm from '../SignInForm/SignInForm';
-import SignUpForm from '../SignUpForm/SignUpForm';
+import SignInForm from './SignInForm/SignInForm';
+import SignUpForm from './SignUpForm/SignUpForm';
 
 class AuthPresentational extends Component {
   componentWillMount() {
@@ -13,7 +13,7 @@ class AuthPresentational extends Component {
   componentWillUnmount() {
     document.body.style.overflow = 'auto';
   }
-  
+
   render() {
     return (
       <div className={styles.Container}>
