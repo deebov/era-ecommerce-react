@@ -41,9 +41,18 @@ const ActionsBox = props => {
       {togglingWishlist ? (
         <Spinner className={styles.WishlistSpinner} type="small" />
       ) : inWishlist ? (
-        <Icon type="ionic" color="#c33" icon={`ios-heart ${styles.Icon}`} fontSize={18} />
+        <Icon
+          type="ionic"
+          color="#c33"
+          icon={`ios-heart ${styles.Icon}`}
+          fontSize={18}
+        />
       ) : (
-        <Icon type="ionic" icon={`ios-heart-outline ${styles.Icon}`} fontSize={18} />
+        <Icon
+          type="ionic"
+          icon={`ios-heart-outline ${styles.Icon}`}
+          fontSize={18}
+        />
       )}
     </span>
   );
@@ -53,24 +62,14 @@ const ActionsBox = props => {
       {addToCart}
       <div className={styles.ActionIcons}>
         {toggleWishlist}
-        <span data-tip data-for="quickView">
-          <Icon icon="frame-expand" className={styles.Icon} />
-        </span>
-        <ReactTooltip
-          id="quickView"
-          type="dark"
-          className={styles.Tooltip}
-          effect="solid"
-        >
-          <span>Quick View</span>
-        </ReactTooltip>
+
         <ReactTooltip
           id="bookmark"
           type="dark"
           className={styles.Tooltip}
           effect="solid"
         >
-          <span>{inWishlist ? 'Remove' : 'Save'}</span>
+          {inWishlist ? 'Remove' : 'Save'}
         </ReactTooltip>
       </div>
     </div>

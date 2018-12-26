@@ -15,7 +15,8 @@
   justify-content: space-between;
 }
 
-.ActionsBox:hover {
+.ActionsBox *:hover,
+.ActionsBox *:focus {
   bottom: 0;
   opacity: 1;
   transform: scale(1);
