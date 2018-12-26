@@ -6,21 +6,21 @@ let unsubscribeListener = null;
 export const addToCartStart = id => {
   return {
     type: actionTypes.ADD_TO_CART_START,
-    id
+    id,
   };
 };
 
 export const addToCartFail = (error, id) => {
   return {
     type: actionTypes.ADD_TO_CART_FAIL,
-    id
+    id,
   };
 };
 
 export const addToCartSuccess = id => {
   return {
     type: actionTypes.ADD_TO_CART_SUCCESS,
-    id
+    id,
   };
 };
 
@@ -49,21 +49,21 @@ export const addToCart = item => async (
 export const removeFromCartStart = id => {
   return {
     type: actionTypes.REMOVE_FROM_CART_START,
-    id
+    id,
   };
 };
 
 export const removeFromCartFail = id => {
   return {
     type: actionTypes.REMOVE_FROM_CART_FAIL,
-    id
+    id,
   };
 };
 
 export const removeFromCartSuccess = id => {
   return {
     type: actionTypes.REMOVE_FROM_CART_SUCCESS,
-    id
+    id,
   };
 };
 
@@ -90,20 +90,20 @@ export const removeFromCart = id => async (
 
 export const subscribeCartStart = () => {
   return {
-    type: actionTypes.SUBSCRIBE_CART_START
+    type: actionTypes.SUBSCRIBE_CART_START,
   };
 };
 
 export const subscribeCartFail = () => {
   return {
-    type: actionTypes.SUBSCRIBE_CART_FAIL
+    type: actionTypes.SUBSCRIBE_CART_FAIL,
   };
 };
 
 export const subscribeCartSuccess = cart => {
   return {
     type: actionTypes.SUBSCRIBE_CART_SUCCESS,
-    cart
+    cart,
   };
 };
 
@@ -122,15 +122,12 @@ export const subscribeCart = () => (dispatch, getState, { firestoreRefs }) => {
       .onSnapshot(querySnapshot => {
         const cart = {};
         querySnapshot.forEach(doc => {
-          // console.log('ITEM', doc.data());
-
           cart[doc.data().id] = doc.data();
         });
 
         dispatch(subscribeCartSuccess(cart));
       });
   } catch (error) {
-    console.log(error)
     dispatch(subscribeCartFail());
     dispatch(addError());
   }
@@ -141,6 +138,6 @@ export const unsubscribeCart = () => {
     unsubscribeListener();
   }
   return {
-    type: actionTypes.UNSUBSCRIBE_CART
+    type: actionTypes.UNSUBSCRIBE_CART,
   };
 };

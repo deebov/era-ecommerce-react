@@ -10,7 +10,7 @@ import withNotification from '../../hoc/withNotification/withNotification';
 class ProductsList extends Component {
   state = {
     loading: false,
-    error: false
+    error: false,
   };
 
   componentDidMount() {
@@ -33,9 +33,9 @@ class ProductsList extends Component {
         id,
         price,
         title,
-        thumbnail: thumbnails[0]
+        thumbnail: thumbnails[0],
       },
-      updated: false
+      updated: false,
     });
   };
 
@@ -48,18 +48,15 @@ class ProductsList extends Component {
     const { id, title, price, thumbnail } = item;
 
     if (this.props.wishlist.hasOwnProperty(id)) {
-      console.log('dele');
-
       // Delete if it is in wishlist
       this.props.onRemoveFromWishlist(id);
     } else {
-      console.log('add');
       // Add if it is not in wishlist
       this.props.onAddToWishlist({
         id,
         title,
         price,
-        thumbnail
+        thumbnail,
       });
     }
   };
@@ -90,7 +87,7 @@ class ProductsList extends Component {
                   id: id,
                   title: p.title,
                   price: p.price,
-                  thumbnail: p.thumbnails[0]
+                  thumbnail: p.thumbnails[0],
                 })
               }
               togglingWishlist={isTogglingWishlist}
@@ -120,7 +117,7 @@ const mapStateToProps = state => {
     isLoading: state.lists.isLoading,
     isAddingToCart: state.cart.isAddingToCart,
     isAuthenticated: state.auth.isAuth,
-    error: state.lists.error
+    error: state.lists.error,
   };
 };
 
@@ -130,7 +127,7 @@ const mapDispatchToProps = dispatch => {
     onAddToCart: item => dispatch(actions.addToCart(item)),
     onRemoveFromWishlist: id => dispatch(actions.removeFromWishlist(id)),
     onAddToWishlist: item => dispatch(actions.addToWishlist(item)),
-    onShowAuthModal: () => dispatch(actions.switchShowAuth())
+    onShowAuthModal: () => dispatch(actions.switchShowAuth()),
   };
 };
 

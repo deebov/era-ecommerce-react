@@ -1,11 +1,9 @@
 const functions = require('firebase-functions');
 
 exports.updateCartCouter = functions.firestore
-  .document('cart/{cartid}')
-  .onWrite((change, context) => {
+  .document('cart/{uid}/items/{itemId}')
+  .onWrite(change => {
     // Stop executing if the data was deleted
-    console.log('[CART:after]', context.params.cartid, change.after.exists);
-    console.log('[CART:before]', context.params.cartid, change.before.exists);
     if (!change.after.exists) return null;
 
     const data = change.after.data();
