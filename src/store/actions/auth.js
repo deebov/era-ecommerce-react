@@ -32,7 +32,7 @@ export const authSuccess = uid => {
 export const auth = ({ email, password, username }, method) => async (
   dispatch,
   getState,
-  { firebase }
+  { firebase, firestoreRefs }
 ) => {
   dispatch(authStart());
 
@@ -40,8 +40,13 @@ export const auth = ({ email, password, username }, method) => async (
     if (method === 'login') {
       await firebase.doSignInWithEmailAndPassword(email, password);
     } else {
-      await firebase.doCreateUserWithEmailAndPassword(email, password);
+      const authData = await firebase.doCreateUserWithEmailAndPassword(
+        email,
+        password
+      );
       await firebase.auth.currentUser.updateProfile({ displayName: username });
+      firestoreRefs.cart.doc(authData.user.uid).set({});
+      firestoreRefs.wishlist.doc(authData.user.uid).set({});
     }
 
     // I am not calling dispatch(authSuccess()) here
