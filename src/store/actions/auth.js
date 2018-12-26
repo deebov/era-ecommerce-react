@@ -5,27 +5,27 @@ export let unsubscribeAuthState = () => {};
 
 export const switchShowAuth = () => {
   return {
-    type: actionTypes.SWITCH_SHOW_AUTH
+    type: actionTypes.SWITCH_SHOW_AUTH,
   };
 };
 
 export const authStart = () => {
   return {
-    type: actionTypes.AUTH_START
+    type: actionTypes.AUTH_START,
   };
 };
 
 export const authFail = error => {
   return {
     type: actionTypes.AUTH_FAIL,
-    error
+    error,
   };
 };
 
 export const authSuccess = uid => {
   return {
     type: actionTypes.AUTH_SUCCESS,
-    uid
+    uid,
   };
 };
 
@@ -60,7 +60,7 @@ export const auth = ({ email, password, username }, method) => async (
 
 export const logoutSuccess = () => {
   return {
-    type: actionTypes.AUTH_LOGOUT
+    type: actionTypes.AUTH_LOGOUT,
   };
 };
 
@@ -78,6 +78,11 @@ export const subscribeAuthState = () => (dispatch, getState, { firebase }) => {
     if (user) {
       dispatch(authSuccess(user.uid));
     } else {
+      console.log(getState().auth.isPending);
+      
+      if (getState().auth.isPending) {
+        dispatch(logoutSuccess());
+      }
     }
   });
 };
