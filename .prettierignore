@@ -1,0 +1,4 @@
+public/
+functions/*.json
+functions/node_modules/
+package.json
