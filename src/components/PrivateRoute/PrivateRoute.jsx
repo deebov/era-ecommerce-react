@@ -1,17 +1,21 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
+import Spinner from '../UI/Spinner/Spinner';
 
 const PrivateRoute = ({
   component: Component,
   redirectTo,
   isAuthenticated,
+  isAuthPending,
   ...rest
 }) => (
   <Route
     {...rest}
     render={props =>
-      isAuthenticated ? (
+      isAuthPending ? (
+        <Spinner />
+      ) : isAuthenticated ? (
         <Component {...props} />
       ) : (
         <Redirect to={redirectTo || '/'} />
@@ -22,7 +26,8 @@ const PrivateRoute = ({
 
 const mapStateToProps = state => {
   return {
-    isAuthenticated: state.auth.isAuth
+    isAuthenticated: state.auth.isAuth,
+    isAuthPending: state.auth.isPending,
   };
 };
 
