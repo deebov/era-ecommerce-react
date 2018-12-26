@@ -32,7 +32,12 @@ export const addToCart = item => async (
   const id = item.product.id;
   dispatch(addToCartStart(id));
   try {
-    await firestoreRefs.cart.doc(id).set({ ...item, updated: false });
+    const uid = getState().auth.uid;
+    await firestoreRefs.cart
+      .doc(uid)
+      .collection('items')
+      .doc(id)
+      .set({ ...item, updated: false });
 
     dispatch(addToCartSuccess(id));
   } catch (error) {
@@ -48,7 +53,7 @@ export const removeFromCartStart = id => {
   };
 };
 
-export const removeFromCartFail = (error, id) => {
+export const removeFromCartFail = id => {
   return {
     type: actionTypes.REMOVE_FROM_CART_FAIL,
     id
@@ -65,11 +70,16 @@ export const removeFromCartSuccess = id => {
 export const removeFromCart = id => async (
   dispatch,
   getState,
-  firestoreRefs
+  { firestoreRefs }
 ) => {
   dispatch(removeFromCartStart(id));
   try {
-    await firestoreRefs.cart.doc(id).delete();
+    const uid = getState().auth.uid;
+    await firestoreRefs.cart
+      .doc(uid)
+      .collection('items')
+      .doc(id)
+      .delete();
 
     dispatch(removeFromCartSuccess(id));
   } catch (error) {
@@ -84,7 +94,7 @@ export const subscribeCartStart = () => {
   };
 };
 
-export const subscribeCartFail = error => {
+export const subscribeCartFail = () => {
   return {
     type: actionTypes.SUBSCRIBE_CART_FAIL
   };
@@ -105,13 +115,22 @@ export const subscribeCart = () => (dispatch, getState, { firestoreRefs }) => {
   }
 
   try {
-    unsubscribeListener = firestoreRefs.cart.onSnapshot(querySnapshot => {
-      const cart = {};
-      querySnapshot.forEach(doc => (cart[doc.data().product.id] = doc.data()));
+    const uid = getState().auth.uid;
+    unsubscribeListener = firestoreRefs.cart
+      .doc(uid)
+      .collection('items')
+      .onSnapshot(querySnapshot => {
+        const cart = {};
+        querySnapshot.forEach(doc => {
+          // console.log('ITEM', doc.data());
 
-      dispatch(subscribeCartSuccess(cart));
-    });
+          cart[doc.data().id] = doc.data();
+        });
+
+        dispatch(subscribeCartSuccess(cart));
+      });
   } catch (error) {
+    console.log(error)
     dispatch(subscribeCartFail());
     dispatch(addError());
   }

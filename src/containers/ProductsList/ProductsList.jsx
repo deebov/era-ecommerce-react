@@ -28,6 +28,7 @@ class ProductsList extends Component {
 
     this.props.onAddToCart({
       amount: 1,
+      id,
       product: {
         id,
         price,

@@ -52,9 +52,9 @@ export const Quantity = (
       <div className={styles.Counter}>
         <Counter
           value={row.original.amount}
-          incClicked={e => incCounterClicked(e, row.original.product.id)}
-          decClicked={e => decCounterClicked(e, row.original.product.id)}
-          onChange={e => onCounterChange(e, row.original.product.id)}
+          incClicked={e => incCounterClicked(e, row.original.id)}
+          decClicked={e => decCounterClicked(e, row.original.id)}
+          onChange={e => onCounterChange(e, row.original.id)}
         />
       </div>
     ),
@@ -78,7 +78,7 @@ export const Total = {
 export const Remove = onDeleteItem => {
   return {
     Header: '',
-    accessor: 'product.id',
+    accessor: 'id',
     Cell: row => (
       <div className={[styles.Cell, styles.Cross].join(' ')}>
         <span onClick={() => onDeleteItem(row.value)}>

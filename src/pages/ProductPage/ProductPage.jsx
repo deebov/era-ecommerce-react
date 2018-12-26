@@ -93,6 +93,7 @@ class ProductPage extends Component {
 
     this.props.onAddToCart({
       amount: this.state.counter,
+      id: product.id,
       product: {
         title: product.title,
         id: product.id,

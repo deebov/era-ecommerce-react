@@ -14,6 +14,7 @@ class WishlistPage extends Component {
 
     this.props.onAddToCart({
       amount: 1,
+      id,
       product: {
         title,
         id,

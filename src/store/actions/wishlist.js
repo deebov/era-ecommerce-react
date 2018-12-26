@@ -34,7 +34,12 @@ export const addToWishlist = item => async (
   const id = item.id;
   dispatch(addToWishlistStart(id));
   try {
-    await firestoreRefs.wishlist.doc(id).set(item);
+    const uid = getState().auth.uid;
+    await firestoreRefs.wishlist
+      .doc(uid)
+      .collection('items')
+      .doc(id)
+      .set(item);
 
     dispatch(addToWishlistSuccess(id));
   } catch (error) {
@@ -54,7 +59,7 @@ export const removeFromWishlistStart = id => {
   };
 };
 
-export const removeFromWishlistFail = (error, id) => {
+export const removeFromWishlistFail = id => {
   return {
     type: actionTypes.REMOVE_FROM_WISHLIST_FAIL,
     id
@@ -75,7 +80,12 @@ export const removeFromWishlist = id => async (
 ) => {
   dispatch(removeFromWishlistStart(id));
   try {
-    await firestoreRefs.wishlist.doc(id).delete();
+    const uid = getState().auth.uid;
+    await firestoreRefs.wishlist
+      .doc(uid)
+      .collection('items')
+      .doc(id)
+      .delete();
 
     dispatch(removeFromWishlistSuccess(id));
   } catch (error) {
@@ -94,13 +104,13 @@ export const subscribeWishlistStart = () => {
   };
 };
 
-export const subscribeWishlistFail = error => {
+export const subscribeWishlistFail = () => {
   return {
     type: actionTypes.SUBSCRIBE_WISHLIST_FAIL
   };
 };
 
-export const subscribeWishlistSuccess = (wishlist, unsubscribe) => {
+export const subscribeWishlistSuccess = wishlist => {
   return {
     type: actionTypes.SUBSCRIBE_WISHLIST_SUCCESS,
     wishlist
@@ -119,12 +129,16 @@ export const subscribeWishlist = () => (
   }
 
   try {
-    unsubscribeListener = firestoreRefs.wishlist.onSnapshot(querySnapshot => {
-      const wishlist = {};
-      querySnapshot.forEach(doc => (wishlist[doc.data().id] = doc.data()));
+    const uid = getState().auth.uid;
+    unsubscribeListener = firestoreRefs.wishlist
+      .doc(uid)
+      .collection('items')
+      .onSnapshot(querySnapshot => {
+        const wishlist = {};
+        querySnapshot.forEach(doc => (wishlist[doc.data().id] = doc.data()));
 
-      dispatch(subscribeWishlistSuccess(wishlist));
-    });
+        dispatch(subscribeWishlistSuccess(wishlist));
+      });
   } catch (error) {
     dispatch(subscribeWishlistFail());
     dispatch(addError());
