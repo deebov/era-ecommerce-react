@@ -24,7 +24,7 @@ export const Summary = ({ totalPrice, checkoutClicked, disableCheckout }) => {
 };
 
 Summary.propTypes = {
-  totalPrice: PropTypes.number,
+  totalPrice: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   disableCheckout: PropTypes.bool,
   checkoutClicked: PropTypes.func,
 };

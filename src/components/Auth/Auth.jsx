@@ -8,11 +8,11 @@ import SignUpForm from './SignUpForm/SignUpForm';
 
 class AuthPresentational extends Component {
   componentWillMount() {
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflowY = 'hidden';
   }
 
   componentWillUnmount() {
-    document.body.style.overflow = 'auto';
+    document.body.style.overflowY = 'auto';
   }
 
   render() {

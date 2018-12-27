@@ -67,7 +67,7 @@ class ProductPage extends Component {
   };
 
   addToWishlistHandler = () => {
-    if (!this.props.isAuthentaicated) {
+    if (!this.props.isAuthenticated) {
       this.props.onShowAuthModal();
       this.props.notify('Please, log in to continue', { type: 'success' });
       return;

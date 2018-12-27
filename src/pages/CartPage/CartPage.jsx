@@ -19,7 +19,7 @@ class CartPage extends Component {
   state = {
     cart: this.props.cart,
     oldCart: this.props.cart,
-    totalPrice: 0,
+    totalPrice: CartPage.calcTotalPrice(this.props.cart),
     loading: false,
     error: false,
   };
@@ -81,8 +81,8 @@ class CartPage extends Component {
 
   static calcTotalPrice = data => {
     // data is object. so I need to convert
-    // it to array be calculation
-    return _.sumBy(_.values(data), 'total_price').toFixed(2);
+    // it to array
+    return +_.sumBy(_.values(data), 'total_price').toFixed(2);
   };
 
   render() {

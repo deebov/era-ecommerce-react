@@ -48,7 +48,7 @@ class WishlistPage extends Component {
 
 WishlistPage.propTypes = {
   wishlist: PropTypes.objectOf(PropTypes.object),
-  isAddingToCart: PropTypes.bool,
+  isAddingToCart: PropTypes.objectOf(PropTypes.bool),
   cart: PropTypes.object,
   loading: PropTypes.bool,
   onRemoveFromWishlist: PropTypes.func,

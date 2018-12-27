@@ -23,8 +23,8 @@ const Meta = ({ tags, categories }) => {
 };
 
 Meta.propTypes = {
-  tags: PropTypes.array,
-  categories: PropTypes.array,
+  tags: PropTypes.objectOf(PropTypes.object),
+  categories: PropTypes.objectOf(PropTypes.object),
 };
 
 export default Meta;
