@@ -11,6 +11,12 @@ import styles from './WishlistItems.module.css';
 import Spinner from '../UI/Spinner/Spinner';
 import * as TableConfigs from './TableConfigs/TableConfigs';
 
+
+/**
+ * TODO
+ * replace the `react-table`
+ */
+
 const WishlistItems = props => {
   const {
     data,
