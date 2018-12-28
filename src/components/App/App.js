@@ -90,6 +90,12 @@ class App extends Component {
           onOpen={this.props.onRemoveError}
           options={{ type: 'fail' }}
         />
+        <Notification
+          text={this.props.notificationText}
+          show={this.props.notification}
+          onOpen={this.props.onRemoveNotification}
+          options={{ type: 'success' }}
+        />
       </div>
     );
   }
@@ -99,12 +105,16 @@ App.propTypes = {
   error: PropTypes.bool,
   errorText: PropTypes.string,
   isAuthenticated: PropTypes.bool,
+  notification: PropTypes.bool,
+  notificationText: PropTypes.string,
 };
 
 const mapStateToProps = state => {
   return {
     error: state.errors.error,
     errorText: state.errors.text,
+    notification: state.notifications.notification,
+    notificationText: state.notifications.text,
     isAuthenticated: state.auth.isAuth,
   };
 };
@@ -118,6 +128,7 @@ const mapDispatchToProps = dispatch => {
     onRemoveError: () => dispatch(actions.removeError()),
     onSubscribeAuthState: () => dispatch(actions.subscribeAuthState()),
     onUnsubscribeAuthState: () => dispatch(actions.unsubscribeAuthState()),
+    onRemoveNotification: () => dispatch(actions.removeError()),
   };
 };
 

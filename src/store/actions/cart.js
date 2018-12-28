@@ -1,5 +1,6 @@
 import * as actionTypes from './actionTypes';
 import { addError } from './errors';
+import { addNotification } from './notifications';
 
 let unsubscribeListener = null;
 
@@ -40,6 +41,7 @@ export const addToCart = item => async (
       .set({ ...item, updated: false });
 
     dispatch(addToCartSuccess(id));
+    dispatch(addNotification('Product was added!'));
   } catch (error) {
     dispatch(addToCartFail(id));
     dispatch(addError());
@@ -82,6 +84,7 @@ export const removeFromCart = id => async (
       .delete();
 
     dispatch(removeFromCartSuccess(id));
+    dispatch(addNotification('Product was removed!'));
   } catch (error) {
     dispatch(removeFromCartFail(id));
     dispatch(addError());

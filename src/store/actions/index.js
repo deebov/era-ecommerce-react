@@ -4,17 +4,19 @@ export {
   addToCart,
   removeFromCart,
   subscribeCart,
-  unsubscribeCart
+  unsubscribeCart,
 } from './cart';
 
 export {
   addToWishlist,
   removeFromWishlist,
   subscribeWishlist,
-  unsubscribeWishlist
+  unsubscribeWishlist,
 } from './wishlist';
 
 export { addError, removeError } from './errors';
+
+export { addNotification, removeNotification } from './notifications';
 
 export { fetchList } from './productList';
 
@@ -23,5 +25,5 @@ export {
   auth,
   subscribeAuthState,
   unsubscribeAuthState,
-  logout
+  logout,
 } from './auth';

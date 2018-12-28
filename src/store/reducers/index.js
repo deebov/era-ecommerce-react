@@ -6,6 +6,7 @@ import cartReducer from './cart';
 import productListsReducer from './productList';
 import errorsReducer from './errors';
 import authReducer from './auth';
+import notificationReducer from './notifications';
 
 const rootReducer = combineReducers({
   product: productReducer,
@@ -13,7 +14,8 @@ const rootReducer = combineReducers({
   wishlist: wishlistReducer,
   lists: productListsReducer,
   errors: errorsReducer,
-  auth: authReducer
+  auth: authReducer,
+  notifications: notificationReducer,
 });
 
 export default rootReducer;

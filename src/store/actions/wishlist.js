@@ -1,5 +1,6 @@
 import * as actionTypes from './actionTypes';
 import { addError } from './errors';
+import { addNotification } from './notifications';
 
 let unsubscribeListener = null;
 
@@ -8,21 +9,21 @@ let unsubscribeListener = null;
 export const addToWishlistStart = id => {
   return {
     type: actionTypes.REMOVE_FROM_WISHLIST_START,
-    id
+    id,
   };
 };
 
 export const addToWishlistFail = id => {
   return {
     type: actionTypes.REMOVE_FROM_WISHLIST_FAIL,
-    id
+    id,
   };
 };
 
 export const addToWishlistSuccess = id => {
   return {
     type: actionTypes.REMOVE_FROM_WISHLIST_SUCCESS,
-    id
+    id,
   };
 };
 
@@ -42,6 +43,7 @@ export const addToWishlist = item => async (
       .set(item);
 
     dispatch(addToWishlistSuccess(id));
+    dispatch(addNotification('Product was removed!'));
   } catch (error) {
     dispatch(addToWishlistFail(id));
     dispatch(addError());
@@ -55,21 +57,21 @@ export const addToWishlist = item => async (
 export const removeFromWishlistStart = id => {
   return {
     type: actionTypes.REMOVE_FROM_WISHLIST_START,
-    id
+    id,
   };
 };
 
 export const removeFromWishlistFail = id => {
   return {
     type: actionTypes.REMOVE_FROM_WISHLIST_FAIL,
-    id
+    id,
   };
 };
 
 export const removeFromWishlistSuccess = id => {
   return {
     type: actionTypes.REMOVE_FROM_WISHLIST_SUCCESS,
-    id
+    id,
   };
 };
 
@@ -88,6 +90,7 @@ export const removeFromWishlist = id => async (
       .delete();
 
     dispatch(removeFromWishlistSuccess(id));
+    dispatch(addNotification('Product was removed!'));
   } catch (error) {
     dispatch(removeFromWishlistFail(id));
     dispatch(addError());
@@ -100,20 +103,20 @@ export const removeFromWishlist = id => async (
 
 export const subscribeWishlistStart = () => {
   return {
-    type: actionTypes.SUBSCRIBE_WISHLIST_START
+    type: actionTypes.SUBSCRIBE_WISHLIST_START,
   };
 };
 
 export const subscribeWishlistFail = () => {
   return {
-    type: actionTypes.SUBSCRIBE_WISHLIST_FAIL
+    type: actionTypes.SUBSCRIBE_WISHLIST_FAIL,
   };
 };
 
 export const subscribeWishlistSuccess = wishlist => {
   return {
     type: actionTypes.SUBSCRIBE_WISHLIST_SUCCESS,
-    wishlist
+    wishlist,
   };
 };
 
@@ -154,7 +157,7 @@ export const unsubscribeWishlist = () => {
     unsubscribeListener();
   }
   return {
-    type: actionTypes.UNSUBSCRIBE_WISHLIST
+    type: actionTypes.UNSUBSCRIBE_WISHLIST,
   };
 };
 
