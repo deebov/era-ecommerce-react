@@ -12,3 +12,12 @@
   padding: 3px 0;
   display: block;
 }
+
+@media only screen and (max-width: 576px) {
+  .Title {
+    margin-bottom: 15px;
+  }
+  .Column {
+    margin-bottom: 30px;
+  }
+}

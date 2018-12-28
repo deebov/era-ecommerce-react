@@ -2,3 +2,26 @@
   display: flex;
   align-items: stretch;
 }
+
+.Counter {
+  margin-right: 10px;
+}
+
+@media only screen and (max-width: 576px) {
+  .Buttons {
+    flex-direction: column;
+  }
+
+  .Buttons > *:not(:last-child) {
+    margin-bottom: 10px;
+  }
+  .Counter {
+    margin-right: 0;
+  }
+
+  .WishlistButton {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+}

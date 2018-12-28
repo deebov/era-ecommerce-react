@@ -7,15 +7,15 @@
 .Price {
   font-size: inherit;
   line-height: 1;
-  color: #bbbbbb;
   margin: 0;
+  color: #222222;
 }
 
 .OldPrice {
+  color: #bbbbbb !important;
   text-decoration: line-through;
 }
 
 .NewPrice {
-  color: #222222;
   padding-left: 8px;
 }

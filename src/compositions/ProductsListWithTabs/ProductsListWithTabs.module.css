@@ -6,6 +6,7 @@
   justify-content: center;
   box-sizing: border-box;
   margin-bottom: 85px;
+  padding: 0;
 }
 
 .Tab {
@@ -21,4 +22,14 @@
 .TabActive {
   color: #222222;
   outline: none;
+}
+
+@media only screen and (max-width: 576px) {
+  .Tab {
+    padding: 5px 32px;
+  }
+
+  .TabList {
+    margin-bottom: 70px;
+  }
 }

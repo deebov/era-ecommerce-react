@@ -3,3 +3,19 @@
   width: 50%;
   box-sizing: border-box;
 }
+
+.Summary {
+  color: rgb(151, 151, 151) ;
+}
+
+@media only screen and (max-width: 576px) {
+  .Details {
+    width: 100%;
+    padding: 0 10px;
+    padding-top: 30px;
+  }
+
+  .Title {
+    margin-top: 5px;
+  }
+}

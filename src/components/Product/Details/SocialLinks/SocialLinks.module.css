@@ -24,3 +24,9 @@
   line-height: 1;
   color: #222222;
 }
+
+@media only screen and (max-width: 576px) {
+  .SocialIconsBox {
+    margin: 0;
+  }
+}

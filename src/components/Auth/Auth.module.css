@@ -12,6 +12,7 @@
 .ContainerInner {
   margin-top: 150px;
   width: 370px;
+  height: 100%;
 }
 
 .TabList {
@@ -22,6 +23,7 @@
   justify-content: center;
   box-sizing: border-box;
   margin-bottom: 85px;
+  padding: 0;
 }
 
 .Tab {
@@ -49,4 +51,10 @@
   cursor: pointer;
   font-size: 22px;
   margin-top: 40px;
+}
+
+@media only screen and (max-width: 375px) {
+  .ContainerInner {
+    width: 320px;
+  }
 }

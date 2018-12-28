@@ -22,14 +22,6 @@
   transform: scale(1);
 }
 
-.ActionIcons {
-  display: flex;
-}
-
-.ActionIcons > *:not(:last-child) {
-  margin-right: 10px;
-}
-
 .Icon {
   font-size: 16px;
   cursor: pointer;
@@ -86,4 +78,27 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+@media only screen and (max-width: 576px) {
+  .ActionsBox {
+    position: relative;
+    opacity: 1;
+    transform: none;
+    padding: 5px 0 0 0 ;
+    bottom: auto;
+  }
+  .ActionsBox *:hover,
+  .ActionsBox *:focus {
+    bottom: auto;
+    transform: none;
+  }
+
+  .AddToCart {
+    padding: 0;
+  }
+
+  .Tooltip {
+    display: none;
+  }
 }

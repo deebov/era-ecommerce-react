@@ -16,12 +16,11 @@
     width: 560px !important;
     max-width: 100% !important;
   }
-
-  @media only screen and (min-width: 768px) {
-    .ResponsiveWrapper {
-      width: 752px !important;
-      max-width: 100% !important;
-    }
+}
+@media only screen and (min-width: 768px) {
+  .ResponsiveWrapper {
+    width: 752px !important;
+    max-width: 100% !important;
   }
 }
 

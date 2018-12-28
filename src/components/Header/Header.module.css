@@ -8,6 +8,7 @@
   box-sizing: border-box;
 }
 
+
 .IconBox {
   display: flex;
 }
@@ -64,4 +65,15 @@
 .Link:active {
   outline: none;
   color: #222;
+}
+
+@media only screen and (max-width: 576px) {
+  .Header {
+    padding: 25px 15px;
+    justify-content: space-between;
+  }
+
+  .NavItems {
+    display: none;
+  }
 }
