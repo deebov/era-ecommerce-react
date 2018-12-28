@@ -128,7 +128,7 @@ const mapDispatchToProps = dispatch => {
     onRemoveError: () => dispatch(actions.removeError()),
     onSubscribeAuthState: () => dispatch(actions.subscribeAuthState()),
     onUnsubscribeAuthState: () => dispatch(actions.unsubscribeAuthState()),
-    onRemoveNotification: () => dispatch(actions.removeError()),
+    onRemoveNotification: () => dispatch(actions.removeNotification()),
   };
 };
 

@@ -41,7 +41,7 @@ export const addToCart = item => async (
       .set({ ...item, updated: false });
 
     dispatch(addToCartSuccess(id));
-    dispatch(addNotification('Product was added!'));
+    dispatch(addNotification('Product was added 🛒!'));
   } catch (error) {
     dispatch(addToCartFail(id));
     dispatch(addError());
@@ -84,7 +84,7 @@ export const removeFromCart = id => async (
       .delete();
 
     dispatch(removeFromCartSuccess(id));
-    dispatch(addNotification('Product was removed!'));
+    dispatch(addNotification('Product was removed 🛒!'));
   } catch (error) {
     dispatch(removeFromCartFail(id));
     dispatch(addError());

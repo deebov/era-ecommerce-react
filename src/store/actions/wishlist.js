@@ -43,7 +43,7 @@ export const addToWishlist = item => async (
       .set(item);
 
     dispatch(addToWishlistSuccess(id));
-    dispatch(addNotification('Product was removed!'));
+    dispatch(addNotification('Product was added ❤️!'));
   } catch (error) {
     dispatch(addToWishlistFail(id));
     dispatch(addError());
@@ -90,7 +90,7 @@ export const removeFromWishlist = id => async (
       .delete();
 
     dispatch(removeFromWishlistSuccess(id));
-    dispatch(addNotification('Product was removed!'));
+    dispatch(addNotification('Product was removed 💔!'));
   } catch (error) {
     dispatch(removeFromWishlistFail(id));
     dispatch(addError());
