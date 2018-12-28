@@ -30,6 +30,7 @@ const Buttons = props => {
               onChange={onChange}
               onBlur={onBlur}
               value={count}
+              className={styles.Counter}
             />
             <Button
               theme="big"
@@ -43,6 +44,7 @@ const Buttons = props => {
               clicked={addToWishlistClicked}
               saved={props.wishlist.hasOwnProperty(id)}
               loading={props.isAddingToWishlist[id]}
+              className={styles.WishlistButton}
             />
           </div>
         )}

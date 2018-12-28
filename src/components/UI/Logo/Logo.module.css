@@ -3,3 +3,7 @@
   background-image: url(../../../assets/images/logo.svg) #000;
   position: relative;
 }
+
+.Logo:focus {
+  outline: none;
+}

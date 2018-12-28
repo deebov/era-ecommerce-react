@@ -61,6 +61,14 @@ export default class Images extends Component {
       slidesToShow: 2,
       nextArrow: <NavArrow type="next" />,
       prevArrow: <NavArrow type="back" />,
+      responsive: [
+        {
+          breakpoint: 576,
+          settings: {
+            slidesToShow: 1
+          }
+        }
+      ]
     };
     return (
       <div className={styles.Container}>

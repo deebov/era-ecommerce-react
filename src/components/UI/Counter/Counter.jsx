@@ -5,9 +5,9 @@ import styles from './Counter.module.css';
 import Icon from '../Icon/Icon';
 
 const Counter = props => {
-  const { decClicked, incClicked, onChange, onBlur, value } = props;
+  const { decClicked, incClicked, onChange, onBlur, value, className } = props;
   return (
-    <div className={styles.Container}>
+    <div className={[styles.Container, className].join(' ')}>
       <span onClick={decClicked}>
         <Icon
           icon="minus-round"

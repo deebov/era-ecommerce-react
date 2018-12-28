@@ -8,9 +8,13 @@ import styles from './WishlistButton.module.css';
 import Spinner from '../../../UI/Spinner/Spinner';
 import { WISHLIST } from '../../../../constants/routes';
 
-const WishlistButton = ({ saved, loading, clicked }) => {
+const WishlistButton = ({ saved, loading, clicked, className }) => {
   const loadingClassName = loading ? styles.IconLoading : '';
-  const containerClassNames = [styles.Container, loadingClassName].join(' ');
+  const containerClassNames = [
+    styles.Container,
+    loadingClassName,
+    className,
+  ].join(' ');
 
   let button = <Spinner type="small" />;
 
