@@ -51,9 +51,12 @@ const reducer = (state = initialState, action) => {
           [action.id]: false,
         },
       });
+    case actionTypes.SUBSCRIBE_WISHLIST_START:
+      return updateObject(state, { loading: true });
     case actionTypes.SUBSCRIBE_WISHLIST_SUCCESS:
       return updateObject(state, {
         wishlist: action.wishlist,
+        loading: false,
       });
     case actionTypes.UNSUBSCRIBE_WISHLIST:
       return initialState;
