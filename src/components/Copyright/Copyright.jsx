@@ -10,7 +10,7 @@ import { getClassName } from '../../components/UI/ResponsiveWrapper/ResponsiveWr
  * Add social network icons
  */
 
-const Copyright = () => {
+export const Copyright = () => {
   return (
     <div className={styles.Copyright}>
       <div className={styles.Container + ` ${getClassName()}`}>

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import Spinner from '../UI/Spinner/Spinner';
 
-const PrivateRoute = ({
+export const PrivateRoute = ({
   component: Component,
   redirectTo,
   isAuthenticated,

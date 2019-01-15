@@ -3,7 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "enzyme": "^3.8.0",
+    "enzyme-adapter-react-16": "^1.7.1",
     "firebase": "^5.6.0",
+    "jest": "^23.6.0",
     "lodash": "^4.17.11",
     "nanoid": "^2.0.0",
     "prop-types": "^15.6.2",
@@ -17,6 +20,7 @@
     "react-slick": "^0.23.2",
     "react-table": "^6.8.6",
     "react-tabs": "^2.3.0",
+    "react-test-renderer": "^16.7.0",
     "react-toastify": "^4.4.3",
     "react-tooltip": "^3.9.0",
     "redux": "^4.0.1",

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import './ionicons.min.css';
 import './linearicons.min.css';
 
-const Icon = props => {
+export const Icon = props => {
   const { icon, className, color, type } = props;
   let { fontSize } = props;
   fontSize = fontSize ? fontSize + 'px' : '14px';

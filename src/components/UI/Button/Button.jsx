@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import styles from './Button.module.css';
 
-const Button = ({
+export const Button = ({
   loading,
   theme,
   size,
