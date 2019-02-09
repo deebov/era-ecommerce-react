@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import _ from 'lodash/object';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -99,32 +98,41 @@ class SignUpForm extends Component {
     });
   };
 
-  render() {
-    const registerEmail = this.state.registerForm['email'].value;
-    const registerPassword = this.state.registerForm['passwordOne'].value;
-    const registerUserName = this.state.registerForm['username'].value;
-    const registerData = {
+  renderInputs = form => {
+    return Object.entries(form).map(([key, value]) => (
+      <div key={key} className={styles.FormElements}>
+        <Input
+          elementConfig={value.elementConfig}
+          inputType={value.elementType}
+          value={value.value}
+          changed={event => this.inputChangedHandler(event, key)}
+          invalid={!value.valid}
+          touched={value.touched}
+          shouldValidate={value.validation}
+        />
+      </div>
+    ));
+  };
+
+  getRegisterData(form) {
+    const registerEmail = form['email'].value;
+    const registerPassword = form['passwordOne'].value;
+    const registerUserName = form['username'].value;
+    const data = {
       email: registerEmail,
       password: registerPassword,
       username: registerUserName,
     };
+    return data;
+  }
+
+  render() {
+    const registerData = this.getRegisterData(this.state.registerForm);
 
     return (
       <div>
         <form className={styles.Form}>
-          {_.toPairs(this.state.registerForm).map(([key, value]) => (
-            <div key={key} className={styles.FormElements}>
-              <Input
-                elementConfig={value.elementConfig}
-                inputType={value.elementType}
-                value={value.value}
-                changed={event => this.inputChangedHandler(event, key)}
-                invalid={!value.valid}
-                touched={value.touched}
-                shouldValidate={value.validation}
-              />
-            </div>
-          ))}
+          {this.renderInputs(this.state.registerForm)}
           <Button
             size="big"
             theme=""

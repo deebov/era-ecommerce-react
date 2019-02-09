@@ -11,20 +11,18 @@ const PrivateRoute = ({
   isAuthenticated,
   isAuthPending,
   ...rest
-}) => (
-  <Route
-    {...rest}
-    render={props =>
-      isAuthPending ? (
-        <Spinner />
-      ) : isAuthenticated ? (
-        <Component {...props} />
-      ) : (
-        <Redirect to={redirectTo || '/'} />
-      )
-    }
-  />
-);
+}) => {
+  const render = props => {
+    return isAuthPending ? (
+      <Spinner />
+    ) : isAuthenticated ? (
+      <Component {...props} />
+    ) : (
+      <Redirect to={redirectTo || '/'} />
+    );
+  };
+  return <Route {...rest} render={render} />;
+};
 
 PrivateRoute.propTypes = {
   redirectTo: PropTypes.string,

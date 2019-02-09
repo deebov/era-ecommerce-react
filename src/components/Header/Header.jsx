@@ -15,7 +15,7 @@ import Logo from '../UI/Logo/Logo';
 import * as actions from '../../store/actions';
 
 class Header extends Component {
-  render() {
+  get IconBox() {
     let iconBox = (
       <div className={styles.IconBox}>
         <div onClick={this.props.onShowAuthModal}>
@@ -46,6 +46,11 @@ class Header extends Component {
         </div>
       );
     }
+
+    return iconBox;
+  }
+
+  render() {
     return (
       <header className={styles.Header}>
         <div className={styles.Logo}>
@@ -61,7 +66,7 @@ class Header extends Component {
           <NavLinkItem url="/category">Category</NavLinkItem>
           <NavLinkItem url="/contact">Contact</NavLinkItem>
         </div>
-        {iconBox}
+        {this.IconBox}
       </header>
     );
   }

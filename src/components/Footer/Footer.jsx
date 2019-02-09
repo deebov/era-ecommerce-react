@@ -7,6 +7,7 @@ import { getClassName } from '../UI/ResponsiveWrapper/ResponsiveWrapper';
 /**
  * TODO
  * Implement select elements
+ * Render the links from the database
  */
 
 const Footer = () => {

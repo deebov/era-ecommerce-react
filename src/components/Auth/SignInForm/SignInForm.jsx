@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import _ from 'lodash/object';
 import PropTypes from 'prop-types';
 
 import Input from '../../UI/Input/Input';
@@ -65,27 +64,35 @@ class SignInForm extends Component {
     });
   };
 
-  render() {
-    const loginEmail = this.state.loginForm['email'].value;
-    const loginPassword = this.state.loginForm['password'].value;
-    const loginData = { email: loginEmail, password: loginPassword };
+  renderInputs(form) {
+    return Object.entries(form).map(([key, value]) => (
+      <div key={key} className={styles.FormElements}>
+        <Input
+          elementConfig={value.elementConfig}
+          inputType={value.elementType}
+          value={value.value}
+          changed={event => this.inputChangedHandler(event, key)}
+          invalid={!value.valid}
+          touched={value.touched}
+          shouldValidate={value.validation}
+        />
+      </div>
+    ));
+  }
 
+  getLoginData(form) {
+    const loginEmail = form['email'].value;
+    const loginPassword = form['password'].value;
+    const data = { email: loginEmail, password: loginPassword };
+    return data;
+  }
+
+  render() {
+    const loginData = this.getLoginData(this.state.loginForm);
     return (
       <div>
         <form className={styles.Form}>
-          {_.toPairs(this.state.loginForm).map(([key, value]) => (
-            <div key={key} className={styles.FormElements}>
-              <Input
-                elementConfig={value.elementConfig}
-                inputType={value.elementType}
-                value={value.value}
-                changed={event => this.inputChangedHandler(event, key)}
-                invalid={!value.valid}
-                touched={value.touched}
-                shouldValidate={value.validation}
-              />
-            </div>
-          ))}
+          {this.renderInputs(this.state.loginForm)}
           <Button
             size="big"
             theme=""
