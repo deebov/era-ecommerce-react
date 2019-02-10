@@ -10,7 +10,7 @@ class LandingPage extends Component {
   render() {
     return (
       <div>
-        <Helmet>
+        <Helmet defer={false}>
           <title>{landingTitle}</title>
         </Helmet>
         <ProductsListWithTabs lists={this.props.lists} />

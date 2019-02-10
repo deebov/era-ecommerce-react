@@ -25,7 +25,7 @@ const ActionsBox = props => {
       className={styles.AddToCart}
       disabled={addingToCart}
     >
-      {!inCart ? <span>Add to cart</span> : <Link to={CART}>View Cart</Link>}
+      {!inCart ? <span>Add to cart</span> : <Link to={CART} title="View Cart">View Cart</Link>}
       {addingToCart ? (
         <Spinner className={styles.Spinner} type="small" />
       ) : null}

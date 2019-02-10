@@ -112,6 +112,7 @@ export const subscribeCartSuccess = cart => {
 
 export const subscribeCart = () => (dispatch, getState, { firestoreRefs }) => {
   dispatch(subscribeCartStart());
+console.log('halloo');
 
   if (unsubscribeListener) {
     unsubscribeListener();

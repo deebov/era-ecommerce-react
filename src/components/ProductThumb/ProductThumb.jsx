@@ -11,7 +11,7 @@ import { ITEM } from '../../constants/routes';
 
 const ProductThumb = props => {
   const {
-    item: { thumbnails, title, desc, rating, price, ribbonType, oldPrice, id },
+    item: { thumbnails, title, rating, price, ribbonType, oldPrice, id },
   } = props;
 
   const {
@@ -28,8 +28,8 @@ const ProductThumb = props => {
       <div className={styles.ProductInner}>
         <div className={styles.ImageBox}>
           <Ribbon type={ribbonType} />
-          <Link to={`${ITEM}/${id}`}>
-            <img src={thumbnails[0]} alt={desc} className={styles.Image} />
+          <Link to={`${ITEM}/${id}`} title={title}>
+            <img src={thumbnails[0]} alt={title} className={styles.Image} />
           </Link>
           <ActionsBox
             additionalClassName={styles.ActionsBox}

@@ -92,6 +92,8 @@ export const removeFromWishlist = id => async (
     dispatch(removeFromWishlistSuccess(id));
     dispatch(addNotification('Product was removed 💔!'));
   } catch (error) {
+    console.log(error);
+    
     dispatch(removeFromWishlistFail(id));
     dispatch(addError());
   }
@@ -143,6 +145,8 @@ export const subscribeWishlist = () => (
         dispatch(subscribeWishlistSuccess(wishlist));
       });
   } catch (error) {
+    console.log(error);
+    
     dispatch(subscribeWishlistFail());
     dispatch(addError());
   }

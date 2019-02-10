@@ -64,6 +64,10 @@ class App extends Component {
 
   componentWillUnmount() {
     this.props.onUnsubscribeAuthState();
+    if (this.state.isSubscribed) {
+      this.props.onUnsubscribeWishlist();
+      this.props.onUnsubscribeCart();
+    }
   }
 
   render() {
@@ -72,7 +76,13 @@ class App extends Component {
         <Helmet
           defaultTitle="ERA by deebov"
           titleTemplate="%s | ERA by deebov"
-        />
+          defer={false}
+        >
+          <meta
+            name="description"
+            content="This awesome site was built by Dilshod Turobov. deebov"
+          />
+        </Helmet>
         <Auth />
         <Layout>
           <Switch>

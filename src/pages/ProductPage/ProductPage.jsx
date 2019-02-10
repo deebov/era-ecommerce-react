@@ -133,7 +133,7 @@ class ProductPage extends Component {
 
     return (
       <div>
-        <Helmet>
+        <Helmet defer={false}>
           <title>{this.props.loading ? 'Loading...' : this.state.title}</title>
         </Helmet>
         {summary}

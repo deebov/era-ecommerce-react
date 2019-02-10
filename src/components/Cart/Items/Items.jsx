@@ -12,14 +12,13 @@ import styles from './Items.module.css';
 export const Items = ({
   data,
   loading,
+  isRemovingFromCart,
   onDeleteItem,
   incCounterClicked,
   decCounterClicked,
   onCounterChange,
 }) => {
-  const dataArray = Object.keys(data).map(e => {
-    return data[e];
-  });
+  const dataArray = Object.values(data);
 
   const columns = [
     TableConfigs.Product,
@@ -30,7 +29,7 @@ export const Items = ({
       onCounterChange
     ),
     TableConfigs.Total,
-    TableConfigs.Remove(onDeleteItem),
+    TableConfigs.Remove(onDeleteItem, isRemovingFromCart),
   ];
 
   return (

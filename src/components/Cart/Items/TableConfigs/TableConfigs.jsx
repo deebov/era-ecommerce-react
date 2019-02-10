@@ -5,6 +5,7 @@ import * as ROUTES from '../../../../constants/routes';
 import styles from './TableConfigs.module.css';
 import Icon from '../../../UI/Icon/Icon';
 import Counter from '../../../UI/Counter/Counter';
+import Spinner from '../../../UI/Spinner/Spinner';
 
 export const Product = {
   Header: 'Product',
@@ -13,7 +14,7 @@ export const Product = {
   Cell: row => (
     <div className={styles.Cell}>
       <div className={styles.ThumbnailBox}>
-        <Link to={`${ROUTES.ITEM}/${row.value.id}`}>
+        <Link to={`${ROUTES.ITEM}/${row.value.id}`} title={row.value.title}>
           <img
             className={styles.Thumbnail}
             src={row.value.thumbnail}
@@ -21,7 +22,11 @@ export const Product = {
           />
         </Link>
       </div>
-      <Link to={`${ROUTES.ITEM}/${row.value.id}`} className={styles.Title}>
+      <Link
+        to={`${ROUTES.ITEM}/${row.value.id}`}
+        title={row.value.title}
+        className={styles.Title}
+      >
         <span>{row.value.title}</span>
       </Link>
     </div>
@@ -75,15 +80,21 @@ export const Total = {
   width: 150,
 };
 
-export const Remove = onDeleteItem => {
+export const Remove = (onDeleteItem, isRemovingFromCart) => {
   return {
     Header: '',
     accessor: 'id',
     Cell: row => (
       <div className={[styles.Cell, styles.Cross].join(' ')}>
-        <span onClick={() => onDeleteItem(row.value)}>
-          <Icon icon="cross" fontSize={22} className={styles.CrossIcon} />
-        </span>
+        {isRemovingFromCart[row.value] ? (
+          <span>
+            <Spinner type="small" />
+          </span>
+        ) : (
+          <span onClick={() => onDeleteItem(row.value)}>
+            <Icon icon="cross" fontSize={22} className={styles.CrossIcon} />
+          </span>
+        )}
       </div>
     ),
     headerClassName: styles.Header,

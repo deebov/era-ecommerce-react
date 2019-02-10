@@ -1,7 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import ReactTable from 'react-table';
-import _ from 'lodash/fp/object';
 import PropTypes from 'prop-types';
 
 import 'react-table/react-table.css';
@@ -10,7 +9,6 @@ import styles from './WishlistItems.module.css';
 
 import Spinner from '../UI/Spinner/Spinner';
 import * as TableConfigs from './TableConfigs/TableConfigs';
-
 
 /**
  * TODO
@@ -21,15 +19,16 @@ const WishlistItems = props => {
   const {
     data,
     loading,
+    isRemovingFromWishlist,
     onDeleteItem,
     cart,
     addingToCart,
     addToCartClicked,
   } = props;
-  const dataArray = _.values(data);
+  const dataArray = Object.values(data);
 
   const columns = [
-    TableConfigs.Remove(onDeleteItem),
+    TableConfigs.Remove(onDeleteItem, isRemovingFromWishlist),
     TableConfigs.Thumbnail,
     TableConfigs.Product,
     TableConfigs.Price,

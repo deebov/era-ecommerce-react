@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
-import _ from 'lodash';
 import PropTypes from 'prop-types';
 
 import { Title, Summary, Items } from '../../components/Cart/Cart';
@@ -25,7 +24,9 @@ class CartPage extends Component {
   };
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    if (!_.isEqual(nextProps.cart, prevState.oldCart)) {
+    const isCartsEqual =
+      JSON.stringify(nextProps.cart) === JSON.stringify(prevState.oldCart);
+    if (!isCartsEqual) {
       return {
         cart: nextProps.cart,
         oldCart: nextProps.cart,
@@ -82,13 +83,23 @@ class CartPage extends Component {
   static calcTotalPrice = data => {
     // data is object. so I need to convert
     // it to array
-    return +_.sumBy(_.values(data), 'total_price').toFixed(2);
+
+    let sum = 0;
+
+    Object.values(data).forEach(p => {
+      if (p.total_price) {
+        sum += p.total_price;
+      } else {
+        sum += p.amount * p.product.price;
+      }
+    });
+    return sum.toFixed(2);
   };
 
   render() {
     return (
       <ResponsiveWrapper loading={this.props.isLoading}>
-        <Helmet>
+        <Helmet defer={false}>
           <title>{cartTitle}</title>
         </Helmet>
         <Title>Cart</Title>
@@ -96,6 +107,7 @@ class CartPage extends Component {
           data={this.state.cart}
           loading={this.props.isLoading}
           onDeleteItem={this.props.onRemoveFromCart}
+          isRemovingFromCart={this.props.isRemovingFromCart}
           incCounterClicked={(e, id) => this.counterHandler(e, id, 'inc')}
           decCounterClicked={(e, id) => this.counterHandler(e, id, 'dec')}
           onCounterChange={(e, id) => this.counterHandler(e, id, 'change')}
@@ -119,6 +131,7 @@ const mapStateToProps = state => {
   return {
     cart: state.cart.cart,
     isLoading: state.cart.loading,
+    isRemovingFromCart: state.cart.isRemovingFromCart,
   };
 };
 

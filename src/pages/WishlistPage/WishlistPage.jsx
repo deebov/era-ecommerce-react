@@ -29,13 +29,14 @@ class WishlistPage extends Component {
   render() {
     return (
       <ResponsiveWrapper loading={this.props.loading}>
-        <Helmet>
+        <Helmet defer={false}>
           <title>{wishlistTitle}</title>
         </Helmet>
         <CartTitle>Wishlist</CartTitle>
         <WishlistItems
           data={this.props.wishlist}
           loading={this.props.loading}
+          isRemovingFromWishlist={this.props.isRemovingFromWishlist}
           onDeleteItem={this.props.onRemoveFromWishlist}
           cart={this.props.cart}
           addingToCart={this.props.isAddingToCart}
@@ -58,6 +59,7 @@ WishlistPage.propTypes = {
 const mapStateToProps = state => {
   return {
     wishlist: state.wishlist.wishlist,
+    isRemovingFromWishlist: state.wishlist.isRemovingFromWishlist,
     isAddingToCart: state.cart.isAddingToCart,
     cart: state.cart.cart,
     loading: state.wishlist.loading,

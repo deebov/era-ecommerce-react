@@ -42,7 +42,7 @@ NavArrow.propTypes = {
 function Slide(images) {
   const slides = images.map((e, i) => (
     <div className={styles.Slide} key={i}>
-      <img src={e} alt="s" />
+      <img src={e} alt={e} />
     </div>
   ));
   return slides;

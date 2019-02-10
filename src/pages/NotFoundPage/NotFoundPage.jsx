@@ -10,7 +10,7 @@ class NotFoundPage extends Component {
   render() {
     return (
       <div>
-        <Helmet>
+        <Helmet defer={false}>
           <title>{notFoundTitle}</title>
         </Helmet>
 

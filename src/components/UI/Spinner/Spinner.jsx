@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import styles from './Spinner.module.css';
 
-const Spinner = ({ type = 'big', className = '' }) => {
+const Spinner = ({ type, className }) => {
   return (
     <div className={styles.Container}>
       <span className={[styles.Spinner, styles[type], className].join(' ')} />
