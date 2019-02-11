@@ -86,30 +86,30 @@ class App extends Component {
         <Auth />
         <Layout>
           <PoseGroup>
-            <RouteContainer key={this.props.location.key}>
+            <RouteContainer key={this.props.location.key + 'asd'}>
               <Switch location={this.props.location}>
                 <Route
                   path={ROUTES.LANDING}
                   exact
                   component={LandingPage}
-                  key="landing"
+                  key="landinga"
                 />
                 <Route
                   path={`${ROUTES.ITEM}/:id`}
                   component={LazyProductPage}
-                  key="product"
+                  key="producta"
                 />
                 <PrivateRoute
                   path={ROUTES.CART}
                   component={LazyCartPage}
-                  key="cart"
+                  key="carta"
                 />
                 <PrivateRoute
                   path={ROUTES.WISHLIST}
                   component={LazyWishlistPage}
-                  key="wishlist"
+                  key="wishlista"
                 />
-                <Route component={LazyNotFoundPage} key="404" />
+                <Route component={LazyNotFoundPage} key="40a4" />
               </Switch>
             </RouteContainer>
           </PoseGroup>
