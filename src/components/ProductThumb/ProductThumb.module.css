@@ -33,6 +33,11 @@
   font-weight: 400;
 }
 
+.LoadingImage {
+  width: 213px;
+  height: 213px;
+}
+
 @media only screen and (max-width: 576px) {
   .Title {
     margin: 0;

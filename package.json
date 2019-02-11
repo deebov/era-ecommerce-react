@@ -9,6 +9,7 @@
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-helmet": "^5.2.0",
+    "react-load-image": "^0.1.7",
     "react-pose": "^4.0.6",
     "react-redux": "^6.0.0",
     "react-router": "^4.3.1",

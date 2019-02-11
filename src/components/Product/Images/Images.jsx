@@ -8,6 +8,7 @@ import 'slick-carousel/slick/slick-theme.css';
 
 import styles from './Images.module.css';
 import Icon from '../../UI/Icon/Icon';
+import PreloadImage from '../../UI/PreloadImage/PreloadImage';
 
 const Animated = posed.div({
   enter: {
@@ -49,7 +50,7 @@ NavArrow.propTypes = {
 function Slide(images) {
   const slides = images.map((e, i) => (
     <div className={styles.Slide} key={i}>
-      <img src={e} alt={e} />
+      <PreloadImage src={e} alt={e} loadingClass={styles.LoadingImage} />
     </div>
   ));
   return slides;

@@ -8,6 +8,7 @@ import RatingStars from './RatingStars/RatingStars';
 import ActionsBox from './ActionsBox/ActionsBox';
 import Prices from './Prices/Prices';
 import { ITEM } from '../../constants/routes';
+import PreloadImage from '../UI/PreloadImage/PreloadImage';
 
 const ProductThumb = props => {
   const {
@@ -29,7 +30,12 @@ const ProductThumb = props => {
         <div className={styles.ImageBox}>
           <Ribbon type={ribbonType} />
           <Link to={`${ITEM}/${id}`} title={title}>
-            <img src={thumbnails[0]} alt={title} className={styles.Image} />
+            <PreloadImage
+              src={thumbnails[0]}
+              alt={title}
+              className={styles.Image}
+              loadingClass={styles.LoadingImage}
+            />
           </Link>
           <ActionsBox
             additionalClassName={styles.ActionsBox}

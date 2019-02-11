@@ -8192,6 +8192,11 @@ react-lifecycles-compat@^3.0.4:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
+react-load-image@^0.1.7:
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/react-load-image/-/react-load-image-0.1.7.tgz#508243c8a80f0af2007ac9099430230e6ba4a2d4"
+  integrity sha512-egW6vKvS/mG0onDx1t4XG6L2rgvZa/iO16ia+fomJN0UXjnwvvq/on7ttPR8ctohD7DGK7laXGSku00ifUJeig==
+
 react-pose@^4.0.6:
   version "4.0.6"
   resolved "https://registry.yarnpkg.com/react-pose/-/react-pose-4.0.6.tgz#265a9814eea48898dd653a92e998fc86a1366fb4"
