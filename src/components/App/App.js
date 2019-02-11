@@ -44,6 +44,7 @@ class App extends Component {
   };
 
   componentDidMount() {
+    document.getElementById('initial_loader').classList.add('hidden');
     this.props.onSubscribeAuthState();
   }
 
@@ -69,8 +70,6 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.props.location);
-
     return (
       <div>
         <Helmet

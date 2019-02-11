@@ -1,0 +1,16 @@
+[debug] [2019-02-11T15:41:50.164Z] ----------------------------------------------------------------------
+[debug] [2019-02-11T15:41:50.170Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\deebov\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js serve --only hosting
+[debug] [2019-02-11T15:41:50.171Z] CLI Version:   6.1.2
+[debug] [2019-02-11T15:41:50.171Z] Platform:      win32
+[debug] [2019-02-11T15:41:50.171Z] Node Version:  v10.14.1
+[debug] [2019-02-11T15:41:50.174Z] Time:          Mon Feb 11 2019 20:41:50 GMT+0500 (Uzbekistan Standard Time)
+[debug] [2019-02-11T15:41:50.174Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2019-02-11T15:41:50.212Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2019-02-11T15:41:50.215Z] > authorizing via signed-in user
+[debug] [2019-02-11T15:41:50.215Z] [iam] checking project era-ecommerce-react for permissions ["firebase.projects.get"]
+[debug] [2019-02-11T15:41:50.221Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/era-ecommerce-react:testIamPermissions  
+
+[debug] [2019-02-11T15:41:55.253Z] <<< HTTP RESPONSE 200
+[debug] [2019-02-11T15:41:55.256Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/era-ecommerce-react  
+ 
