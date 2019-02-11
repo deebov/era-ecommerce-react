@@ -30,6 +30,11 @@ export const addToCart = item => async (
   getState,
   { firestoreRefs }
 ) => {
+  if (!getState().auth.isAuth) {
+    dispatch(addNotification('Please, log in to continue...'));
+    return;
+  }
+
   const id = item.product.id;
   dispatch(addToCartStart(id));
   try {
@@ -112,7 +117,7 @@ export const subscribeCartSuccess = cart => {
 
 export const subscribeCart = () => (dispatch, getState, { firestoreRefs }) => {
   dispatch(subscribeCartStart());
-console.log('halloo');
+  console.log('halloo');
 
   if (unsubscribeListener) {
     unsubscribeListener();

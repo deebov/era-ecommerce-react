@@ -4,6 +4,7 @@ import { Route, Switch, withRouter } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { Helmet } from 'react-helmet';
 import PropTypes from 'prop-types';
+import posed, { PoseGroup } from 'react-pose';
 
 import 'react-toastify/dist/ReactToastify.min.css';
 
@@ -32,13 +33,10 @@ const LazyNotFoundPage = lazyComponent(() => {
   return import('../../pages/NotFoundPage/NotFoundPage');
 });
 
-/**
- * TODO
- * react-helmet doesn't render the title in the
- * new tab till you switch to it. this is a bug
- * from react-helmet. if they don't fix the bug
- * switch to the react-document-title from Dan Abramov
- */
+const RouteContainer = posed.div({
+  enter: { opacity: 1, x: '0%' },
+  exit: { opacity: 0, x: '-100%' },
+});
 
 class App extends Component {
   state = {
@@ -71,6 +69,8 @@ class App extends Component {
   }
 
   render() {
+    console.log(this.props.location);
+
     return (
       <div>
         <Helmet
@@ -85,13 +85,34 @@ class App extends Component {
         </Helmet>
         <Auth />
         <Layout>
-          <Switch>
-            <Route path={ROUTES.LANDING} exact component={LandingPage} />
-            <Route path={`${ROUTES.ITEM}/:id`} component={LazyProductPage} />
-            <PrivateRoute path={ROUTES.CART} component={LazyCartPage} />
-            <PrivateRoute path={ROUTES.WISHLIST} component={LazyWishlistPage} />
-            <Route component={LazyNotFoundPage} />
-          </Switch>
+          <PoseGroup>
+            <RouteContainer key={this.props.location.key}>
+              <Switch location={this.props.location}>
+                <Route
+                  path={ROUTES.LANDING}
+                  exact
+                  component={LandingPage}
+                  key="landing"
+                />
+                <Route
+                  path={`${ROUTES.ITEM}/:id`}
+                  component={LazyProductPage}
+                  key="product"
+                />
+                <PrivateRoute
+                  path={ROUTES.CART}
+                  component={LazyCartPage}
+                  key="cart"
+                />
+                <PrivateRoute
+                  path={ROUTES.WISHLIST}
+                  component={LazyWishlistPage}
+                  key="wishlist"
+                />
+                <Route component={LazyNotFoundPage} key="404" />
+              </Switch>
+            </RouteContainer>
+          </PoseGroup>
         </Layout>
         <ToastContainer />
         <Notification

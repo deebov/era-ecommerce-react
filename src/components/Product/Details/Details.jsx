@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import posed from 'react-pose';
 
 import styles from './Details.module.css';
 import SocialLinks from './SocialLinks/SocialLinks';
@@ -7,6 +8,17 @@ import Rating from './Rating/Rating';
 import Buttons from './Buttons/Buttons';
 import Meta from './Meta/Meta';
 import Price from './Price/Price';
+
+const Animated = posed.div({
+  enter: {
+    y: '0%',
+    opacity: 1,
+  },
+  exit: {
+    y: '100%',
+    opacity: 0,
+  },
+});
 
 const Details = props => {
   // This object shall be replaced by the real data
@@ -40,7 +52,7 @@ const Details = props => {
   } = props.item;
 
   return (
-    <div className={styles.Details}>
+    <Animated className={styles.Details}>
       <Rating rating={rating} reviews={reviews} />
       <h1 className={styles.Title}>{title}</h1>
       <Price price={price} oldPrice={oldPrice} />
@@ -48,7 +60,7 @@ const Details = props => {
       <Buttons />
       <Meta tags={tags} categories={categories} />
       <SocialLinks socialData={socialData} />
-    </div>
+    </Animated>
   );
 };
 

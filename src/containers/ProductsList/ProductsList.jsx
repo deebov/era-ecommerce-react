@@ -1,25 +1,54 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import posed from 'react-pose';
 
 import ProductThumb from '../../components/ProductThumb/ProductThumb';
 import styles from './ProductsList.module.css';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import * as actions from '../../store/actions';
-import withNotification from '../../hoc/withNotification/withNotification';
+
+const AnimatedContainer = posed.ul({
+  enter: {
+    opacity: 1,
+    staggerChildren: 50,
+    beforeChildren: true,
+  },
+  leave: {
+    opacity: 0,
+    staggerChildren: 20,
+    staggerDirection: -1,
+  },
+  initialPose: 'leave',
+});
+
+const AnimatedChild = posed.li({
+  enter: {
+    x: '0%',
+    y: 0,
+    opacity: 1,
+  },
+  leave: {
+    x: '-100%',
+    y: 80,
+    opacity: 0,
+  },
+});
 
 class ProductsList extends Component {
-  componentDidMount() {
-    this.props.onFetchList(this.props.id);
+  state = {
+    isOpened: false,
+  };
+  async componentDidMount() {
+    if (!this.props.lists[this.props.id]) {
+      await this.props.onFetchList(this.props.id);
+    }
+    this.setState({ isOpened: true });
   }
 
   addToCartHandler = (e, item) => {
     e.preventDefault();
-    if (!this.props.isAuthenticated) {
-      this.props.onShowAuthModal();
-      this.props.notify('Please, log in to continue', { type: 'success' });
-      return;
-    }
+
     const { id, title, thumbnails, price } = item;
 
     this.props.onAddToCart({
@@ -36,12 +65,7 @@ class ProductsList extends Component {
   };
 
   toggleWishlistHandler = item => {
-    if (!this.props.isAuthenticated) {
-      this.props.onShowAuthModal();
-      this.props.notify('Please, log in to continue', { type: 'success' });
-      return;
-    }
-    const { id, title, price, thumbnail } = item;
+    const { id, title, price, thumbnails } = item;
 
     if (this.props.wishlist.hasOwnProperty(id)) {
       // Delete if it is in wishlist
@@ -52,10 +76,34 @@ class ProductsList extends Component {
         id,
         title,
         price,
-        thumbnail,
+        thumbnail: thumbnails[0],
       });
     }
   };
+
+  get renderProducts() {
+    return this.props.lists[this.props.id].map(p => {
+      const id = p.id;
+      // Sorry for so long name )
+      const isTogglingWishlist =
+        this.props.isAddingToWishlist[id] ||
+        this.props.isRemovingFromWishlist[id];
+
+      return (
+        <AnimatedChild className={styles.Column} key={id}>
+          <ProductThumb
+            item={p}
+            onAddToCart={e => this.addToCartHandler(e, p)}
+            addingToCart={this.props.isAddingToCart[id]}
+            inCart={this.props.cart.hasOwnProperty(id)}
+            toggleWishlist={() => this.toggleWishlistHandler(p)}
+            togglingWishlist={isTogglingWishlist}
+            inWishlist={this.props.wishlist.hasOwnProperty(id)}
+          />
+        </AnimatedChild>
+      );
+    });
+  }
 
   render() {
     const ID = this.props.id;
@@ -64,38 +112,15 @@ class ProductsList extends Component {
     // render the real component if
     // products are received and valid
     if (this.props.lists[ID]) {
-      const products = this.props.lists[ID].map(p => {
-        const id = p.id;
-        // Sorry for so long name )
-        const isTogglingWishlist =
-          this.props.isAddingToWishlist[id] ||
-          this.props.isRemovingFromWishlist[id];
-
-        return (
-          <div className={styles.Column} key={id}>
-            <ProductThumb
-              item={p}
-              onAddToCart={e => this.addToCartHandler(e, p)}
-              addingToCart={this.props.isAddingToCart[id]}
-              inCart={this.props.cart.hasOwnProperty(id)}
-              toggleWishlist={() =>
-                this.toggleWishlistHandler({
-                  id: id,
-                  title: p.title,
-                  price: p.price,
-                  thumbnail: p.thumbnails[0],
-                })
-              }
-              togglingWishlist={isTogglingWishlist}
-              inWishlist={this.props.wishlist.hasOwnProperty(id)}
-            />
-          </div>
-        );
-      });
-
       productsList = (
         <section className={styles.Grid}>
-          <div className={styles.Row}>{products}</div>
+          <AnimatedContainer
+            pose={this.state.isOpened ? 'enter' : 'leave'}
+            className={styles.Row}
+            withParent={false}
+          >
+            {this.renderProducts}
+          </AnimatedContainer>
         </section>
       );
     }
@@ -112,11 +137,9 @@ ProductsList.propTypes = {
   cart: PropTypes.object,
   isLoading: PropTypes.objectOf(PropTypes.bool),
   isAddingToCart: PropTypes.objectOf(PropTypes.bool),
-  isAuthenticated: PropTypes.bool,
   onFetchList: PropTypes.func,
   onAddToCart: PropTypes.func,
   onAddToWishlist: PropTypes.func,
-  onShowAuthModal: PropTypes.func,
   onRemoveFromWishlist: PropTypes.func,
 };
 
@@ -129,7 +152,6 @@ const mapStateToProps = state => {
     cart: state.cart.cart,
     isLoading: state.lists.isLoading,
     isAddingToCart: state.cart.isAddingToCart,
-    isAuthenticated: state.auth.isAuth,
   };
 };
 
@@ -139,11 +161,10 @@ const mapDispatchToProps = dispatch => {
     onAddToCart: item => dispatch(actions.addToCart(item)),
     onRemoveFromWishlist: id => dispatch(actions.removeFromWishlist(id)),
     onAddToWishlist: item => dispatch(actions.addToWishlist(item)),
-    onShowAuthModal: () => dispatch(actions.switchShowAuth()),
   };
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withNotification(ProductsList));
+)(ProductsList);

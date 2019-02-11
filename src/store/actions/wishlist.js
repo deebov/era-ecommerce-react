@@ -32,6 +32,10 @@ export const addToWishlist = item => async (
   getState,
   { firestoreRefs }
 ) => {
+  if (!getState().auth.isAuth) {
+    dispatch(addNotification('Please, log in to continue...'));
+    return;
+  }
   const id = item.id;
   dispatch(addToWishlistStart(id));
   try {

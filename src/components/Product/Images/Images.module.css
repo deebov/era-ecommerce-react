@@ -75,6 +75,7 @@
   }
 
   .Arrow {
+    opacity: 1;
     top: auto;
     bottom: 20px;
     width: 30px;

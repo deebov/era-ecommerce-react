@@ -8,13 +8,11 @@ import Product from '../../components/Product/Product';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import { NOT_FOUND } from '../../constants/routes';
 import * as actions from '../../store/actions/index';
-import withNotification from '../../hoc/withNotification/withNotification';
 
 export const FormHandlersContext = React.createContext({});
 
 class ProductPage extends Component {
   state = {
-    title: 'Untitled',
     counter: 1,
     error: false,
     loading: false,
@@ -67,13 +65,13 @@ class ProductPage extends Component {
   };
 
   addToWishlistHandler = () => {
-    if (!this.props.isAuthenticated) {
-      this.props.onShowAuthModal();
-      this.props.notify('Please, log in to continue', { type: 'success' });
-      return;
-    }
-    const { id, title, price, thumbnails } = this.props.product;
-    const thumbnail = thumbnails[0];
+    const {
+      id,
+      title,
+      price,
+      thumbnails: [thumbnail],
+    } = this.props.product;
+
     this.props.onAddToWishlist({
       id,
       title,
@@ -84,27 +82,29 @@ class ProductPage extends Component {
 
   onSubmitHandler = e => {
     e.preventDefault();
-    if (!this.props.isAuthenticated) {
-      this.props.onShowAuthModal();
-      this.props.notify('Please, log in to continue', { type: 'success' });
-      return;
-    }
 
-    const { product } = this.props;
+    const {
+      product: {
+        id,
+        title,
+        price,
+        thumbnails: [thumbnail],
+      },
+    } = this.props;
 
     this.props.onAddToCart({
       amount: this.state.counter,
-      id: product.id,
+      id,
       product: {
-        title: product.title,
-        id: product.id,
-        thumbnail: product.thumbnails[0],
-        price: product.price,
+        title,
+        id,
+        thumbnail,
+        price,
       },
     });
   };
 
-  render() {
+  get renderSummary() {
     let summary = <Spinner />;
 
     if (this.props.product) {
@@ -131,12 +131,22 @@ class ProductPage extends Component {
       );
     }
 
+    return summary;
+  }
+
+  render() {
     return (
       <div>
         <Helmet defer={false}>
-          <title>{this.props.loading ? 'Loading...' : this.state.title}</title>
+          <title>
+            {this.props.loading
+              ? 'Loading...'
+              : this.props.product
+              ? this.props.product.title
+              : 'Untitled'}
+          </title>
         </Helmet>
-        {summary}
+        {this.renderSummary}
         {this.props.error.message === 'NOT_FOUND' ? (
           <Redirect to={NOT_FOUND} />
         ) : null}
@@ -153,7 +163,6 @@ ProductPage.propTypes = {
   onAddToCart: PropTypes.func,
   onFetchProduct: PropTypes.func,
   onAddToWishlist: PropTypes.func,
-  onShowAuthModal: PropTypes.func,
 };
 
 const mapStateToProps = state => {
@@ -161,7 +170,6 @@ const mapStateToProps = state => {
     product: state.product.product,
     loading: state.product.loading,
     error: state.product.error,
-    isAuthenticated: state.auth.isAuth,
   };
 };
 
@@ -170,11 +178,10 @@ const mapDispatchToProps = dispatch => {
     onFetchProduct: id => dispatch(actions.fetchProduct(id)),
     onAddToCart: item => dispatch(actions.addToCart(item)),
     onAddToWishlist: item => dispatch(actions.addToWishlist(item)),
-    onShowAuthModal: () => dispatch(actions.switchShowAuth()),
   };
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withNotification(ProductPage));
+)(ProductPage);

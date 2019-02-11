@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Slider from 'react-slick';
 import PropTypes from 'prop-types';
+import posed from 'react-pose';
 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -8,10 +9,16 @@ import 'slick-carousel/slick/slick-theme.css';
 import styles from './Images.module.css';
 import Icon from '../../UI/Icon/Icon';
 
-/**
- * TODO
- * improve ALTs
- */
+const Animated = posed.div({
+  enter: {
+    y: '0%',
+    opacity: 1,
+  },
+  exit: {
+    y: '100%',
+    opacity: 0,
+  },
+});
 
 // This function generates navigation arrow depending on the arrow type
 function NavArrow(props) {
@@ -65,15 +72,15 @@ export default class Images extends Component {
         {
           breakpoint: 576,
           settings: {
-            slidesToShow: 1
-          }
-        }
-      ]
+            slidesToShow: 1,
+          },
+        },
+      ],
     };
     return (
-      <div className={styles.Container}>
+      <Animated className={styles.Container}>
         <Slider {...settings}>{Slide(this.props.images)}</Slider>
-      </div>
+      </Animated>
     );
   }
 }
