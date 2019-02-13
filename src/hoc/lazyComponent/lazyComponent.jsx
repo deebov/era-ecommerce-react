@@ -1,15 +1,30 @@
 import React, { Component } from 'react';
 import Spinner from '../../components/UI/Spinner/Spinner';
 
+
 const lazyComponent = importedComponent => {
-  return class extends Component {
+  let loadedComponent = null;
+  return class Lazy extends Component {
     state = {
-      component: null,
+      component: loadedComponent,
     };
-    componentDidMount() {
+
+    static preload() {
       importedComponent().then(cmp => {
-        this.setState({ component: cmp.default });
+        loadedComponent = cmp.default;
       });
+    }
+
+    componentDidMount() {
+      this.load();
+    }
+
+    load() {
+      if (!this.state.component) {
+        importedComponent().then(cmp => {
+          this.setState({ component: cmp.default });
+        });
+      }
     }
 
     render() {

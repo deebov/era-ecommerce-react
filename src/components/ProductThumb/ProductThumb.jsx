@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import styles from './ProductThumb.module.css';
@@ -9,6 +8,7 @@ import ActionsBox from './ActionsBox/ActionsBox';
 import Prices from './Prices/Prices';
 import { ITEM } from '../../constants/routes';
 import PreloadImage from '../UI/PreloadImage/PreloadImage';
+import PreloadLinkProduct from '../UI/PreloadLink/Product/Product';
 
 const ProductThumb = props => {
   const {
@@ -29,14 +29,14 @@ const ProductThumb = props => {
       <div className={styles.ProductInner}>
         <div className={styles.ImageBox}>
           <Ribbon type={ribbonType} />
-          <Link to={`${ITEM}/${id}`} title={title}>
+          <PreloadLinkProduct to={`${ITEM}/${id}`} id={id} title={title}>
             <PreloadImage
               src={thumbnails[0]}
               alt={title}
               className={styles.Image}
               loadingClass={styles.LoadingImage}
             />
-          </Link>
+          </PreloadLinkProduct>
           <ActionsBox
             additionalClassName={styles.ActionsBox}
             addedToCart={onAddToCart}
