@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Spinner from '../../components/UI/Spinner/Spinner';
 
-
 const lazyComponent = importedComponent => {
   let loadedComponent = null;
   return class Lazy extends Component {

@@ -24,10 +24,10 @@ class CartPage extends Component {
   };
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    // Everytime the component receives 
-    // props this function compares the mirror 
+    // Everytime the component receives
+    // props this function compares the mirror
     // of the cart and the current cart.
-    // If the cart was updated, the function 
+    // If the cart was updated, the function
     // calculates the totalPrice and store the new mirror
     const isCartsEqual =
       JSON.stringify(nextProps.cart) === JSON.stringify(prevState.oldCart);
