@@ -24,6 +24,7 @@
 * **Wishlist**
 * **Animated Routes**
 * **Preloading Components programmatically**
+* **PWA ( Progressive Web Apps )**
 
 ### Tech Stack
 
