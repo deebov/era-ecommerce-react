@@ -25,12 +25,16 @@
     "redux-thunk": "^2.3.0",
     "slick-carousel": "^1.8.1"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "predeploy": "yarn build",
     "deploy": "firebase deploy --only hosting",
-    "precommit": "pretty-quick --staged",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
