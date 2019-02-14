@@ -1,6 +1,6 @@
 # Era ecomemmerce React.js app
 
-### [Live Demo](https://era-react-ecommerce.firebaseapp.com)
+### [Live Demo](https://era-ecommerce-react.firebaseapp.com)
 
 ## What is this??
 
