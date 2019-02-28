@@ -4,7 +4,7 @@
 
 ## What is this??
 
-> This is a modern ecommerce concept app made with React.js. I made this app for implementing and practicing things better. Moreoften **I work on the most important features to get different experiences.**  
+> This is a modern ecommerce concept app made with React.js. Moreoften **I work on the most important features to get different experiences.**  
 
 ## Future plans
 > I am planning to implement these features:
