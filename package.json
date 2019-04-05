@@ -23,7 +23,9 @@
     "redux": "^4.0.1",
     "redux-devtools-extension": "^2.13.7",
     "redux-thunk": "^2.3.0",
-    "slick-carousel": "^1.8.1"
+    "slick-carousel": "^1.8.1",
+    "source-map-explorer": "^1.7.0",
+    "webpack-bundle-analyzer": "^3.0.4"
   },
   "husky": {
     "hooks": {
@@ -31,6 +33,7 @@
     }
   },
   "scripts": {
+    "analyze": "source-map-explorer build/static/js/main.*",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "predeploy": "yarn build",
