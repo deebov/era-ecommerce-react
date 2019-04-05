@@ -31,8 +31,8 @@ class App extends Component {
       nextProps.onSubscribeCart();
 
       // Prefetch Cart and Wishlist pages after authentification
-      import(/* webpackChunkName: "cart" */'../../pages/CartPage/CartPage');
-      import(/* webpackChunkName: "wishlist" */'../../pages/WishlistPage/WishlistPage');
+      import(/* webpackChunkName: "cart" */ '../../pages/CartPage/CartPage');
+      import(/* webpackChunkName: "wishlist" */ '../../pages/WishlistPage/WishlistPage');
 
       return { isSubscribed: true };
     } else if (!nextProps.isAuthenticated && prevState.isSubscribed) {
@@ -44,7 +44,7 @@ class App extends Component {
   }
 
   componentWillUnmount() {
-    this.props.onUnsubscribeAuthState();
+    actions.unsubscribeAuthState();
     if (this.state.isSubscribed) {
       this.props.onUnsubscribeWishlist();
       this.props.onUnsubscribeCart();
@@ -115,7 +115,6 @@ const mapDispatchToProps = dispatch => {
     onUnsubscribeCart: () => dispatch(actions.unsubscribeCart()),
     onRemoveError: () => dispatch(actions.removeError()),
     onSubscribeAuthState: () => dispatch(actions.subscribeAuthState()),
-    onUnsubscribeAuthState: () => dispatch(actions.unsubscribeAuthState()),
     onRemoveNotification: () => dispatch(actions.removeNotification()),
   };
 };

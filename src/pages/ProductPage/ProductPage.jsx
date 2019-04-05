@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
@@ -11,68 +11,57 @@ import * as actions from '../../store/actions/index';
 
 export const FormHandlersContext = React.createContext({});
 
-class ProductPage extends Component {
-  state = {
-    counter: 1,
-    error: false,
-    loading: false,
-  };
+const ProductPage = props => {
+  const [counter, setCounter] = useState(1);
 
-  componentDidMount() {
-    const ID = this.props.match.params.id;
-    this.props.onFetchProduct(ID);
-  }
+  useEffect(() => {
+    const ID = props.match.params.id;
+    props.onFetchProduct(ID);
+  }, [props.match.params.id]);
 
-  incCounterHandler = () => {
+  const incCounterHandler = () => {
     // Do not change the state if the counter is invalid
-    if (this.state.counter >= this.props.product.amountAvaible) {
+    if (counter >= props.product.amountAvaible) {
       return;
     }
-    this.setState(state => {
-      return {
-        counter: state.counter + 1,
-      };
-    });
+
+    setCounter(prevCounter => prevCounter + 1);
   };
 
-  decCounterHandler = () => {
+  const decCounterHandler = () => {
     // Do not change the state if the counter is invalid
-    if (this.state.counter > 1) {
-      this.setState(state => {
-        return {
-          counter: state.counter - 1,
-        };
-      });
+    if (counter > 1) {
+      setCounter(prevCounter => prevCounter - 1);
     }
   };
 
-  onCounterBlurHandler = () => {
+  const onCounterBlurHandler = () => {
     // Return back the counter value to 1 if the counter is invalid
-    if (this.state.counter < 1) {
-      this.setState({ counter: 1 });
+    if (counter < 1) {
+      setCounter(1);
     }
   };
 
-  onCounterChangeHandler = e => {
+  const onCounterChangeHandler = e => {
     const val = Math.abs(+e.target.value);
 
-    if (val > this.props.product.amountAvaible) {
-      this.setState({ counter: this.props.product.amountAvaible });
+    if (val > props.product.amountAvaible) {
+      setCounter(props.product.amountAvaible);
       return;
     }
 
-    this.setState({ counter: val });
+    setCounter(val);
   };
 
-  addToWishlistHandler = () => {
+  const addToWishlistHandler = () => {
     const {
       id,
       title,
       price,
       thumbnails: [thumbnail],
-    } = this.props.product;
+    } = props.product;
 
-    this.props.onAddToWishlist({
+    props.onAddToWishlist({
       id,
       title,
       price,
@@ -80,7 +69,7 @@ class ProductPage extends Component {
     });
   };
 
-  onSubmitHandler = e => {
+  const onSubmitHandler = e => {
     e.preventDefault();
 
     const {
@@ -90,10 +79,10 @@ class ProductPage extends Component {
         price,
         thumbnails: [thumbnail],
       },
-    } = this.props;
+    } = props;
 
-    this.props.onAddToCart({
-      amount: this.state.counter,
+    props.onAddToCart({
+      amount: counter,
       id,
       product: {
         title,
@@ -104,56 +93,47 @@ class ProductPage extends Component {
     });
   };
 
-  get renderSummary() {
+  const renderSummary = () => {
     let summary = <Spinner />;
 
-    if (this.props.product) {
-      const id = this.props.product.id;
+    if (props.product) {
+      const id = props.product.id;
 
       summary = (
         <div>
           <FormHandlersContext.Provider
             value={{
               id,
-              incClicked: this.incCounterHandler,
-              decClicked: this.decCounterHandler,
-              onChange: this.onCounterChangeHandler,
-              onBlur: this.onCounterBlurHandler,
-              onSubmit: this.onSubmitHandler,
-              count: this.state.counter,
-              onSale: this.props.product.onSale,
-              addToWishlistClicked: this.addToWishlistHandler,
+              incClicked: incCounterHandler,
+              decClicked: decCounterHandler,
+              onChange: onCounterChangeHandler,
+              onBlur: onCounterBlurHandler,
+              onSubmit: onSubmitHandler,
+              count: counter,
+              onSale: props.product.onSale,
+              addToWishlistClicked: addToWishlistHandler,
             }}
           >
-            <Product product={this.props.product} />
+            <Product product={props.product} />
           </FormHandlersContext.Provider>
         </div>
       );
     }
 
     return summary;
-  }
+  };
 
-  render() {
-    return (
-      <div>
-        <Helmet defer={false}>
-          <title>
-            {this.props.loading
-              ? 'Loading...'
-              : this.props.product
-              ? this.props.product.title
-              : 'Untitled'}
-          </title>
-        </Helmet>
-        {this.renderSummary}
-        {this.props.error.message === 'NOT_FOUND' ? (
-          <Redirect to={NOT_FOUND} />
-        ) : null}
-      </div>
-    );
-  }
-}
+  console.log('render');
+  return (
+    <div>
+      <Helmet>
+        <title>Title</title>
+      </Helmet>
+      {renderSummary()}
+      {props.error.message === 'NOT_FOUND' && <Redirect to={NOT_FOUND} />}
+    </div>
+  );
+};
 
 ProductPage.propTypes = {
   product: PropTypes.object,
