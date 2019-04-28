@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import posed from 'react-pose';
@@ -35,23 +35,26 @@ const AnimatedChild = posed.li({
   },
 });
 
-class ProductsList extends Component {
-  state = {
-    isOpened: false,
-  };
-  async componentDidMount() {
-    if (!this.props.lists[this.props.id]) {
-      await this.props.onFetchList(this.props.id);
-    }
-    this.setState({ isOpened: true });
-  }
+const ProductsList = props => {
+  const [isOpened, setIsOpened] = useState(false);
 
-  addToCartHandler = (e, item) => {
+  useEffect(() => {
+    async function fetchList(id) {
+      if (!props.lists[props.id]) {
+        await props.onFetchList(props.id);
+        setIsOpened(true);
+      }
+    }
+
+    fetchList(props.id);
+  }, [props.id]);
+
+  const addToCartHandler = (e, item) => {
     e.preventDefault();
 
     const { id, title, thumbnails, price } = item;
 
-    this.props.onAddToCart({
+    props.onAddToCart({
       amount: 1,
       id,
       product: {
@@ -64,15 +67,15 @@ class ProductsList extends Component {
     });
   };
 
-  toggleWishlistHandler = item => {
+  const toggleWishlistHandler = item => {
     const { id, title, price, thumbnails } = item;
 
-    if (this.props.wishlist.hasOwnProperty(id)) {
+    if (props.wishlist.hasOwnProperty(id)) {
       // Delete if it is in wishlist
-      this.props.onRemoveFromWishlist(id);
+      props.onRemoveFromWishlist(id);
     } else {
       // Add if it is not in wishlist
-      this.props.onAddToWishlist({
+      props.onAddToWishlist({
         id,
         title,
         price,
@@ -81,52 +84,51 @@ class ProductsList extends Component {
     }
   };
 
-  get renderProducts() {
-    return this.props.lists[this.props.id].map(p => {
+  const renderProducts = () => {
+    return props.lists[props.id].map(p => {
       const id = p.id;
       // Sorry for so long name )
       const isTogglingWishlist =
-        this.props.isAddingToWishlist[id] ||
-        this.props.isRemovingFromWishlist[id];
+        props.isAddingToWishlist[id] || props.isRemovingFromWishlist[id];
 
       return (
         <AnimatedChild className={styles.Column} key={id}>
           <ProductThumb
             item={p}
-            onAddToCart={e => this.addToCartHandler(e, p)}
-            addingToCart={this.props.isAddingToCart[id]}
-            inCart={this.props.cart.hasOwnProperty(id)}
-            toggleWishlist={() => this.toggleWishlistHandler(p)}
+            onAddToCart={e => addToCartHandler(e, p)}
+            addingToCart={props.isAddingToCart[id]}
+            inCart={props.cart.hasOwnProperty(id)}
+            toggleWishlist={() => toggleWishlistHandler(p)}
             togglingWishlist={isTogglingWishlist}
-            inWishlist={this.props.wishlist.hasOwnProperty(id)}
+            inWishlist={props.wishlist.hasOwnProperty(id)}
           />
         </AnimatedChild>
       );
     });
+  };
+
+  const ID = props.id;
+  // render the Spinner initially
+  let productsList = <Spinner />;
+  // render the real component if
+  // products are received and valid
+  if (props.lists[ID]) {
+    productsList = (
+      <section className={styles.Grid}>
+        <AnimatedContainer
+          pose={isOpened ? 'enter' : 'leave'}
+          className={styles.Row}
+          withParent={false}
+        >
+          {renderProducts()}
+        </AnimatedContainer>
+      </section>
+    );
+    console.log('aaaaaaaaaaaaa');
   }
 
-  render() {
-    const ID = this.props.id;
-    // render the Spinner initially
-    let productsList = <Spinner />;
-    // render the real component if
-    // products are received and valid
-    if (this.props.lists[ID]) {
-      productsList = (
-        <section className={styles.Grid}>
-          <AnimatedContainer
-            pose={this.state.isOpened ? 'enter' : 'leave'}
-            className={styles.Row}
-            withParent={false}
-          >
-            {this.renderProducts}
-          </AnimatedContainer>
-        </section>
-      );
-    }
-    return <div>{productsList}</div>;
-  }
-}
+  return <div>{productsList}</div>;
+};
 
 ProductsList.propTypes = {
   lists: PropTypes.object,

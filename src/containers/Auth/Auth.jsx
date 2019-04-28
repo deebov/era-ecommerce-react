@@ -1,37 +1,35 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import AuthPresentational from '../../components/Auth/Auth';
 import * as actions from '../../store/actions';
 
-class Auth extends Component {
-  onSignupUserHandler = (e, registerData) => {
+const Auth = props => {
+  const onSignupUserHandler = (e, registerData) => {
     e.preventDefault();
 
-    this.props.onSignupUser(registerData);
+    props.onSignupUser(registerData);
   };
 
-  onSigninUserHandler = (e, loginData) => {
+  const onSigninUserHandler = (e, loginData) => {
     e.preventDefault();
 
-    this.props.onSigninUser(loginData);
+    props.onSigninUser(loginData);
   };
 
-  render() {
-    return (
-      <div>
-        {this.props.showAuth && (
-          <AuthPresentational
-            onSwitchVisible={this.props.onSwitchShowAuth}
-            signupUser={this.onSignupUserHandler}
-            signinUser={this.onSigninUserHandler}
-          />
-        )}
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      {props.showAuth && (
+        <AuthPresentational
+          onSwitchVisible={props.onSwitchShowAuth}
+          signupUser={onSignupUserHandler}
+          signinUser={onSigninUserHandler}
+        />
+      )}
+    </div>
+  );
+};
 
 Auth.propTypes = {
   showAuth: PropTypes.bool,
